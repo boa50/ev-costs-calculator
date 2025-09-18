@@ -1,6 +1,10 @@
-import { Text, View, TextInput } from 'react-native'
+import { useState } from 'react'
+import { View } from 'react-native'
+import Input from '@/components/Input'
 
 export default function Index() {
+    const [value, setValue] = useState<string>('')
+
     return (
         <View
             style={{
@@ -9,9 +13,12 @@ export default function Index() {
                 alignItems: 'center',
             }}
         >
-            <Text className="font-extrabold text-red-600 text-6xl">
-                It is already edited
-            </Text>
+            <Input
+                label="some label"
+                value={value}
+                setValue={setValue}
+                keyboardType="number-pad"
+            />
         </View>
     )
 }
