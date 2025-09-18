@@ -3,7 +3,8 @@ import { View } from 'react-native'
 import Input from '@/components/Input'
 
 export default function Index() {
-    const [value, setValue] = useState<string>('')
+    const [buyingCost, setBuyingCost] = useState<number>(0)
+    const [insuranceCost, setInsuranceCost] = useState<number>(0)
 
     return (
         <View
@@ -14,10 +15,20 @@ export default function Index() {
             }}
         >
             <Input
-                label="some label"
-                value={value}
-                setValue={setValue}
+                label="Buying cost"
+                value={buyingCost}
+                setValue={setBuyingCost}
                 keyboardType="number-pad"
+                icon="dollar"
+            />
+
+            <Input
+                label="Insurance per year"
+                value={insuranceCost}
+                setValue={setInsuranceCost}
+                keyboardType="number-pad"
+                icon="dollar"
+                iconPosition="right"
             />
         </View>
     )
