@@ -7,3 +7,13 @@ export type ElectricVehicle = {
     batteryCapacity: number
     electricityPrice: number
 }
+
+export type ElectricVehicleFormState = {
+    cost: string
+    insurancePerYear: string
+    taxesPerYear: string
+    maintenancePerYear: string
+    batteryAutonomy: string
+    batteryCapacity: string
+    electricityPrice: string
+}

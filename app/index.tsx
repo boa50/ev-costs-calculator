@@ -1,23 +1,27 @@
 import { useState } from 'react'
 import { View, Text } from 'react-native'
+import ElectricVehicleForm from '@/Features/ElectricVehicleForm'
 import { Input, Button } from '@/components'
 import {
     calculateCosts,
     convertTextToNumber,
     formatMonetaryNumber,
 } from '@/utils'
-import type { ElectricVehicle } from '@/types'
+import type { ElectricVehicle, ElectricVehicleFormState } from '@/types'
 
 export default function Index() {
-    const [buyingCost, setBuyingCost] = useState<string>('')
-    const [insuranceCost, setInsuranceCost] = useState<string>('')
-    const [taxesPerYear, setTaxesPerYear] = useState<string>('')
-    const [maintenancePerYear, setMaintenancePerYear] = useState<string>('')
-    const [batteryAutonomy, setBatteryAutonomy] = useState<string>('')
-    const [batteryCapacity, setBatteryCapacity] = useState<string>('')
+    const [electricVehicleState, setElectricVehicleState] =
+        useState<ElectricVehicleFormState>({
+            cost: '',
+            batteryAutonomy: '',
+            batteryCapacity: '',
+            electricityPrice: '',
+            insurancePerYear: '',
+            maintenancePerYear: '',
+            taxesPerYear: '',
+        })
     const [distanceDrivenPerWeek, setDistanceDrivenPerWeek] =
         useState<string>('')
-    const [electricityPrice, setElectricityPrice] = useState<string>('')
     const [costs, setCosts] = useState<{
         annual: number
         monthly: number
@@ -25,26 +29,27 @@ export default function Index() {
     }>()
 
     const handleCalculate = () => {
-        const car: ElectricVehicle = {
-            cost: convertTextToNumber(buyingCost),
-            insurancePerYear: convertTextToNumber(insuranceCost),
-            taxesPerYear: convertTextToNumber(taxesPerYear),
-            maintenancePerYear: convertTextToNumber(maintenancePerYear),
-            batteryAutonomy: convertTextToNumber(batteryAutonomy),
-            batteryCapacity: convertTextToNumber(batteryCapacity),
-            electricityPrice: convertTextToNumber(electricityPrice),
+        // const car: ElectricVehicle = {
+        //     cost: convertTextToNumber(buyingCost),
+        //     insurancePerYear: convertTextToNumber(insuranceCost),
+        //     taxesPerYear: convertTextToNumber(taxesPerYear),
+        //     maintenancePerYear: convertTextToNumber(maintenancePerYear),
+        //     batteryAutonomy: convertTextToNumber(batteryAutonomy),
+        //     batteryCapacity: convertTextToNumber(batteryCapacity),
+        //     electricityPrice: convertTextToNumber(electricityPrice),
+        // }
+
+        if (electricVehicleState) {
+            // const { annualCosts, monthlyCosts } = calculateCosts(
+            //     electricVehicleState,
+            //     convertTextToNumber(distanceDrivenPerWeek)
+            // )
+            // setCosts({
+            //     annual: annualCosts,
+            //     monthly: monthlyCosts,
+            //     perYear: annualCosts + monthlyCosts * 12,
+            // })
         }
-
-        const { annualCosts, monthlyCosts } = calculateCosts(
-            car,
-            convertTextToNumber(distanceDrivenPerWeek)
-        )
-
-        setCosts({
-            annual: annualCosts,
-            monthly: monthlyCosts,
-            perYear: annualCosts + monthlyCosts * 12,
-        })
     }
 
     return (
@@ -56,52 +61,9 @@ export default function Index() {
                 alignItems: 'center',
             }}
         >
-            <Input
-                label="Buying cost"
-                value={buyingCost}
-                setValue={setBuyingCost}
-                iconLeft="$"
-                placeholder="0.00"
-            />
-
-            <Input
-                label="Insurance per year"
-                value={insuranceCost}
-                setValue={setInsuranceCost}
-                iconLeft="$"
-                placeholder="0.00"
-            />
-
-            <Input
-                label="Taxes per year"
-                value={taxesPerYear}
-                setValue={setTaxesPerYear}
-                iconLeft="$"
-                placeholder="0.00"
-            />
-
-            <Input
-                label="Maintenance per year"
-                value={maintenancePerYear}
-                setValue={setMaintenancePerYear}
-                iconLeft="$"
-                placeholder="0.00"
-            />
-
-            <Input
-                label="Batery autonomy"
-                value={batteryAutonomy}
-                setValue={setBatteryAutonomy}
-                iconRight="km"
-                placeholder="0"
-            />
-
-            <Input
-                label="Batery capacity"
-                value={batteryCapacity}
-                setValue={setBatteryCapacity}
-                iconRight="kWh"
-                placeholder="0"
+            <ElectricVehicleForm
+                electricVehicleState={electricVehicleState}
+                setElectricVehicleState={setElectricVehicleState}
             />
 
             <Input
@@ -110,15 +72,6 @@ export default function Index() {
                 setValue={setDistanceDrivenPerWeek}
                 iconRight="km"
                 placeholder="0"
-            />
-
-            <Input
-                label="Electricity Price"
-                value={electricityPrice}
-                setValue={setElectricityPrice}
-                iconLeft="$"
-                iconRight="kWh"
-                placeholder="0.00"
             />
 
             <Button label="Calculate" onPress={handleCalculate} />

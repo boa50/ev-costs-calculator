@@ -4,8 +4,8 @@ import colors from 'tailwindcss/colors'
 
 interface Props {
     label?: string
-    value: any
-    setValue: React.Dispatch<React.SetStateAction<any>>
+    value: string
+    setValue: (value: string) => void
     iconLeft?: string
     iconRight?: string
     placeholder?: string
