@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { View } from 'react-native'
 import Input from '@/components/Input'
+import Button from '@/components/Button'
 
 export default function Index() {
     const [buyingCost, setBuyingCost] = useState<number>(0)
@@ -94,6 +95,9 @@ export default function Index() {
                 iconRight="kWh"
                 placeholder="0.00"
             />
+
+            <Button label="Calculate" />
+            <Button label="Clear fields" theme="secondary" />
         </View>
     )
 }

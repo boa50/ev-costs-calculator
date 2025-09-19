@@ -26,10 +26,10 @@ export default function Input({
 
     const inputDynamicClasses =
         !iconLeft && !iconRight
-            ? 'rounded-xl pl-3'
+            ? 'rounded-2xl pl-3'
             : iconLeft
-              ? 'rounded-r-xl'
-              : 'rounded-l-xl pl-3'
+              ? 'rounded-r-2xl'
+              : 'rounded-l-2xl pl-3'
 
     const onFocus = () => {
         setBorderColour('border-sky-700')
@@ -46,7 +46,7 @@ export default function Input({
         position: 'left' | 'right'
     }) => {
         const iconDynamicClasses =
-            position === 'left' ? 'rounded-l-xl' : 'rounded-r-xl'
+            position === 'left' ? 'rounded-l-2xl' : 'rounded-r-2xl'
 
         return (
             icon && (
@@ -67,7 +67,7 @@ export default function Input({
                 <Text className="text-gray-800 text-sm pb-1">{label}</Text>
             )}
             <View
-                className={`flex flex-row bg-white rounded-xl border w-full ${borderColour}`}
+                className={`flex flex-row bg-white rounded-2xl border w-full ${borderColour}`}
             >
                 <InputIcon icon={iconLeft} position="left" />
                 <TextInput
