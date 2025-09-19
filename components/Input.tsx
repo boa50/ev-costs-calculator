@@ -1,55 +1,84 @@
+import { useState } from 'react'
 import { View, TextInput, Text } from 'react-native'
-import FontAwesome from '@expo/vector-icons/FontAwesome'
-import colors from 'tailwindcss/colors'
 import type { KeyboardTypeOptions } from 'react-native'
 
 interface Props {
     label?: string
     value: any
     setValue: React.Dispatch<React.SetStateAction<any>>
-    icon?: 'dollar' | 'percentage'
-    iconPosition?: 'left' | 'right'
+    iconLeft?: string
+    iconRight?: string
     keyboardType?: KeyboardTypeOptions
+    placeholder?: string
 }
 
 export default function Input({
     label,
     value,
     setValue,
-    icon,
-    iconPosition = 'left',
+    iconLeft,
+    iconRight,
     keyboardType,
+    placeholder,
 }: Props) {
-    const inputBorderClasses = icon
-        ? iconPosition === 'left'
-            ? 'border-y border-r rounded-r-xl'
-            : 'border-y border-l rounded-l-xl'
-        : 'border rounded-xl'
-    const iconRoundedClasses =
-        iconPosition === 'left' ? 'rounded-l-xl' : 'rounded-r-xl'
+    const [borderColour, setBorderColour] = useState<string>('border-gray-400')
 
-    const InputIcon = () => (
-        <View
-            className={`${iconRoundedClasses} flex flex-row px-3 border h-full items-center  bg-gray-200 border-gray-400`}
-        >
-            <FontAwesome name="dollar" size={16} color={colors.gray[600]} />
-        </View>
-    )
+    const inputDynamicClasses =
+        !iconLeft && !iconRight
+            ? 'rounded-xl pl-3'
+            : iconLeft
+              ? 'rounded-r-xl'
+              : 'rounded-l-xl pl-3'
+
+    const onFocus = () => {
+        setBorderColour('border-sky-700')
+    }
+    const onBlur = () => {
+        setBorderColour('border-gray-400')
+    }
+
+    const InputIcon = ({
+        icon,
+        position,
+    }: {
+        icon?: string
+        position: 'left' | 'right'
+    }) => {
+        const iconDynamicClasses =
+            position === 'left' ? 'rounded-l-xl' : 'rounded-r-xl'
+
+        return (
+            icon && (
+                <View
+                    className={`flex flex-row h-full items-center justify-center px-2 ${iconDynamicClasses}`}
+                >
+                    <Text className="text-md font-light text-gray-600">
+                        {icon}
+                    </Text>
+                </View>
+            )
+        )
+    }
 
     return (
         <View>
             {label && (
                 <Text className="text-gray-800 text-sm pb-1">{label}</Text>
             )}
-            <View className="flex flex-row">
-                {icon && iconPosition === 'left' && <InputIcon />}
+            <View
+                className={`flex flex-row bg-white rounded-xl border w-full ${borderColour}`}
+            >
+                <InputIcon icon={iconLeft} position="left" />
                 <TextInput
-                    className={`${inputBorderClasses} min-w-40 pl-3 py-3 bg-white border-gray-400 focus:border-sky-700`}
+                    onFocus={onFocus}
+                    onBlur={onBlur}
+                    className={`flex-1 py-3 border-0 ${inputDynamicClasses}`}
                     onChangeText={setValue}
                     value={value}
                     keyboardType={keyboardType}
+                    placeholder={placeholder}
                 />
-                {icon && iconPosition === 'right' && <InputIcon />}
+                <InputIcon icon={iconRight} position="right" />
             </View>
         </View>
     )

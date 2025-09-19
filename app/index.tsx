@@ -5,9 +5,17 @@ import Input from '@/components/Input'
 export default function Index() {
     const [buyingCost, setBuyingCost] = useState<number>(0)
     const [insuranceCost, setInsuranceCost] = useState<number>(0)
+    const [taxesPerYear, setTaxesPerYear] = useState<number>(0)
+    const [maintenancePerYear, setMaintenancePerYear] = useState<number>(0)
+    const [batteryAutonomy, setBatteryAutonomy] = useState<number>(0)
+    const [batteryCapacity, setBatteryCapacity] = useState<number>(0)
+    const [distanceDrivenPerWeek, setDistanceDrivenPerWeek] =
+        useState<number>(0)
+    const [electricityPrice, setElectricityPrice] = useState<number>(0)
 
     return (
         <View
+            className="px-4"
             style={{
                 flex: 1,
                 justifyContent: 'center',
@@ -19,7 +27,7 @@ export default function Index() {
                 value={buyingCost}
                 setValue={setBuyingCost}
                 keyboardType="number-pad"
-                icon="dollar"
+                iconLeft="$"
             />
 
             <Input
@@ -27,8 +35,56 @@ export default function Index() {
                 value={insuranceCost}
                 setValue={setInsuranceCost}
                 keyboardType="number-pad"
-                icon="dollar"
-                iconPosition="right"
+                iconLeft="$"
+            />
+
+            <Input
+                label="Taxes per year"
+                value={taxesPerYear}
+                setValue={setTaxesPerYear}
+                keyboardType="number-pad"
+                iconLeft="$"
+            />
+
+            <Input
+                label="Maintenance per year"
+                value={maintenancePerYear}
+                setValue={setMaintenancePerYear}
+                keyboardType="number-pad"
+                iconLeft="$"
+            />
+
+            <Input
+                label="Batery autonomy"
+                value={batteryAutonomy}
+                setValue={setBatteryAutonomy}
+                keyboardType="number-pad"
+                iconRight="km"
+            />
+
+            <Input
+                label="Batery capacity"
+                value={batteryCapacity}
+                setValue={setBatteryCapacity}
+                keyboardType="number-pad"
+                iconRight="kWh"
+            />
+
+            <Input
+                label="Distance driven per week"
+                value={distanceDrivenPerWeek}
+                setValue={setDistanceDrivenPerWeek}
+                keyboardType="number-pad"
+                iconRight="km"
+            />
+
+            <Input
+                label="Electricity Price"
+                value={electricityPrice}
+                setValue={setElectricityPrice}
+                keyboardType="number-pad"
+                iconLeft="$"
+                iconRight="kWh"
             />
         </View>
     )
