@@ -1,18 +1,51 @@
 import { useState } from 'react'
-import { View } from 'react-native'
-import Input from '@/components/Input'
-import Button from '@/components/Button'
+import { View, Text } from 'react-native'
+import { Input, Button } from '@/components'
+import {
+    calculateCosts,
+    convertTextToNumber,
+    formatMonetaryNumber,
+} from '@/utils'
+import type { ElectricVehicle } from '@/types'
 
 export default function Index() {
-    const [buyingCost, setBuyingCost] = useState<number>(0)
-    const [insuranceCost, setInsuranceCost] = useState<number>(0)
-    const [taxesPerYear, setTaxesPerYear] = useState<number>(0)
-    const [maintenancePerYear, setMaintenancePerYear] = useState<number>(0)
-    const [batteryAutonomy, setBatteryAutonomy] = useState<number>(0)
-    const [batteryCapacity, setBatteryCapacity] = useState<number>(0)
+    const [buyingCost, setBuyingCost] = useState<string>('')
+    const [insuranceCost, setInsuranceCost] = useState<string>('')
+    const [taxesPerYear, setTaxesPerYear] = useState<string>('')
+    const [maintenancePerYear, setMaintenancePerYear] = useState<string>('')
+    const [batteryAutonomy, setBatteryAutonomy] = useState<string>('')
+    const [batteryCapacity, setBatteryCapacity] = useState<string>('')
     const [distanceDrivenPerWeek, setDistanceDrivenPerWeek] =
-        useState<number>(0)
-    const [electricityPrice, setElectricityPrice] = useState<number>(0)
+        useState<string>('')
+    const [electricityPrice, setElectricityPrice] = useState<string>('')
+    const [costs, setCosts] = useState<{
+        annual: number
+        monthly: number
+        perYear: number
+    }>()
+
+    const handleCalculate = () => {
+        const car: ElectricVehicle = {
+            cost: convertTextToNumber(buyingCost),
+            insurancePerYear: convertTextToNumber(insuranceCost),
+            taxesPerYear: convertTextToNumber(taxesPerYear),
+            maintenancePerYear: convertTextToNumber(maintenancePerYear),
+            batteryAutonomy: convertTextToNumber(batteryAutonomy),
+            batteryCapacity: convertTextToNumber(batteryCapacity),
+            electricityPrice: convertTextToNumber(electricityPrice),
+        }
+
+        const { annualCosts, monthlyCosts } = calculateCosts(
+            car,
+            convertTextToNumber(distanceDrivenPerWeek)
+        )
+
+        setCosts({
+            annual: annualCosts,
+            monthly: monthlyCosts,
+            perYear: annualCosts + monthlyCosts * 12,
+        })
+    }
 
     return (
         <View
@@ -27,7 +60,6 @@ export default function Index() {
                 label="Buying cost"
                 value={buyingCost}
                 setValue={setBuyingCost}
-                keyboardType="number-pad"
                 iconLeft="$"
                 placeholder="0.00"
             />
@@ -36,7 +68,6 @@ export default function Index() {
                 label="Insurance per year"
                 value={insuranceCost}
                 setValue={setInsuranceCost}
-                keyboardType="number-pad"
                 iconLeft="$"
                 placeholder="0.00"
             />
@@ -45,7 +76,6 @@ export default function Index() {
                 label="Taxes per year"
                 value={taxesPerYear}
                 setValue={setTaxesPerYear}
-                keyboardType="number-pad"
                 iconLeft="$"
                 placeholder="0.00"
             />
@@ -54,7 +84,6 @@ export default function Index() {
                 label="Maintenance per year"
                 value={maintenancePerYear}
                 setValue={setMaintenancePerYear}
-                keyboardType="number-pad"
                 iconLeft="$"
                 placeholder="0.00"
             />
@@ -63,7 +92,6 @@ export default function Index() {
                 label="Batery autonomy"
                 value={batteryAutonomy}
                 setValue={setBatteryAutonomy}
-                keyboardType="number-pad"
                 iconRight="km"
                 placeholder="0"
             />
@@ -72,7 +100,6 @@ export default function Index() {
                 label="Batery capacity"
                 value={batteryCapacity}
                 setValue={setBatteryCapacity}
-                keyboardType="number-pad"
                 iconRight="kWh"
                 placeholder="0"
             />
@@ -81,7 +108,6 @@ export default function Index() {
                 label="Distance driven per week"
                 value={distanceDrivenPerWeek}
                 setValue={setDistanceDrivenPerWeek}
-                keyboardType="number-pad"
                 iconRight="km"
                 placeholder="0"
             />
@@ -90,14 +116,28 @@ export default function Index() {
                 label="Electricity Price"
                 value={electricityPrice}
                 setValue={setElectricityPrice}
-                keyboardType="number-pad"
                 iconLeft="$"
                 iconRight="kWh"
                 placeholder="0.00"
             />
 
-            <Button label="Calculate" />
+            <Button label="Calculate" onPress={handleCalculate} />
             <Button label="Clear fields" theme="secondary" />
+
+            {costs && (
+                <View className="pt-4">
+                    <Text>
+                        Annual cost: $ {formatMonetaryNumber(costs.annual)}
+                    </Text>
+                    <Text>
+                        Montlhy cost: $ {formatMonetaryNumber(costs.monthly)}
+                    </Text>
+                    <Text>
+                        Total cost per year: ${' '}
+                        {formatMonetaryNumber(costs.perYear)}
+                    </Text>
+                </View>
+            )}
         </View>
     )
 }

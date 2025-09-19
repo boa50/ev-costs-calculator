@@ -7,12 +7,7 @@ type Props = {
     width?: string
 }
 
-export default function Button({
-    label,
-    theme,
-    onPress,
-    width = 'w-full',
-}: Props) {
+export function Button({ label, theme, onPress, width = 'w-full' }: Props) {
     const pressableDynamicClasses =
         theme === 'secondary'
             ? 'border-sky-700 bg-sky-700/5 active:bg-sky-700/15'
