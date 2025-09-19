@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { View, TextInput, Text } from 'react-native'
 import type { KeyboardTypeOptions } from 'react-native'
+import colors from 'tailwindcss/colors'
 
 interface Props {
     label?: string
@@ -52,7 +53,7 @@ export default function Input({
                 <View
                     className={`flex flex-row h-full items-center justify-center px-2 ${iconDynamicClasses}`}
                 >
-                    <Text className="text-md font-light text-gray-600">
+                    <Text className="text-md font-normal text-gray-800">
                         {icon}
                     </Text>
                 </View>
@@ -77,6 +78,7 @@ export default function Input({
                     value={value}
                     keyboardType={keyboardType}
                     placeholder={placeholder}
+                    placeholderTextColor={colors.gray[400]}
                 />
                 <InputIcon icon={iconRight} position="right" />
             </View>

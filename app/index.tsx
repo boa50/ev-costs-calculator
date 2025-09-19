@@ -28,6 +28,7 @@ export default function Index() {
                 setValue={setBuyingCost}
                 keyboardType="number-pad"
                 iconLeft="$"
+                placeholder="0.00"
             />
 
             <Input
@@ -36,6 +37,7 @@ export default function Index() {
                 setValue={setInsuranceCost}
                 keyboardType="number-pad"
                 iconLeft="$"
+                placeholder="0.00"
             />
 
             <Input
@@ -44,6 +46,7 @@ export default function Index() {
                 setValue={setTaxesPerYear}
                 keyboardType="number-pad"
                 iconLeft="$"
+                placeholder="0.00"
             />
 
             <Input
@@ -52,6 +55,7 @@ export default function Index() {
                 setValue={setMaintenancePerYear}
                 keyboardType="number-pad"
                 iconLeft="$"
+                placeholder="0.00"
             />
 
             <Input
@@ -60,6 +64,7 @@ export default function Index() {
                 setValue={setBatteryAutonomy}
                 keyboardType="number-pad"
                 iconRight="km"
+                placeholder="0"
             />
 
             <Input
@@ -68,6 +73,7 @@ export default function Index() {
                 setValue={setBatteryCapacity}
                 keyboardType="number-pad"
                 iconRight="kWh"
+                placeholder="0"
             />
 
             <Input
@@ -76,6 +82,7 @@ export default function Index() {
                 setValue={setDistanceDrivenPerWeek}
                 keyboardType="number-pad"
                 iconRight="km"
+                placeholder="0"
             />
 
             <Input
@@ -85,6 +92,7 @@ export default function Index() {
                 keyboardType="number-pad"
                 iconLeft="$"
                 iconRight="kWh"
+                placeholder="0.00"
             />
         </View>
     )
