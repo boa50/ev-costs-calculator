@@ -33,3 +33,11 @@ export type GasVehicleFormState = BaseVehicleFormState & {
     autonomy: string
     gasPrice: string
 }
+
+export type CommonsFormState = {
+    interestRatePerYear: string
+    inflationPerYear: string
+    distanceDrivenPerWeek: string
+    currentMonth: string
+    annualPaymentsMonth: string
+}

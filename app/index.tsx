@@ -2,7 +2,8 @@ import { useState } from 'react'
 import { View, Text } from 'react-native'
 import ElectricVehicleForm from '@/features/ElectricVehicleForm'
 import GasVehicleForm from '@/features/GasVehicleForm'
-import { Input, Button } from '@/components'
+import CommonsForm from '@/features/CommonsForm'
+import { Button } from '@/components'
 import {
     calculateCosts,
     convertTextToNumber,
@@ -10,7 +11,11 @@ import {
     getElectricVehicleFromForm,
     getGasVehicleFromForm,
 } from '@/utils'
-import type { ElectricVehicleFormState, GasVehicleFormState } from '@/types'
+import type {
+    ElectricVehicleFormState,
+    GasVehicleFormState,
+    CommonsFormState,
+} from '@/types'
 
 export default function Index() {
     const [electricVehicleState, setElectricVehicleState] =
@@ -33,8 +38,13 @@ export default function Index() {
             taxesPerYear: '',
         }
     )
-    const [distanceDrivenPerWeek, setDistanceDrivenPerWeek] =
-        useState<string>('')
+    const [commonFormState, setCommonFormState] = useState<CommonsFormState>({
+        interestRatePerYear: '',
+        inflationPerYear: '',
+        currentMonth: '1',
+        annualPaymentsMonth: '1',
+        distanceDrivenPerWeek: '',
+    })
     const [costs, setCosts] = useState<{
         annual: number
         monthly: number
@@ -47,7 +57,7 @@ export default function Index() {
 
             const { annualCosts, monthlyCosts } = calculateCosts(
                 car,
-                convertTextToNumber(distanceDrivenPerWeek)
+                convertTextToNumber(commonFormState.distanceDrivenPerWeek)
             )
             setCosts({
                 annual: annualCosts,
@@ -61,7 +71,7 @@ export default function Index() {
 
             const { annualCosts, monthlyCosts } = calculateCosts(
                 car,
-                convertTextToNumber(distanceDrivenPerWeek)
+                convertTextToNumber(commonFormState.distanceDrivenPerWeek)
             )
             setCosts({
                 annual: annualCosts,
@@ -83,12 +93,9 @@ export default function Index() {
                 setGasVehicleState={setGasVehicleState}
             />
 
-            <Input
-                label="Distance driven per week"
-                value={distanceDrivenPerWeek}
-                setValue={setDistanceDrivenPerWeek}
-                iconRight="km"
-                placeholder="0"
+            <CommonsForm
+                state={commonFormState}
+                setState={setCommonFormState}
             />
 
             <Button label="Calculate" onPress={handleCalculate} />
