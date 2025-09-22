@@ -6,8 +6,9 @@ import {
     calculateCosts,
     convertTextToNumber,
     formatMonetaryNumber,
+    getElectricVehicleFromFormFields,
 } from '@/utils'
-import type { ElectricVehicle, ElectricVehicleFormState } from '@/types'
+import type { ElectricVehicleFormState } from '@/types'
 
 export default function Index() {
     const [electricVehicleState, setElectricVehicleState] =
@@ -29,26 +30,18 @@ export default function Index() {
     }>()
 
     const handleCalculate = () => {
-        // const car: ElectricVehicle = {
-        //     cost: convertTextToNumber(buyingCost),
-        //     insurancePerYear: convertTextToNumber(insuranceCost),
-        //     taxesPerYear: convertTextToNumber(taxesPerYear),
-        //     maintenancePerYear: convertTextToNumber(maintenancePerYear),
-        //     batteryAutonomy: convertTextToNumber(batteryAutonomy),
-        //     batteryCapacity: convertTextToNumber(batteryCapacity),
-        //     electricityPrice: convertTextToNumber(electricityPrice),
-        // }
-
         if (electricVehicleState) {
-            // const { annualCosts, monthlyCosts } = calculateCosts(
-            //     electricVehicleState,
-            //     convertTextToNumber(distanceDrivenPerWeek)
-            // )
-            // setCosts({
-            //     annual: annualCosts,
-            //     monthly: monthlyCosts,
-            //     perYear: annualCosts + monthlyCosts * 12,
-            // })
+            const car = getElectricVehicleFromFormFields(electricVehicleState)
+
+            const { annualCosts, monthlyCosts } = calculateCosts(
+                car,
+                convertTextToNumber(distanceDrivenPerWeek)
+            )
+            setCosts({
+                annual: annualCosts,
+                monthly: monthlyCosts,
+                perYear: annualCosts + monthlyCosts * 12,
+            })
         }
     }
 

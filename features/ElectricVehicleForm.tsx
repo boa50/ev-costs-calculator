@@ -1,4 +1,3 @@
-import { View } from 'react-native'
 import { Input, Grid, Row, Col } from '@/components'
 import type { ElectricVehicleFormState } from '@/types'
 
