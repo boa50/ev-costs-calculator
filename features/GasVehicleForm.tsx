@@ -1,22 +1,19 @@
 import { Input, Grid, Row, Col } from '@/components'
-import type { ElectricVehicleFormState } from '@/types'
+import type { GasVehicleFormState } from '@/types'
 
 interface Props {
-    electricVehicleState: ElectricVehicleFormState
-    setElectricVehicleState: React.Dispatch<
-        React.SetStateAction<ElectricVehicleFormState>
+    gasVehicleState: GasVehicleFormState
+    setGasVehicleState: React.Dispatch<
+        React.SetStateAction<GasVehicleFormState>
     >
 }
 
-export default function ElectricVehicleForm({
-    electricVehicleState,
-    setElectricVehicleState,
+export default function GasVehicleForm({
+    gasVehicleState,
+    setGasVehicleState,
 }: Props) {
-    const changeState = (
-        key: keyof ElectricVehicleFormState,
-        value: string
-    ) => {
-        setElectricVehicleState((prevState) => ({ ...prevState, [key]: value }))
+    const changeState = (key: keyof GasVehicleFormState, value: string) => {
+        setGasVehicleState((prevState) => ({ ...prevState, [key]: value }))
     }
 
     return (
@@ -25,7 +22,7 @@ export default function ElectricVehicleForm({
                 <Col>
                     <Input
                         label="Buying cost"
-                        value={electricVehicleState.cost}
+                        value={gasVehicleState.cost}
                         setValue={(value) => changeState('cost', value)}
                         iconLeft="$"
                         placeholder="0.00"
@@ -34,7 +31,7 @@ export default function ElectricVehicleForm({
                 <Col>
                     <Input
                         label="Insurance per year"
-                        value={electricVehicleState.insurancePerYear}
+                        value={gasVehicleState.insurancePerYear}
                         setValue={(value) =>
                             changeState('insurancePerYear', value)
                         }
@@ -47,7 +44,7 @@ export default function ElectricVehicleForm({
                 <Col>
                     <Input
                         label="Taxes per year"
-                        value={electricVehicleState.taxesPerYear}
+                        value={gasVehicleState.taxesPerYear}
                         setValue={(value) => changeState('taxesPerYear', value)}
                         iconLeft="$"
                         placeholder="0.00"
@@ -56,7 +53,7 @@ export default function ElectricVehicleForm({
                 <Col>
                     <Input
                         label="Maintenance per year"
-                        value={electricVehicleState.maintenancePerYear}
+                        value={gasVehicleState.maintenancePerYear}
                         setValue={(value) =>
                             changeState('maintenancePerYear', value)
                         }
@@ -69,36 +66,24 @@ export default function ElectricVehicleForm({
             <Row>
                 <Col>
                     <Input
-                        label="Batery autonomy"
-                        value={electricVehicleState.batteryAutonomy}
-                        setValue={(value) =>
-                            changeState('batteryAutonomy', value)
-                        }
-                        iconRight="km"
+                        label="Autonomy"
+                        value={gasVehicleState.autonomy}
+                        setValue={(value) => changeState('autonomy', value)}
+                        iconRight="km/l"
                         placeholder="0"
                     />
                 </Col>
                 <Col>
                     <Input
-                        label="Batery capacity"
-                        value={electricVehicleState.batteryCapacity}
-                        setValue={(value) =>
-                            changeState('batteryCapacity', value)
-                        }
-                        iconRight="kWh"
-                        placeholder="0"
+                        label="Gas price"
+                        value={gasVehicleState.gasPrice}
+                        setValue={(value) => changeState('gasPrice', value)}
+                        iconLeft="$"
+                        iconRight="l"
+                        placeholder="0.00"
                     />
                 </Col>
             </Row>
-
-            <Input
-                label="Electricity price"
-                value={electricVehicleState.electricityPrice}
-                setValue={(value) => changeState('electricityPrice', value)}
-                iconLeft="$"
-                iconRight="kWh"
-                placeholder="0.00"
-            />
         </Grid>
     )
 }

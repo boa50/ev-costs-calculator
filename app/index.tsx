@@ -1,14 +1,16 @@
 import { useState } from 'react'
 import { View, Text } from 'react-native'
 import ElectricVehicleForm from '@/features/ElectricVehicleForm'
+import GasVehicleForm from '@/features/GasVehicleForm'
 import { Input, Button } from '@/components'
 import {
     calculateCosts,
     convertTextToNumber,
     formatMonetaryNumber,
-    getElectricVehicleFromFormFields,
+    getElectricVehicleFromForm,
+    getGasVehicleFromForm,
 } from '@/utils'
-import type { ElectricVehicleFormState } from '@/types'
+import type { ElectricVehicleFormState, GasVehicleFormState } from '@/types'
 
 export default function Index() {
     const [electricVehicleState, setElectricVehicleState] =
@@ -21,6 +23,16 @@ export default function Index() {
             maintenancePerYear: '',
             taxesPerYear: '',
         })
+    const [gasVehicleState, setGasVehicleState] = useState<GasVehicleFormState>(
+        {
+            cost: '',
+            autonomy: '',
+            gasPrice: '',
+            insurancePerYear: '',
+            maintenancePerYear: '',
+            taxesPerYear: '',
+        }
+    )
     const [distanceDrivenPerWeek, setDistanceDrivenPerWeek] =
         useState<string>('')
     const [costs, setCosts] = useState<{
@@ -31,7 +43,21 @@ export default function Index() {
 
     const handleCalculate = () => {
         if (electricVehicleState) {
-            const car = getElectricVehicleFromFormFields(electricVehicleState)
+            const car = getElectricVehicleFromForm(electricVehicleState)
+
+            const { annualCosts, monthlyCosts } = calculateCosts(
+                car,
+                convertTextToNumber(distanceDrivenPerWeek)
+            )
+            setCosts({
+                annual: annualCosts,
+                monthly: monthlyCosts,
+                perYear: annualCosts + monthlyCosts * 12,
+            })
+        }
+
+        if (gasVehicleState) {
+            const car = getGasVehicleFromForm(gasVehicleState)
 
             const { annualCosts, monthlyCosts } = calculateCosts(
                 car,
@@ -50,6 +76,11 @@ export default function Index() {
             <ElectricVehicleForm
                 electricVehicleState={electricVehicleState}
                 setElectricVehicleState={setElectricVehicleState}
+            />
+
+            <GasVehicleForm
+                gasVehicleState={gasVehicleState}
+                setGasVehicleState={setGasVehicleState}
             />
 
             <Input
