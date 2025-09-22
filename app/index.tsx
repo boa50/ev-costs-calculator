@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { View, Text } from 'react-native'
-import ElectricVehicleForm from '@/Features/ElectricVehicleForm'
+import ElectricVehicleForm from '@/features/ElectricVehicleForm'
 import { Input, Button } from '@/components'
 import {
     calculateCosts,
@@ -53,14 +53,7 @@ export default function Index() {
     }
 
     return (
-        <View
-            className="px-4"
-            style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}
-        >
+        <View className="px-4 py-4 flex-1">
             <ElectricVehicleForm
                 electricVehicleState={electricVehicleState}
                 setElectricVehicleState={setElectricVehicleState}
