@@ -68,3 +68,13 @@ export default function CommonsForm({ state, setState }: Props) {
         </Grid>
     )
 }
+
+export function getCommonsInitialState(): CommonsFormState {
+    return {
+        interestRatePerYear: '',
+        inflationPerYear: '',
+        currentMonth: '1',
+        annualPaymentsMonth: '1',
+        distanceDrivenPerWeek: '',
+    }
+}

@@ -87,3 +87,14 @@ export default function GasVehicleForm({
         </Grid>
     )
 }
+
+export function getGasVehicleInitialState(): GasVehicleFormState {
+    return {
+        cost: '',
+        autonomy: '',
+        gasPrice: '',
+        insurancePerYear: '',
+        maintenancePerYear: '',
+        taxesPerYear: '',
+    }
+}

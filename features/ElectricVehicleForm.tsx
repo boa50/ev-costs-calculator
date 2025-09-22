@@ -102,3 +102,15 @@ export default function ElectricVehicleForm({
         </Grid>
     )
 }
+
+export function getElectricVehicleInitialState(): ElectricVehicleFormState {
+    return {
+        cost: '',
+        batteryAutonomy: '',
+        batteryCapacity: '',
+        electricityPrice: '',
+        insurancePerYear: '',
+        maintenancePerYear: '',
+        taxesPerYear: '',
+    }
+}

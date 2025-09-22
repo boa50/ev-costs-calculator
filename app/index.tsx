@@ -1,8 +1,12 @@
 import { useState } from 'react'
 import { View, Text } from 'react-native'
-import ElectricVehicleForm from '@/features/ElectricVehicleForm'
-import GasVehicleForm from '@/features/GasVehicleForm'
-import CommonsForm from '@/features/CommonsForm'
+import ElectricVehicleForm, {
+    getElectricVehicleInitialState,
+} from '@/features/ElectricVehicleForm'
+import GasVehicleForm, {
+    getGasVehicleInitialState,
+} from '@/features/GasVehicleForm'
+import CommonsForm, { getCommonsInitialState } from '@/features/CommonsForm'
 import { Button } from '@/components'
 import {
     calculateCosts,
@@ -19,32 +23,13 @@ import type {
 
 export default function Index() {
     const [electricVehicleState, setElectricVehicleState] =
-        useState<ElectricVehicleFormState>({
-            cost: '',
-            batteryAutonomy: '',
-            batteryCapacity: '',
-            electricityPrice: '',
-            insurancePerYear: '',
-            maintenancePerYear: '',
-            taxesPerYear: '',
-        })
+        useState<ElectricVehicleFormState>(getElectricVehicleInitialState())
     const [gasVehicleState, setGasVehicleState] = useState<GasVehicleFormState>(
-        {
-            cost: '',
-            autonomy: '',
-            gasPrice: '',
-            insurancePerYear: '',
-            maintenancePerYear: '',
-            taxesPerYear: '',
-        }
+        getGasVehicleInitialState()
     )
-    const [commonFormState, setCommonFormState] = useState<CommonsFormState>({
-        interestRatePerYear: '',
-        inflationPerYear: '',
-        currentMonth: '1',
-        annualPaymentsMonth: '1',
-        distanceDrivenPerWeek: '',
-    })
+    const [commonFormState, setCommonFormState] = useState<CommonsFormState>(
+        getCommonsInitialState()
+    )
     const [costs, setCosts] = useState<{
         annual: number
         monthly: number
@@ -81,6 +66,12 @@ export default function Index() {
         }
     }
 
+    const handleResetFields = () => {
+        setElectricVehicleState(getElectricVehicleInitialState())
+        setGasVehicleState(getGasVehicleInitialState())
+        setCommonFormState(getCommonsInitialState())
+    }
+
     return (
         <View className="px-4 py-4 flex-1">
             <ElectricVehicleForm
@@ -99,7 +90,11 @@ export default function Index() {
             />
 
             <Button label="Calculate" onPress={handleCalculate} />
-            <Button label="Clear fields" theme="secondary" />
+            <Button
+                label="Reset fields"
+                theme="secondary"
+                onPress={handleResetFields}
+            />
 
             {costs && (
                 <View className="pt-4">
