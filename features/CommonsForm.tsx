@@ -1,4 +1,5 @@
-import { Input, Grid, Row, Col } from '@/components'
+import { Input, Grid, Row, Col, Picker } from '@/components'
+import { getCurrentMonthNumber } from '@/utils/getCurrentMonth'
 import type { CommonsFormState } from '@/types'
 
 interface Props {
@@ -39,15 +40,17 @@ export default function CommonsForm({ state, setState }: Props) {
             </Row>
             <Row>
                 <Col>
-                    <Input
+                    <Picker
                         label="Current month"
+                        type="month"
                         value={state.currentMonth}
                         setValue={(value) => changeState('currentMonth', value)}
                     />
                 </Col>
                 <Col>
-                    <Input
+                    <Picker
                         label="Annual payments month"
+                        type="month"
                         value={state.annualPaymentsMonth}
                         setValue={(value) =>
                             changeState('annualPaymentsMonth', value)
@@ -73,7 +76,7 @@ export function getCommonsInitialState(): CommonsFormState {
     return {
         interestRatePerYear: '',
         inflationPerYear: '',
-        currentMonth: '1',
+        currentMonth: getCurrentMonthNumber(),
         annualPaymentsMonth: '1',
         distanceDrivenPerWeek: '',
     }
