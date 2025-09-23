@@ -7,7 +7,14 @@ import GasVehicleForm, {
     getGasVehicleInitialState,
 } from '@/features/GasVehicleForm'
 import CommonsForm, { getCommonsInitialState } from '@/features/CommonsForm'
-import { Button, FilterButtons, type FilterButtonsObject } from '@/components'
+import {
+    Button,
+    FilterButtons,
+    type FilterButtonsObject,
+    Grid,
+    Row,
+    Col,
+} from '@/components'
 import {
     calculateCosts,
     convertTextToNumber,
@@ -32,9 +39,9 @@ export default function Index() {
     )
     const [filterButtonsState, setFilterButtonsState] =
         useState<FilterButtonsObject>({
-            btnA: { label: 'Electric', isActive: true },
-            btnB: { label: 'Gas', isActive: false },
-            btnC: { label: 'Commons', isActive: false },
+            electric: { label: 'Electric', isActive: true },
+            gas: { label: 'Gas', isActive: false },
+            commons: { label: 'Commons', isActive: false },
         })
     const [costs, setCosts] = useState<{
         annual: number
@@ -80,35 +87,36 @@ export default function Index() {
 
     return (
         <View className="px-4 py-4 flex-1">
-            <FilterButtons
-                state={filterButtonsState}
-                setState={setFilterButtonsState}
-            />
+            <View className="pb-4">
+                <FilterButtons
+                    state={filterButtonsState}
+                    setState={setFilterButtonsState}
+                />
+            </View>
 
-            <ElectricVehicleForm
-                electricVehicleState={electricVehicleState}
-                setElectricVehicleState={setElectricVehicleState}
-            />
+            <FormView isActive={filterButtonsState.electric.isActive}>
+                <ElectricVehicleForm
+                    electricVehicleState={electricVehicleState}
+                    setElectricVehicleState={setElectricVehicleState}
+                />
+            </FormView>
 
-            <GasVehicleForm
-                gasVehicleState={gasVehicleState}
-                setGasVehicleState={setGasVehicleState}
-            />
+            <FormView isActive={filterButtonsState.gas.isActive}>
+                <GasVehicleForm
+                    gasVehicleState={gasVehicleState}
+                    setGasVehicleState={setGasVehicleState}
+                />
+            </FormView>
 
-            <CommonsForm
-                state={commonFormState}
-                setState={setCommonFormState}
-            />
+            <FormView isActive={filterButtonsState.commons.isActive}>
+                <CommonsForm
+                    state={commonFormState}
+                    setState={setCommonFormState}
+                />
+            </FormView>
 
-            <Button label="Calculate" onPress={handleCalculate} />
-            <Button
-                label="Reset fields"
-                theme="secondary"
-                onPress={handleResetFields}
-            />
-
-            {costs && (
-                <View className="pt-4">
+            {costs ? (
+                <View className="pt-4 flex-1">
                     <Text>
                         Annual cost: $ {formatMonetaryNumber(costs.annual)}
                     </Text>
@@ -120,7 +128,36 @@ export default function Index() {
                         {formatMonetaryNumber(costs.perYear)}
                     </Text>
                 </View>
+            ) : (
+                <View className="flex-1"></View>
             )}
+
+            <Grid additionalClasses="pb-4">
+                <Row>
+                    <Col>
+                        <Button label="Calculate" onPress={handleCalculate} />
+                    </Col>
+                    <Col>
+                        <Button
+                            label="Reset fields"
+                            theme="secondary"
+                            onPress={handleResetFields}
+                        />
+                    </Col>
+                </Row>
+            </Grid>
         </View>
+    )
+}
+
+function FormView({
+    isActive,
+    children,
+}: {
+    isActive: boolean
+    children: React.ReactNode
+}) {
+    return (
+        <View className={`${isActive ? 'block' : 'hidden'}`}>{children}</View>
     )
 }
