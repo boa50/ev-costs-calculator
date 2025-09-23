@@ -7,7 +7,7 @@ import GasVehicleForm, {
     getGasVehicleInitialState,
 } from '@/features/GasVehicleForm'
 import CommonsForm, { getCommonsInitialState } from '@/features/CommonsForm'
-import { Button } from '@/components'
+import { Button, FilterButtons, type FilterButtonsObject } from '@/components'
 import {
     calculateCosts,
     convertTextToNumber,
@@ -30,6 +30,12 @@ export default function Index() {
     const [commonFormState, setCommonFormState] = useState<CommonsFormState>(
         getCommonsInitialState()
     )
+    const [filterButtonsState, setFilterButtonsState] =
+        useState<FilterButtonsObject>({
+            btnA: { label: 'Electric', isActive: true },
+            btnB: { label: 'Gas', isActive: false },
+            btnC: { label: 'Commons', isActive: false },
+        })
     const [costs, setCosts] = useState<{
         annual: number
         monthly: number
@@ -74,6 +80,11 @@ export default function Index() {
 
     return (
         <View className="px-4 py-4 flex-1">
+            <FilterButtons
+                state={filterButtonsState}
+                setState={setFilterButtonsState}
+            />
+
             <ElectricVehicleForm
                 electricVehicleState={electricVehicleState}
                 setElectricVehicleState={setElectricVehicleState}
