@@ -40,6 +40,7 @@ export default function ElectricVehicleForm({
                         }
                         iconLeft="$"
                         placeholder="0.00"
+                        hint="text"
                     />
                 </Col>
             </Row>
@@ -51,6 +52,7 @@ export default function ElectricVehicleForm({
                         setValue={(value) => changeState('taxesPerYear', value)}
                         iconLeft="$"
                         placeholder="0.00"
+                        hint="text"
                     />
                 </Col>
                 <Col>

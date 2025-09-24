@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { View, TextInput, Text } from 'react-native'
+import { Info } from './Info'
 import colors from 'tailwindcss/colors'
 
 interface Props {
@@ -9,6 +10,7 @@ interface Props {
     iconLeft?: string
     iconRight?: string
     placeholder?: string
+    hint?: string
 }
 
 export function Input({
@@ -18,6 +20,7 @@ export function Input({
     iconLeft,
     iconRight,
     placeholder,
+    hint,
 }: Props) {
     const [borderColour, setBorderColour] = useState<string>('border-gray-400')
 
@@ -42,9 +45,7 @@ export function Input({
 
     return (
         <View>
-            {label && (
-                <Text className="text-gray-800 text-sm pb-1">{label}</Text>
-            )}
+            <Label title={label} hint={hint} />
             <View
                 className={`flex flex-row bg-white rounded-2xl border w-full ${borderColour}`}
             >
@@ -63,6 +64,21 @@ export function Input({
                 <InputIcon icon={iconRight} position="right" />
             </View>
         </View>
+    )
+}
+
+function Label({ title, hint }: { title?: string; hint?: string }) {
+    const labelText = (
+        <Text className="text-gray-800 text-sm pb-1">{title}</Text>
+    )
+
+    return title && hint ? (
+        <View className="flex-row gap-1 items-center">
+            {labelText}
+            <Info />
+        </View>
+    ) : (
+        title && labelText
     )
 }
 
