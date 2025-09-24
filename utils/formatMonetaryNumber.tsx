@@ -1,3 +1,8 @@
 export function formatMonetaryNumber(num: number): string {
-    return num.toFixed(2).replace(/[.,]00$/, '')
+    return num
+        .toLocaleString(undefined, {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        })
+        .replace(/[.,]00$/, '')
 }
