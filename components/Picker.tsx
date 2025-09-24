@@ -1,5 +1,6 @@
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import RNPickerSelect from 'react-native-picker-select'
+import { InputLabel } from './InputLabel'
 import colors from 'tailwindcss/colors'
 
 interface Props {
@@ -7,6 +8,7 @@ interface Props {
     value: string
     setValue: (value: string) => void
     type: 'month'
+    hint?: string
 }
 
 const months = [
@@ -24,7 +26,7 @@ const months = [
     { label: 'December', value: '12' },
 ]
 
-export function Picker({ label, value, setValue, type }: Props) {
+export function Picker({ label, value, setValue, type, hint }: Props) {
     let items = []
     switch (type) {
         case 'month':
@@ -34,9 +36,7 @@ export function Picker({ label, value, setValue, type }: Props) {
 
     return (
         <View>
-            {label && (
-                <Text className="text-gray-800 text-sm pb-1">{label}</Text>
-            )}
+            <InputLabel title={label} hint={hint} />
             <RNPickerSelect
                 value={value}
                 onValueChange={setValue}

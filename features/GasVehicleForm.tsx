@@ -21,7 +21,7 @@ export default function GasVehicleForm({
             <Row>
                 <Col>
                     <Input
-                        label="Buying cost"
+                        label="Vehicle buying cost"
                         value={gasVehicleState.cost}
                         setValue={(value) => changeState('cost', value)}
                         iconLeft="$"
@@ -48,6 +48,7 @@ export default function GasVehicleForm({
                         setValue={(value) => changeState('taxesPerYear', value)}
                         iconLeft="$"
                         placeholder="0.00"
+                        hint="How much taxes you pay every year"
                     />
                 </Col>
                 <Col>
@@ -59,6 +60,7 @@ export default function GasVehicleForm({
                         }
                         iconLeft="$"
                         placeholder="0.00"
+                        hint="Vehicle maintenance costs"
                     />
                 </Col>
             </Row>
@@ -71,6 +73,7 @@ export default function GasVehicleForm({
                         setValue={(value) => changeState('autonomy', value)}
                         iconRight="km/l"
                         placeholder="0"
+                        hint="Distance you can drive the vehicle per gas unit"
                     />
                 </Col>
                 <Col>
@@ -81,6 +84,7 @@ export default function GasVehicleForm({
                         iconLeft="$"
                         iconRight="l"
                         placeholder="0.00"
+                        hint="Gas costs on your region"
                     />
                 </Col>
             </Row>

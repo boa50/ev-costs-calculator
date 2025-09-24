@@ -5,6 +5,7 @@ import Ionicons from '@expo/vector-icons/Ionicons'
 import colors from 'tailwindcss/colors'
 
 interface Props {
+    text: string
     size?: number
     color?: string
 }
@@ -21,7 +22,7 @@ interface TooltipPosition {
     right?: number
 }
 
-export function Info({ size = 14, color = colors.gray[800] }: Props) {
+export function Info({ text, size = 14, color = colors.gray[800] }: Props) {
     const targetRef = useRef<View>(null)
     const [showTootlip, setShowTooltip] = useState<boolean>(false)
     const [tooltipDimensions, setTooltipDimensions] =
@@ -52,7 +53,7 @@ export function Info({ size = 14, color = colors.gray[800] }: Props) {
     return (
         <View>
             <Tooltip
-                text="Some random extremely big texts2345 texts jahd ahsdjakjahsd khads kash dakhsg dajkhs"
+                text={text}
                 isOpen={showTootlip}
                 position={tooltipPosition}
                 setTooltipDimensions={setTooltipDimensions}
@@ -94,11 +95,11 @@ function Tooltip({
     return (
         <View
             ref={ref}
-            style={{ ...position }}
-            className={`absolute z-50 bg-neutral-600 p-2 rounded-sm
-                ${isOpen ? 'visible' : 'invisible'}`}
+            style={{ ...position, width: 200 }}
+            className={`absolute bg-neutral-600 p-2 rounded-sm
+                ${isOpen ? 'visible z-50' : 'invisible -z-50'}`}
         >
-            <Text className="text-sm text-white w-72">{text}</Text>
+            <Text className="text-sm text-white">{text}</Text>
         </View>
     )
 }

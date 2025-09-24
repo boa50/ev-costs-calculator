@@ -24,7 +24,7 @@ export default function ElectricVehicleForm({
             <Row>
                 <Col>
                     <Input
-                        label="Buying cost"
+                        label="Vehicle buying cost"
                         value={electricVehicleState.cost}
                         setValue={(value) => changeState('cost', value)}
                         iconLeft="$"
@@ -40,7 +40,6 @@ export default function ElectricVehicleForm({
                         }
                         iconLeft="$"
                         placeholder="0.00"
-                        hint="text"
                     />
                 </Col>
             </Row>
@@ -52,7 +51,7 @@ export default function ElectricVehicleForm({
                         setValue={(value) => changeState('taxesPerYear', value)}
                         iconLeft="$"
                         placeholder="0.00"
-                        hint="text"
+                        hint="How much taxes you pay every year"
                     />
                 </Col>
                 <Col>
@@ -64,6 +63,7 @@ export default function ElectricVehicleForm({
                         }
                         iconLeft="$"
                         placeholder="0.00"
+                        hint="Vehicle maintenance costs"
                     />
                 </Col>
             </Row>
@@ -78,6 +78,7 @@ export default function ElectricVehicleForm({
                         }
                         iconRight="km"
                         placeholder="0"
+                        hint="Distance you can drive the vehicle without recharging it"
                     />
                 </Col>
                 <Col>
@@ -100,6 +101,7 @@ export default function ElectricVehicleForm({
                 iconLeft="$"
                 iconRight="kWh"
                 placeholder="0.00"
+                hint="Electricity costs on your region"
             />
         </Grid>
     )

@@ -24,6 +24,7 @@ export default function CommonsForm({ state, setState }: Props) {
                         }
                         iconRight="%"
                         placeholder="0.00"
+                        hint="How much you can earn by investing in safe investments"
                     />
                 </Col>
                 <Col>
@@ -35,6 +36,7 @@ export default function CommonsForm({ state, setState }: Props) {
                         }
                         iconRight="%"
                         placeholder="0.00"
+                        hint="Average of the forecast of your country inflation for the next years"
                     />
                 </Col>
             </Row>
@@ -55,6 +57,7 @@ export default function CommonsForm({ state, setState }: Props) {
                         setValue={(value) =>
                             changeState('annualPaymentsMonth', value)
                         }
+                        hint="Month when you must pay annual costs"
                     />
                 </Col>
             </Row>

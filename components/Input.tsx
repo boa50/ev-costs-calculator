@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { View, TextInput, Text } from 'react-native'
-import { Info } from './Info'
+import { InputLabel } from './InputLabel'
 import colors from 'tailwindcss/colors'
 
 interface Props {
@@ -45,7 +45,7 @@ export function Input({
 
     return (
         <View>
-            <Label title={label} hint={hint} />
+            <InputLabel title={label} hint={hint} />
             <View
                 className={`flex flex-row bg-white rounded-2xl border w-full ${borderColour}`}
             >
@@ -64,21 +64,6 @@ export function Input({
                 <InputIcon icon={iconRight} position="right" />
             </View>
         </View>
-    )
-}
-
-function Label({ title, hint }: { title?: string; hint?: string }) {
-    const labelText = (
-        <Text className="text-gray-800 text-sm pb-1">{title}</Text>
-    )
-
-    return title && hint ? (
-        <View className="flex-row gap-1 items-center">
-            {labelText}
-            <Info />
-        </View>
-    ) : (
-        title && labelText
     )
 }
 
