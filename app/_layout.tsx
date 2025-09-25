@@ -1,15 +1,13 @@
 import '../global.css'
 import { Stack } from 'expo-router'
+import { Header } from '@/components'
 import colors from 'tailwindcss/colors'
 
 export default function RootLayout() {
     return (
         <Stack
             screenOptions={{
-                headerShadowVisible: false,
-                headerStyle: {
-                    backgroundColor: colors.gray[300],
-                },
+                header: (props) => <Header title={props.options.title} />,
                 contentStyle: { backgroundColor: colors.gray[100] },
             }}
         >
