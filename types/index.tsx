@@ -12,7 +12,7 @@ export type ElectricVehicle = BaseVehicle & {
 }
 
 export type GasVehicle = BaseVehicle & {
-    autonomy: number
+    fuelEfficiency: number
     gasPrice: number
 }
 
@@ -30,7 +30,7 @@ export type ElectricVehicleFormState = BaseVehicleFormState & {
 }
 
 export type GasVehicleFormState = BaseVehicleFormState & {
-    autonomy: string
+    fuelEfficiency: string
     gasPrice: string
 }
 

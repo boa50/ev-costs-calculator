@@ -68,12 +68,14 @@ export default function GasVehicleForm({
             <Row>
                 <Col>
                     <Input
-                        label="Autonomy"
-                        value={gasVehicleState.autonomy}
-                        setValue={(value) => changeState('autonomy', value)}
+                        label="Fuel efficiency"
+                        value={gasVehicleState.fuelEfficiency}
+                        setValue={(value) =>
+                            changeState('fuelEfficiency', value)
+                        }
                         iconRight="km/l"
                         placeholder="0"
-                        hint="Distance you can drive the vehicle per gas unit"
+                        hint="how far you can drive the vehicle per unit of fuel"
                     />
                 </Col>
                 <Col>
@@ -95,7 +97,7 @@ export default function GasVehicleForm({
 export function getGasVehicleInitialState(): GasVehicleFormState {
     return {
         cost: '',
-        autonomy: '',
+        fuelEfficiency: '',
         gasPrice: '',
         insurancePerYear: '',
         maintenancePerYear: '',

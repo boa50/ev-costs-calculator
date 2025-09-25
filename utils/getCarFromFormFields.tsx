@@ -28,7 +28,7 @@ export function getGasVehicleFromForm(
         insurancePerYear: convertTextToNumber(formValues.insurancePerYear),
         taxesPerYear: convertTextToNumber(formValues.taxesPerYear),
         maintenancePerYear: convertTextToNumber(formValues.maintenancePerYear),
-        autonomy: convertTextToNumber(formValues.autonomy),
+        fuelEfficiency: convertTextToNumber(formValues.fuelEfficiency),
         gasPrice: convertTextToNumber(formValues.gasPrice),
     }
 }

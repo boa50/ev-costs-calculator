@@ -21,7 +21,7 @@ export function calculateCosts(
     } else {
         annualCosts = car.taxesPerYear + car.insurancePerYear
 
-        const distanceCost = car.gasPrice / car.autonomy
+        const distanceCost = car.gasPrice / car.fuelEfficiency
         const monthlyDrivingCost =
             distanceCost * distanceDrivenPerWeek * weeksPerMonth
 
