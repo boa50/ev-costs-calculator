@@ -7,11 +7,20 @@ export default function RootLayout() {
     return (
         <Stack
             screenOptions={{
-                header: (props) => <Header title={props.options.title} />,
+                header: (props) => (
+                    <Header
+                        title={props.options.title}
+                        routeName={props.route.name}
+                    />
+                ),
                 contentStyle: { backgroundColor: colors.gray[100] },
             }}
         >
             <Stack.Screen name="index" options={{ title: 'Starting Point' }} />
+            <Stack.Screen
+                name="manageUnits"
+                options={{ title: 'Manage Units' }}
+            />
         </Stack>
     )
 }

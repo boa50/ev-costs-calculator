@@ -1,17 +1,33 @@
 import { useState } from 'react'
+import { useRouter } from 'expo-router'
 import { View, Text, Pressable } from 'react-native'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import colors from 'tailwindcss/colors'
 
 interface Props {
     title?: string
+    routeName: string
 }
 
-export function Header({ title }: Props) {
+export function Header({ title, routeName }: Props) {
+    const router = useRouter()
+    const isIndex = routeName === 'index'
+
     return (
         <View className="flex-row h-18 pt-9 pb-3 px-4 bg-gray-300 items-center">
-            <Text className="flex-1 text-xl font-medium">{title}</Text>
-            <Menu />
+            {router.canGoBack() && (
+                <Pressable onPress={router.back} className="mr-2 -ml-1">
+                    <MaterialCommunityIcons
+                        name="arrow-left"
+                        size={24}
+                        color={colors.gray[800]}
+                    />
+                </Pressable>
+            )}
+            <Text className="flex-1 text-gray-800 text-xl font-medium">
+                {title}
+            </Text>
+            {isIndex && <Menu />}
         </View>
     )
 }
@@ -21,6 +37,9 @@ function Menu() {
 
     const handleToggleMenu = () => {
         setIsVisible((prevState) => !prevState)
+    }
+    const handleHideMenu = () => {
+        setIsVisible(false)
     }
 
     return (
@@ -38,7 +57,11 @@ function Menu() {
                         className="bg-white p-2 shadow-gray-800 shadow-xl rounded-sm self-end mr-2"
                         style={{ width: 102 }}
                     >
-                        <MenuItem label="Manage Units" />
+                        <MenuItem
+                            label="Manage Units"
+                            pathname="/manageUnits"
+                            handleHideMenu={handleHideMenu}
+                        />
                     </View>
                 </View>
             )}
@@ -46,14 +69,25 @@ function Menu() {
     )
 }
 
-function MenuItem({ label }: { label: string }) {
+function MenuItem({
+    label,
+    pathname,
+    handleHideMenu,
+}: {
+    label: string
+    pathname: '/manageUnits'
+    handleHideMenu: () => void
+}) {
+    const router = useRouter()
+
     return (
         <Pressable
             onPress={() => {
-                console.log('Pressed', label)
+                router.navigate(pathname)
+                handleHideMenu()
             }}
         >
-            <Text>{label}</Text>
+            <Text className="text-gray-800">{label}</Text>
         </Pressable>
     )
 }
