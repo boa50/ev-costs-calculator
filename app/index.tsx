@@ -14,6 +14,7 @@ import {
     Grid,
     Row,
     Col,
+    Container,
 } from '@/components'
 import {
     calculateCosts,
@@ -86,7 +87,7 @@ export default function Index() {
     }
 
     return (
-        <View className="px-4 py-4 flex-1">
+        <Container>
             <View className="pb-4">
                 <FilterButtons
                     state={filterButtonsState}
@@ -146,7 +147,7 @@ export default function Index() {
                     </Col>
                 </Row>
             </Grid>
-        </View>
+        </Container>
     )
 }
 
