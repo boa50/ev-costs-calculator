@@ -36,7 +36,19 @@ export function SwitchMultiple({
         <View className="flex-row gap-4 items-center justify-between">
             <Text className="text-gray-800">{label}</Text>
             <View
-                style={{ padding: 2 }}
+                style={{
+                    padding: 2,
+                    boxShadow: [
+                        {
+                            offsetX: 0,
+                            offsetY: 0,
+                            blurRadius: 2,
+                            spreadDistance: 0.5,
+                            color: colors.gray[400],
+                            inset: true,
+                        },
+                    ],
+                }}
                 className="rounded-md flex-row bg-gray-300"
             >
                 <Animated.View
