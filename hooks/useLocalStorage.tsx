@@ -1,6 +1,6 @@
 import { useMMKVString } from 'react-native-mmkv'
 
-type DataFields = 'test' | 'test2'
+type DataFields = 'distance' | 'gasMeasurement' | 'fuelEfficiency'
 
 export function useLocalStorage(key: DataFields) {
     return useMMKVString(key)

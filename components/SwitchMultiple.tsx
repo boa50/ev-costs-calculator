@@ -12,7 +12,7 @@ interface Props {
     label: string
     options: string[]
     value: string
-    setValue: React.Dispatch<React.SetStateAction<string>>
+    setValue: (value: string) => void
     btnWidth?: number
 }
 
@@ -23,14 +23,17 @@ export function SwitchMultiple({
     setValue,
     btnWidth = 64,
 }: Props) {
-    const translateX = useSharedValue<number>(0)
+    const optionPosition = options.indexOf(value)
+    const translateX = useSharedValue<number>(
+        calculateTranslateX(optionPosition, btnWidth)
+    )
 
     useEffect(() => {
-        const optionPosition = options.indexOf(value)
-
         if (optionPosition >= 0)
-            translateX.value = withSpring(optionPosition * btnWidth)
-    }, [options, value, translateX, btnWidth])
+            translateX.value = withSpring(
+                calculateTranslateX(optionPosition, btnWidth)
+            )
+    }, [optionPosition, translateX, btnWidth])
 
     return (
         <View className="flex-row gap-4 items-center justify-between">
@@ -77,7 +80,7 @@ interface SwitchItemProps {
     label: string
     btnWidth: number
     selectedValue: string
-    setValue: React.Dispatch<React.SetStateAction<string>>
+    setValue: (value: string) => void
 }
 
 function SwitchItem({
@@ -108,4 +111,8 @@ function SwitchItem({
             </View>
         </Pressable>
     )
+}
+
+function calculateTranslateX(position: number, btnWidth: number) {
+    return position * btnWidth
 }
