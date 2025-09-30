@@ -1,4 +1,6 @@
 import { Input, Grid, Row, Col } from '@/components'
+import { useLocalStorage } from '@/hooks'
+import { getUnitAbbreviation } from '@/utils'
 import type { ElectricVehicleFormState } from '@/types'
 
 interface Props {
@@ -12,6 +14,7 @@ export default function ElectricVehicleForm({
     electricVehicleState,
     setElectricVehicleState,
 }: Props) {
+    const distance = getUnitAbbreviation(useLocalStorage('distance')[0] ?? '')
     const changeState = (
         key: keyof ElectricVehicleFormState,
         value: string
@@ -76,7 +79,7 @@ export default function ElectricVehicleForm({
                         setValue={(value) =>
                             changeState('batteryAutonomy', value)
                         }
-                        iconRight="km"
+                        iconRight={distance}
                         placeholder="0"
                         hint="Distance you can drive the vehicle without recharging it"
                     />

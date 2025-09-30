@@ -7,6 +7,7 @@ import GasVehicleForm, {
     getGasVehicleInitialState,
 } from '@/features/GasVehicleForm'
 import CommonsForm, { getCommonsInitialState } from '@/features/CommonsForm'
+import { useLocalStorage } from '@/hooks'
 import {
     Button,
     FilterButtons,
@@ -22,6 +23,7 @@ import {
     formatMonetaryNumber,
     getElectricVehicleFromForm,
     getGasVehicleFromForm,
+    validateLocalStorageUnits,
 } from '@/utils'
 import type {
     ElectricVehicleFormState,
@@ -49,6 +51,21 @@ export default function Index() {
         monthly: number
         perYear: number
     }>()
+
+    const [distance, setDistance] = useLocalStorage('distance')
+    const [gasMeasurement, setGasMeasurement] =
+        useLocalStorage('gasMeasurement')
+    const [fuelEfficiency, setFuelEfficiency] =
+        useLocalStorage('fuelEfficiency')
+
+    validateLocalStorageUnits(
+        distance,
+        setDistance,
+        gasMeasurement,
+        setGasMeasurement,
+        fuelEfficiency,
+        setFuelEfficiency
+    )
 
     const handleCalculate = () => {
         if (electricVehicleState) {

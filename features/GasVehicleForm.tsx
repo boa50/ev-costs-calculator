@@ -1,4 +1,6 @@
 import { Input, Grid, Row, Col } from '@/components'
+import { useLocalStorage } from '@/hooks'
+import { getUnitAbbreviation } from '@/utils'
 import type { GasVehicleFormState } from '@/types'
 
 interface Props {
@@ -12,6 +14,10 @@ export default function GasVehicleForm({
     gasVehicleState,
     setGasVehicleState,
 }: Props) {
+    const gasMeasurement = getUnitAbbreviation(
+        useLocalStorage('gasMeasurement')[0] ?? ''
+    )
+    const fuelEfficiency = useLocalStorage('fuelEfficiency')[0]
     const changeState = (key: keyof GasVehicleFormState, value: string) => {
         setGasVehicleState((prevState) => ({ ...prevState, [key]: value }))
     }
@@ -73,7 +79,7 @@ export default function GasVehicleForm({
                         setValue={(value) =>
                             changeState('fuelEfficiency', value)
                         }
-                        iconRight="km/l"
+                        iconRight={fuelEfficiency}
                         placeholder="0"
                         hint="how far you can drive the vehicle per unit of fuel"
                     />
@@ -84,7 +90,7 @@ export default function GasVehicleForm({
                         value={gasVehicleState.gasPrice}
                         setValue={(value) => changeState('gasPrice', value)}
                         iconLeft="$"
-                        iconRight="l"
+                        iconRight={gasMeasurement}
                         placeholder="0.00"
                         hint="Gas costs on your region"
                     />

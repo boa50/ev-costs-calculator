@@ -1,5 +1,6 @@
 import { Input, Grid, Row, Col, Picker } from '@/components'
-import { getCurrentMonthNumber } from '@/utils/getCurrentMonth'
+import { useLocalStorage } from '@/hooks'
+import { getCurrentMonthNumber, getUnitAbbreviation } from '@/utils'
 import type { CommonsFormState } from '@/types'
 
 interface Props {
@@ -8,6 +9,7 @@ interface Props {
 }
 
 export default function CommonsForm({ state, setState }: Props) {
+    const distance = getUnitAbbreviation(useLocalStorage('distance')[0] ?? '')
     const changeState = (key: keyof CommonsFormState, value: string) => {
         setState((prevState) => ({ ...prevState, [key]: value }))
     }
@@ -68,7 +70,7 @@ export default function CommonsForm({ state, setState }: Props) {
                 setValue={(value) =>
                     changeState('distanceDrivenPerWeek', value)
                 }
-                iconRight="km"
+                iconRight={distance}
                 placeholder="0"
             />
         </Grid>

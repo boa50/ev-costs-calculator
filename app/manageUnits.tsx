@@ -1,13 +1,10 @@
 import { useLocalStorage } from '@/hooks'
 import { View } from 'react-native'
 import { Container, SwitchMultiple } from '@/components'
+import { getUnits } from '@/utils'
 
-const units = {
-    distance: ['km', 'miles'],
-    gasMeasurement: ['litres', 'gallons'],
-    fuelEfficiency: ['km/L', 'MPG', 'L/100 km'],
-}
-const btnWidth = 72
+const units = getUnits()
+const btnWidth = 84
 
 export default function ManageUnits() {
     const [distance, setDistance] = useLocalStorage('distance')
@@ -15,10 +12,6 @@ export default function ManageUnits() {
         useLocalStorage('gasMeasurement')
     const [fuelEfficiency, setFuelEfficiency] =
         useLocalStorage('fuelEfficiency')
-
-    if (distance === undefined) setDistance(units.distance[0])
-    if (gasMeasurement === undefined) setGasMeasurement(units.gasMeasurement[0])
-    if (fuelEfficiency === undefined) setFuelEfficiency(units.fuelEfficiency[0])
 
     return (
         <Container>
