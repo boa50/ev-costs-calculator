@@ -22,90 +22,96 @@ export default function ElectricVehicleForm({
         setElectricVehicleState((prevState) => ({ ...prevState, [key]: value }))
     }
 
+    const vehicleBuyingCost = (
+        <Input
+            label="Vehicle buying cost"
+            value={electricVehicleState.cost}
+            setValue={(value) => changeState('cost', value)}
+            iconLeft="$"
+            placeholder="0.00"
+        />
+    )
+    const insurancePerYear = (
+        <Input
+            label="Insurance per year"
+            value={electricVehicleState.insurancePerYear}
+            setValue={(value) => changeState('insurancePerYear', value)}
+            iconLeft="$"
+            placeholder="0.00"
+        />
+    )
+    const taxesPerYear = (
+        <Input
+            label="Taxes per year"
+            value={electricVehicleState.taxesPerYear}
+            setValue={(value) => changeState('taxesPerYear', value)}
+            iconLeft="$"
+            placeholder="0.00"
+            hint="How much taxes you pay every year"
+        />
+    )
+    const maintenancePerYear = (
+        <Input
+            label="Maintenance per year"
+            value={electricVehicleState.maintenancePerYear}
+            setValue={(value) => changeState('maintenancePerYear', value)}
+            iconLeft="$"
+            placeholder="0.00"
+            hint="Vehicle maintenance costs"
+        />
+    )
+    const batteryAutonomy = (
+        <Input
+            label="Batery autonomy"
+            value={electricVehicleState.batteryAutonomy}
+            setValue={(value) => changeState('batteryAutonomy', value)}
+            required={true}
+            iconRight={distance}
+            placeholder="0"
+            hint="Distance you can drive the vehicle without recharging it"
+        />
+    )
+    const batteryCapacity = (
+        <Input
+            label="Batery capacity"
+            value={electricVehicleState.batteryCapacity}
+            setValue={(value) => changeState('batteryCapacity', value)}
+            required={true}
+            iconRight="kWh"
+            placeholder="0"
+        />
+    )
+    const electricityPrice = (
+        <Input
+            label="Electricity price"
+            value={electricVehicleState.electricityPrice}
+            setValue={(value) => changeState('electricityPrice', value)}
+            required={true}
+            iconLeft="$"
+            iconRight="kWh"
+            placeholder="0.00"
+            hint="Electricity costs on your region"
+        />
+    )
+
     return (
-        <Grid>
+        <Grid additionalClasses="gap-3">
             <Row>
-                <Col>
-                    <Input
-                        label="Vehicle buying cost"
-                        value={electricVehicleState.cost}
-                        setValue={(value) => changeState('cost', value)}
-                        iconLeft="$"
-                        placeholder="0.00"
-                    />
-                </Col>
-                <Col>
-                    <Input
-                        label="Insurance per year"
-                        value={electricVehicleState.insurancePerYear}
-                        setValue={(value) =>
-                            changeState('insurancePerYear', value)
-                        }
-                        iconLeft="$"
-                        placeholder="0.00"
-                    />
-                </Col>
+                <Col>{batteryAutonomy}</Col>
+                <Col>{batteryCapacity}</Col>
             </Row>
             <Row>
-                <Col>
-                    <Input
-                        label="Taxes per year"
-                        value={electricVehicleState.taxesPerYear}
-                        setValue={(value) => changeState('taxesPerYear', value)}
-                        iconLeft="$"
-                        placeholder="0.00"
-                        hint="How much taxes you pay every year"
-                    />
-                </Col>
-                <Col>
-                    <Input
-                        label="Maintenance per year"
-                        value={electricVehicleState.maintenancePerYear}
-                        setValue={(value) =>
-                            changeState('maintenancePerYear', value)
-                        }
-                        iconLeft="$"
-                        placeholder="0.00"
-                        hint="Vehicle maintenance costs"
-                    />
-                </Col>
+                <Col>{electricityPrice}</Col>
+                <Col>{insurancePerYear}</Col>
             </Row>
-
             <Row>
-                <Col>
-                    <Input
-                        label="Batery autonomy"
-                        value={electricVehicleState.batteryAutonomy}
-                        setValue={(value) =>
-                            changeState('batteryAutonomy', value)
-                        }
-                        iconRight={distance}
-                        placeholder="0"
-                        hint="Distance you can drive the vehicle without recharging it"
-                    />
-                </Col>
-                <Col>
-                    <Input
-                        label="Batery capacity"
-                        value={electricVehicleState.batteryCapacity}
-                        setValue={(value) =>
-                            changeState('batteryCapacity', value)
-                        }
-                        iconRight="kWh"
-                        placeholder="0"
-                    />
-                </Col>
+                <Col>{taxesPerYear}</Col>
+                <Col>{maintenancePerYear}</Col>
             </Row>
-
-            <Input
-                label="Electricity price"
-                value={electricVehicleState.electricityPrice}
-                setValue={(value) => changeState('electricityPrice', value)}
-                iconLeft="$"
-                iconRight="kWh"
-                placeholder="0.00"
-                hint="Electricity costs on your region"
-            />
+            <Row>
+                <Col>{vehicleBuyingCost}</Col>
+                <Col></Col>
+            </Row>
         </Grid>
     )
 }

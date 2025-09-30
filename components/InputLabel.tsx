@@ -1,9 +1,18 @@
 import { View, Text } from 'react-native'
 import { Info } from './Info'
 
-export function InputLabel({ title, hint }: { title?: string; hint?: string }) {
+interface Props {
+    title?: string
+    hint?: string
+    required?: boolean
+}
+
+export function InputLabel({ title, hint, required }: Props) {
     const labelText = (
-        <Text className="text-gray-800 text-sm pb-1">{title}</Text>
+        <Text className="text-gray-800 text-sm pb-1">
+            {title}
+            {required && ' *'}
+        </Text>
     )
 
     return title && hint ? (

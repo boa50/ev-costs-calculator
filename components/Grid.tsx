@@ -2,7 +2,7 @@ import { View } from 'react-native'
 
 interface Props {
     additionalClasses?: string
-    children: React.ReactNode
+    children?: React.ReactNode
 }
 
 export function Grid({ additionalClasses, children }: Props) {

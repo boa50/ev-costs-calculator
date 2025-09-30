@@ -11,6 +11,7 @@ interface Props {
     iconRight?: string
     placeholder?: string
     hint?: string
+    required?: boolean
 }
 
 export function Input({
@@ -21,6 +22,7 @@ export function Input({
     iconRight,
     placeholder,
     hint,
+    required,
 }: Props) {
     const [borderColour, setBorderColour] = useState<string>('border-gray-400')
 
@@ -45,7 +47,7 @@ export function Input({
 
     return (
         <View>
-            <InputLabel title={label} hint={hint} />
+            <InputLabel title={label} hint={hint} required={required} />
             <View
                 className={`flex flex-row bg-white rounded-2xl border w-full ${borderColour}`}
             >

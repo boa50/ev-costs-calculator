@@ -22,79 +22,81 @@ export default function GasVehicleForm({
         setGasVehicleState((prevState) => ({ ...prevState, [key]: value }))
     }
 
-    return (
-        <Grid>
-            <Row>
-                <Col>
-                    <Input
-                        label="Vehicle buying cost"
-                        value={gasVehicleState.cost}
-                        setValue={(value) => changeState('cost', value)}
-                        iconLeft="$"
-                        placeholder="0.00"
-                    />
-                </Col>
-                <Col>
-                    <Input
-                        label="Insurance per year"
-                        value={gasVehicleState.insurancePerYear}
-                        setValue={(value) =>
-                            changeState('insurancePerYear', value)
-                        }
-                        iconLeft="$"
-                        placeholder="0.00"
-                    />
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Input
-                        label="Taxes per year"
-                        value={gasVehicleState.taxesPerYear}
-                        setValue={(value) => changeState('taxesPerYear', value)}
-                        iconLeft="$"
-                        placeholder="0.00"
-                        hint="How much taxes you pay every year"
-                    />
-                </Col>
-                <Col>
-                    <Input
-                        label="Maintenance per year"
-                        value={gasVehicleState.maintenancePerYear}
-                        setValue={(value) =>
-                            changeState('maintenancePerYear', value)
-                        }
-                        iconLeft="$"
-                        placeholder="0.00"
-                        hint="Vehicle maintenance costs"
-                    />
-                </Col>
-            </Row>
+    const vehicleBuyingCost = (
+        <Input
+            label="Vehicle buying cost"
+            value={gasVehicleState.cost}
+            setValue={(value) => changeState('cost', value)}
+            iconLeft="$"
+            placeholder="0.00"
+        />
+    )
+    const insurancePerYear = (
+        <Input
+            label="Insurance per year"
+            value={gasVehicleState.insurancePerYear}
+            setValue={(value) => changeState('insurancePerYear', value)}
+            iconLeft="$"
+            placeholder="0.00"
+        />
+    )
+    const taxesPerYear = (
+        <Input
+            label="Taxes per year"
+            value={gasVehicleState.taxesPerYear}
+            setValue={(value) => changeState('taxesPerYear', value)}
+            iconLeft="$"
+            placeholder="0.00"
+            hint="How much taxes you pay every year"
+        />
+    )
+    const maintenancePerYear = (
+        <Input
+            label="Maintenance per year"
+            value={gasVehicleState.maintenancePerYear}
+            setValue={(value) => changeState('maintenancePerYear', value)}
+            iconLeft="$"
+            placeholder="0.00"
+            hint="Vehicle maintenance costs"
+        />
+    )
+    const fuelEfficiencyInput = (
+        <Input
+            label="Fuel efficiency"
+            value={gasVehicleState.fuelEfficiency}
+            setValue={(value) => changeState('fuelEfficiency', value)}
+            required={true}
+            iconRight={fuelEfficiency}
+            placeholder="0"
+            hint="how far you can drive the vehicle per unit of fuel"
+        />
+    )
+    const gasPrice = (
+        <Input
+            label="Gas price"
+            value={gasVehicleState.gasPrice}
+            setValue={(value) => changeState('gasPrice', value)}
+            required={true}
+            iconLeft="$"
+            iconRight={gasMeasurement}
+            placeholder="0.00"
+            hint="Gas costs on your region"
+        />
+    )
 
+    return (
+        <Grid additionalClasses="gap-3">
             <Row>
-                <Col>
-                    <Input
-                        label="Fuel efficiency"
-                        value={gasVehicleState.fuelEfficiency}
-                        setValue={(value) =>
-                            changeState('fuelEfficiency', value)
-                        }
-                        iconRight={fuelEfficiency}
-                        placeholder="0"
-                        hint="how far you can drive the vehicle per unit of fuel"
-                    />
-                </Col>
-                <Col>
-                    <Input
-                        label="Gas price"
-                        value={gasVehicleState.gasPrice}
-                        setValue={(value) => changeState('gasPrice', value)}
-                        iconLeft="$"
-                        iconRight={gasMeasurement}
-                        placeholder="0.00"
-                        hint="Gas costs on your region"
-                    />
-                </Col>
+                <Col>{fuelEfficiencyInput}</Col>
+                <Col>{gasPrice}</Col>
+            </Row>
+            <Row>
+                <Col>{vehicleBuyingCost}</Col>
+                <Col>{insurancePerYear}</Col>
+            </Row>
+            <Row>
+                <Col>{taxesPerYear}</Col>
+                <Col>{maintenancePerYear}</Col>
             </Row>
         </Grid>
     )
