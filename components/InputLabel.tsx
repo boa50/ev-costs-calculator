@@ -5,11 +5,14 @@ interface Props {
     title?: string
     hint?: string
     required?: boolean
+    isInputValid?: boolean
 }
 
-export function InputLabel({ title, hint, required }: Props) {
+export function InputLabel({ title, hint, required, isInputValid }: Props) {
+    const textColour = isInputValid ? 'text-gray-800' : 'text-red-600'
+
     const labelText = (
-        <Text className="text-gray-800 text-sm pb-1">
+        <Text className={`text-sm pb-1 ${textColour}`}>
             {title}
             {required && ' *'}
         </Text>

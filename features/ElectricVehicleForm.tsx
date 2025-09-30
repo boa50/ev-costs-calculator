@@ -95,7 +95,7 @@ export default function ElectricVehicleForm({
     )
 
     return (
-        <Grid additionalClasses="gap-3">
+        <Grid>
             <Row>
                 <Col>{batteryAutonomy}</Col>
                 <Col>{batteryCapacity}</Col>

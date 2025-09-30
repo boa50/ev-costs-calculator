@@ -36,7 +36,7 @@ export function Picker({ label, value, setValue, type, hint }: Props) {
 
     return (
         <View>
-            <InputLabel title={label} hint={hint} />
+            <InputLabel title={label} hint={hint} isInputValid={true} />
             <RNPickerSelect
                 value={value}
                 onValueChange={setValue}

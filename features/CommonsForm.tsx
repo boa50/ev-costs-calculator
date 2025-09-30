@@ -63,7 +63,7 @@ export default function CommonsForm({ state, setState }: Props) {
     )
 
     return (
-        <Grid additionalClasses="gap-3">
+        <Grid>
             <Row>
                 <Col>{distanceDrivenPerWeek}</Col>
                 <Col>{currentMonth}</Col>

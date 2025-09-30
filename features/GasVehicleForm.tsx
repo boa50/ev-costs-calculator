@@ -85,7 +85,7 @@ export default function GasVehicleForm({
     )
 
     return (
-        <Grid additionalClasses="gap-3">
+        <Grid>
             <Row>
                 <Col>{fuelEfficiencyInput}</Col>
                 <Col>{gasPrice}</Col>
