@@ -1,70 +1,58 @@
-import { Input, Grid, Row, Col } from '@/components'
+import { Grid, Row, Col } from '@/components'
 import { useLocalStorage } from '@/hooks'
 import { getUnitAbbreviation } from '@/utils'
-import type { ElectricVehicleFormState } from '@/types'
+import { FormNumberInput } from './FormNumberInput'
 
 interface Props {
-    electricVehicleState: ElectricVehicleFormState
-    setElectricVehicleState: React.Dispatch<
-        React.SetStateAction<ElectricVehicleFormState>
-    >
+    control: any
 }
 
-export default function ElectricVehicleForm({
-    electricVehicleState,
-    setElectricVehicleState,
-}: Props) {
+export default function ElectricVehicleForm({ control }: Props) {
     const distance = getUnitAbbreviation(useLocalStorage('distance')[0] ?? '')
-    const changeState = (
-        key: keyof ElectricVehicleFormState,
-        value: string
-    ) => {
-        setElectricVehicleState((prevState) => ({ ...prevState, [key]: value }))
-    }
 
     const vehicleBuyingCost = (
-        <Input
+        <FormNumberInput
+            control={control}
+            name="ev.buyingCost"
             label="Vehicle buying cost"
-            value={electricVehicleState.cost}
-            setValue={(value) => changeState('cost', value)}
             iconLeft="$"
             placeholder="0.00"
         />
     )
     const insurancePerYear = (
-        <Input
+        <FormNumberInput
+            control={control}
+            name="ev.insurancePerYear"
             label="Insurance per year"
-            value={electricVehicleState.insurancePerYear}
-            setValue={(value) => changeState('insurancePerYear', value)}
             iconLeft="$"
             placeholder="0.00"
         />
     )
     const taxesPerYear = (
-        <Input
+        <FormNumberInput
+            control={control}
+            name="ev.taxesPerYear"
             label="Taxes per year"
-            value={electricVehicleState.taxesPerYear}
-            setValue={(value) => changeState('taxesPerYear', value)}
             iconLeft="$"
             placeholder="0.00"
             hint="How much taxes you pay every year"
         />
     )
     const maintenancePerYear = (
-        <Input
+        <FormNumberInput
+            control={control}
+            name="ev.maintenancePerYear"
             label="Maintenance per year"
-            value={electricVehicleState.maintenancePerYear}
-            setValue={(value) => changeState('maintenancePerYear', value)}
             iconLeft="$"
             placeholder="0.00"
             hint="Vehicle maintenance costs"
         />
     )
     const batteryAutonomy = (
-        <Input
+        <FormNumberInput
+            control={control}
+            name="ev.batteryAutonomy"
             label="Batery autonomy"
-            value={electricVehicleState.batteryAutonomy}
-            setValue={(value) => changeState('batteryAutonomy', value)}
             required={true}
             iconRight={distance}
             placeholder="0"
@@ -72,25 +60,24 @@ export default function ElectricVehicleForm({
         />
     )
     const batteryCapacity = (
-        <Input
+        <FormNumberInput
+            control={control}
+            name="ev.batteryCapacity"
             label="Batery capacity"
-            value={electricVehicleState.batteryCapacity}
-            setValue={(value) => changeState('batteryCapacity', value)}
             required={true}
             iconRight="kWh"
             placeholder="0"
         />
     )
     const electricityPrice = (
-        <Input
+        <FormNumberInput
+            control={control}
+            name="ev.electricityPrice"
             label="Electricity price"
-            value={electricVehicleState.electricityPrice}
-            setValue={(value) => changeState('electricityPrice', value)}
             required={true}
             iconLeft="$"
             iconRight="kWh"
             placeholder="0.00"
-            hint="Electricity costs on your region"
         />
     )
 
@@ -114,16 +101,4 @@ export default function ElectricVehicleForm({
             </Row>
         </Grid>
     )
-}
-
-export function getElectricVehicleInitialState(): ElectricVehicleFormState {
-    return {
-        cost: '',
-        batteryAutonomy: '',
-        batteryCapacity: '',
-        electricityPrice: '',
-        insurancePerYear: '',
-        maintenancePerYear: '',
-        taxesPerYear: '',
-    }
 }

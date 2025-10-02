@@ -1,86 +1,77 @@
-import { Input, Grid, Row, Col } from '@/components'
+import { Grid, Row, Col } from '@/components'
 import { useLocalStorage } from '@/hooks'
 import { getUnitAbbreviation } from '@/utils'
-import type { GasVehicleFormState } from '@/types'
+import { FormNumberInput } from './FormNumberInput'
 
 interface Props {
-    gasVehicleState: GasVehicleFormState
-    setGasVehicleState: React.Dispatch<
-        React.SetStateAction<GasVehicleFormState>
-    >
+    control: any
 }
 
-export default function GasVehicleForm({
-    gasVehicleState,
-    setGasVehicleState,
-}: Props) {
+export default function GasVehicleForm({ control }: Props) {
     const gasMeasurement = getUnitAbbreviation(
         useLocalStorage('gasMeasurement')[0] ?? ''
     )
     const fuelEfficiency = useLocalStorage('fuelEfficiency')[0]
-    const changeState = (key: keyof GasVehicleFormState, value: string) => {
-        setGasVehicleState((prevState) => ({ ...prevState, [key]: value }))
-    }
 
     const vehicleBuyingCost = (
-        <Input
+        <FormNumberInput
+            control={control}
+            name="gas.buyingCost"
             label="Vehicle buying cost"
-            value={gasVehicleState.cost}
-            setValue={(value) => changeState('cost', value)}
             iconLeft="$"
             placeholder="0.00"
         />
     )
     const insurancePerYear = (
-        <Input
+        <FormNumberInput
+            control={control}
+            name="gas.insurancePerYear"
             label="Insurance per year"
-            value={gasVehicleState.insurancePerYear}
-            setValue={(value) => changeState('insurancePerYear', value)}
             iconLeft="$"
             placeholder="0.00"
         />
     )
     const taxesPerYear = (
-        <Input
+        <FormNumberInput
+            control={control}
+            name="gas.taxesPerYear"
             label="Taxes per year"
-            value={gasVehicleState.taxesPerYear}
-            setValue={(value) => changeState('taxesPerYear', value)}
             iconLeft="$"
             placeholder="0.00"
             hint="How much taxes you pay every year"
         />
     )
     const maintenancePerYear = (
-        <Input
+        <FormNumberInput
+            control={control}
+            name="gas.maintenancePerYear"
             label="Maintenance per year"
-            value={gasVehicleState.maintenancePerYear}
-            setValue={(value) => changeState('maintenancePerYear', value)}
             iconLeft="$"
             placeholder="0.00"
             hint="Vehicle maintenance costs"
         />
     )
     const fuelEfficiencyInput = (
-        <Input
+        <FormNumberInput
+            control={control}
+            name="gas.fuelEfficiency"
             label="Fuel efficiency"
-            value={gasVehicleState.fuelEfficiency}
-            setValue={(value) => changeState('fuelEfficiency', value)}
             required={true}
             iconRight={fuelEfficiency}
             placeholder="0"
-            hint="how far you can drive the vehicle per unit of fuel"
+            hint="How far you can drive the vehicle per unit of fuel"
         />
     )
     const gasPrice = (
-        <Input
+        <FormNumberInput
+            control={control}
+            name="gas.gasPrice"
             label="Gas price"
-            value={gasVehicleState.gasPrice}
-            setValue={(value) => changeState('gasPrice', value)}
             required={true}
             iconLeft="$"
             iconRight={gasMeasurement}
             placeholder="0.00"
-            hint="Gas costs on your region"
+            hint="How far you can drive the vehicle per unit of fuel"
         />
     )
 
@@ -100,15 +91,4 @@ export default function GasVehicleForm({
             </Row>
         </Grid>
     )
-}
-
-export function getGasVehicleInitialState(): GasVehicleFormState {
-    return {
-        cost: '',
-        fuelEfficiency: '',
-        gasPrice: '',
-        insurancePerYear: '',
-        maintenancePerYear: '',
-        taxesPerYear: '',
-    }
 }

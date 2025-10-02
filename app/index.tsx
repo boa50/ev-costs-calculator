@@ -1,13 +1,10 @@
 import { useState } from 'react'
 import { View, Text } from 'react-native'
-import ElectricVehicleForm, {
-    getElectricVehicleInitialState,
-} from '@/features/ElectricVehicleForm'
-import GasVehicleForm, {
-    getGasVehicleInitialState,
-} from '@/features/GasVehicleForm'
-import CommonsForm, { getCommonsInitialState } from '@/features/CommonsForm'
+import ElectricVehicleForm from '@/features/ElectricVehicleForm'
+import GasVehicleForm from '@/features/GasVehicleForm'
+import CommonsForm from '@/features/CommonsForm'
 import { useLocalStorage } from '@/hooks'
+import { useForm } from 'react-hook-form'
 import {
     Button,
     FilterButtons,
@@ -24,22 +21,11 @@ import {
     getElectricVehicleFromForm,
     getGasVehicleFromForm,
     validateLocalStorageUnits,
+    getCurrentMonthNumber,
 } from '@/utils'
-import type {
-    ElectricVehicleFormState,
-    GasVehicleFormState,
-    CommonsFormState,
-} from '@/types'
+import type { FormFields } from '@/types'
 
 export default function Index() {
-    const [electricVehicleState, setElectricVehicleState] =
-        useState<ElectricVehicleFormState>(getElectricVehicleInitialState())
-    const [gasVehicleState, setGasVehicleState] = useState<GasVehicleFormState>(
-        getGasVehicleInitialState()
-    )
-    const [commonFormState, setCommonFormState] = useState<CommonsFormState>(
-        getCommonsInitialState()
-    )
     const [filterButtonsState, setFilterButtonsState] =
         useState<FilterButtonsObject>({
             electric: { label: 'Electric', isActive: true },
@@ -67,40 +53,39 @@ export default function Index() {
         setFuelEfficiency
     )
 
-    const handleCalculate = () => {
-        if (electricVehicleState) {
-            const car = getElectricVehicleFromForm(electricVehicleState)
+    const handleResetFields = () => {}
 
-            const { annualCosts, monthlyCosts } = calculateCosts(
-                car,
-                convertTextToNumber(commonFormState.distanceDrivenPerWeek)
-            )
-            setCosts({
-                annual: annualCosts,
-                monthly: monthlyCosts,
-                perYear: annualCosts + monthlyCosts * 12,
-            })
-        }
-
-        if (gasVehicleState) {
-            const car = getGasVehicleFromForm(gasVehicleState)
-
-            const { annualCosts, monthlyCosts } = calculateCosts(
-                car,
-                convertTextToNumber(commonFormState.distanceDrivenPerWeek)
-            )
-            setCosts({
-                annual: annualCosts,
-                monthly: monthlyCosts,
-                perYear: annualCosts + monthlyCosts * 12,
-            })
-        }
-    }
-
-    const handleResetFields = () => {
-        setElectricVehicleState(getElectricVehicleInitialState())
-        setGasVehicleState(getGasVehicleInitialState())
-        setCommonFormState(getCommonsInitialState())
+    const { handleSubmit, control, reset } = useForm({
+        mode: 'onChange',
+        defaultValues: getFormDefaultValues(),
+    })
+    const onSubmit = (data: any) => {
+        //// TO IMPLEMENT
+        // if (electricVehicleState) {
+        //         const car = getElectricVehicleFromForm(electricVehicleState)
+        //         const { annualCosts, monthlyCosts } = calculateCosts(
+        //             car,
+        //             convertTextToNumber(commonsFormState.distanceDrivenPerWeek)
+        //         )
+        //         setCosts({
+        //             annual: annualCosts,
+        //             monthly: monthlyCosts,
+        //             perYear: annualCosts + monthlyCosts * 12,
+        //         })
+        //     }
+        //     if (gasVehicleState) {
+        //         const car = getGasVehicleFromForm(gasVehicleState)
+        //         const { annualCosts, monthlyCosts } = calculateCosts(
+        //             car,
+        //             convertTextToNumber(commonsFormState.distanceDrivenPerWeek)
+        //         )
+        //         setCosts({
+        //             annual: annualCosts,
+        //             monthly: monthlyCosts,
+        //             perYear: annualCosts + monthlyCosts * 12,
+        //         })
+        //     }
+        // }
     }
 
     return (
@@ -113,24 +98,15 @@ export default function Index() {
             </View>
 
             <FormView isActive={filterButtonsState.electric.isActive}>
-                <ElectricVehicleForm
-                    electricVehicleState={electricVehicleState}
-                    setElectricVehicleState={setElectricVehicleState}
-                />
+                <ElectricVehicleForm control={control} />
             </FormView>
 
             <FormView isActive={filterButtonsState.gas.isActive}>
-                <GasVehicleForm
-                    gasVehicleState={gasVehicleState}
-                    setGasVehicleState={setGasVehicleState}
-                />
+                <GasVehicleForm control={control} />
             </FormView>
 
             <FormView isActive={filterButtonsState.commons.isActive}>
-                <CommonsForm
-                    state={commonFormState}
-                    setState={setCommonFormState}
-                />
+                <CommonsForm control={control} />
             </FormView>
 
             {costs ? (
@@ -153,7 +129,10 @@ export default function Index() {
             <Grid additionalClasses="pb-4">
                 <Row>
                     <Col>
-                        <Button label="Calculate" onPress={handleCalculate} />
+                        <Button
+                            label="Calculate"
+                            onPress={handleSubmit(onSubmit)}
+                        />
                     </Col>
                     <Col>
                         <Button
@@ -178,4 +157,27 @@ function FormView({
     return (
         <View className={`${isActive ? 'block' : 'hidden'}`}>{children}</View>
     )
+}
+
+function getFormDefaultValues(): { [key in FormFields]: string } {
+    return {
+        'ev.batteryAutonomy': '',
+        'ev.batteryCapacity': '',
+        'ev.buyingCost': '',
+        'ev.electricityPrice': '',
+        'ev.insurancePerYear': '',
+        'ev.maintenancePerYear': '',
+        'ev.taxesPerYear': '',
+        'gas.buyingCost': '',
+        'gas.fuelEfficiency': '',
+        'gas.gasPrice': '',
+        'gas.insurancePerYear': '',
+        'gas.maintenancePerYear': '',
+        'gas.taxesPerYear': '',
+        'commons.annualPaymentsMonth': '1',
+        'commons.currentMonth': getCurrentMonthNumber(),
+        'commons.distanceDrivenPerWeek': '',
+        'commons.inflationPerYear': '',
+        'commons.interestRatePerYear': '',
+    }
 }

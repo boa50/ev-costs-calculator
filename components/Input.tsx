@@ -1,7 +1,6 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { View, TextInput, Text } from 'react-native'
 import { InputLabel } from './InputLabel'
-import { isInputNumberValid } from '@/utils'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import colors from 'tailwindcss/colors'
 
@@ -14,6 +13,7 @@ interface Props {
     placeholder?: string
     hint?: string
     required?: boolean
+    errorType?: string
 }
 
 export function Input({
@@ -25,10 +25,24 @@ export function Input({
     placeholder,
     hint,
     required,
+    errorType,
 }: Props) {
     const [borderColour, setBorderColour] = useState<string>('border-gray-400')
     const [isInputValid, setIsInputValid] = useState<boolean>(true)
+    const [isOnFocus, setIsOnFocus] = useState<boolean>(false)
     const [errorMessage, setErrorMessage] = useState<string>('')
+
+    useEffect(() => {
+        if (errorType) {
+            setIsInputValid(false)
+            setBorderColour('border-red-600')
+            handleErrorMessage(errorType, setErrorMessage)
+        } else {
+            setIsInputValid(true)
+            setErrorMessage('')
+            if (isOnFocus) setBorderColour('border-sky-700')
+        }
+    }, [errorType, isOnFocus])
 
     const inputDynamicClasses =
         !iconLeft && !iconRight
@@ -38,26 +52,17 @@ export function Input({
               : 'rounded-l-2xl pl-3'
 
     const onFocus = () => {
+        setIsOnFocus(true)
         setBorderColour('border-sky-700')
     }
     const onBlur = () => {
-        if (isFieldValid(value, required, setErrorMessage)) {
-            setIsInputValid(true)
-            setBorderColour('border-gray-400')
-        } else {
-            setIsInputValid(false)
-            setBorderColour('border-red-600')
-        }
+        setIsOnFocus(false)
+        if (!errorType) setBorderColour('border-gray-400')
     }
 
     const handleChangeText = (text: string) => {
         const cleanedValue = text.replace(/[^0-9\,\.]/g, '')
         setValue(cleanedValue)
-        if (
-            !isInputValid &&
-            isFieldValid(cleanedValue, required, setErrorMessage)
-        )
-            setIsInputValid(true)
     }
 
     return (
@@ -136,20 +141,20 @@ function InputIcon({
     )
 }
 
-function isFieldValid(
-    value: string,
-    required: boolean | undefined,
+function handleErrorMessage(
+    errorType: string,
     setErrorMessage: (text: string) => void
 ) {
-    if (required && value === '') {
-        setErrorMessage("This field can't be empty")
-        return false
-    }
-    if (value !== '' && !isInputNumberValid(value)) {
-        setErrorMessage('This number is invalid')
-        return false
-    }
+    switch (errorType) {
+        case 'required':
+            setErrorMessage("This field can't be empty")
+            break
+        case 'pattern':
+            setErrorMessage('This number is invalid')
+            break
 
-    setErrorMessage('')
-    return true
+        default:
+            setErrorMessage('')
+            break
+    }
 }

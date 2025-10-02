@@ -16,28 +16,22 @@ export type GasVehicle = BaseVehicle & {
     gasPrice: number
 }
 
-type BaseVehicleFormState = {
-    cost: string
-    insurancePerYear: string
-    taxesPerYear: string
-    maintenancePerYear: string
-}
-
-export type ElectricVehicleFormState = BaseVehicleFormState & {
-    batteryAutonomy: string
-    batteryCapacity: string
-    electricityPrice: string
-}
-
-export type GasVehicleFormState = BaseVehicleFormState & {
-    fuelEfficiency: string
-    gasPrice: string
-}
-
-export type CommonsFormState = {
-    interestRatePerYear: string
-    inflationPerYear: string
-    distanceDrivenPerWeek: string
-    currentMonth: string
-    annualPaymentsMonth: string
-}
+export type FormFields =
+    | 'ev.buyingCost'
+    | 'ev.insurancePerYear'
+    | 'ev.taxesPerYear'
+    | 'ev.maintenancePerYear'
+    | 'ev.batteryAutonomy'
+    | 'ev.batteryCapacity'
+    | 'ev.electricityPrice'
+    | 'gas.buyingCost'
+    | 'gas.insurancePerYear'
+    | 'gas.taxesPerYear'
+    | 'gas.maintenancePerYear'
+    | 'gas.fuelEfficiency'
+    | 'gas.gasPrice'
+    | 'commons.interestRatePerYear'
+    | 'commons.inflationPerYear'
+    | 'commons.currentMonth'
+    | 'commons.annualPaymentsMonth'
+    | 'commons.distanceDrivenPerWeek'
