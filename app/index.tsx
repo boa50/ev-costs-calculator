@@ -28,9 +28,9 @@ import type { FormFields } from '@/types'
 export default function Index() {
     const [filterButtonsState, setFilterButtonsState] =
         useState<FilterButtonsObject>({
-            electric: { label: 'Electric', isActive: true },
-            gas: { label: 'Gas', isActive: false },
-            commons: { label: 'Commons', isActive: false },
+            electric: { label: 'Electric', isActive: true, isValid: undefined },
+            gas: { label: 'Gas', isActive: false, isValid: true },
+            commons: { label: 'Commons', isActive: false, isValid: undefined },
         })
     const [costs, setCosts] = useState<{
         annual: number
