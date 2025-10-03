@@ -29,7 +29,7 @@ export default function Index() {
     const [filterButtonsState, setFilterButtonsState] =
         useState<FilterButtonsObject>({
             ev: { label: 'Electric', isActive: true, isValid: 'incomplete' },
-            gas: { label: 'Gas', isActive: false, isValid: 'valid' },
+            gas: { label: 'Gas', isActive: false, isValid: 'incomplete' },
             commons: {
                 label: 'Commons',
                 isActive: false,
@@ -122,11 +122,21 @@ export default function Index() {
             </FormView>
 
             <FormView isActive={filterButtonsState.gas.isActive}>
-                <GasVehicleForm control={control} />
+                <GasVehicleForm
+                    control={control}
+                    setTabIsValid={(isValid) =>
+                        handleChangeTabValidState('gas', isValid)
+                    }
+                />
             </FormView>
 
             <FormView isActive={filterButtonsState.commons.isActive}>
-                <CommonsForm control={control} />
+                <CommonsForm
+                    control={control}
+                    setTabIsValid={(isValid) =>
+                        handleChangeTabValidState('commons', isValid)
+                    }
+                />
             </FormView>
 
             {costs ? (

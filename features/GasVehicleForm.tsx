@@ -1,17 +1,39 @@
+import { useEffect } from 'react'
 import { Grid, Row, Col } from '@/components'
+import { useFormState } from 'react-hook-form'
 import { useLocalStorage } from '@/hooks'
 import { getUnitAbbreviation } from '@/utils'
 import { FormNumberInput } from './FormNumberInput'
+import type { TabValidStates } from '@/types'
 
 interface Props {
     control: any
+    setTabIsValid: (isValid: TabValidStates) => void
 }
 
-export default function GasVehicleForm({ control }: Props) {
+export default function GasVehicleForm({ control, setTabIsValid }: Props) {
     const gasMeasurement = getUnitAbbreviation(
         useLocalStorage('gasMeasurement')[0] ?? ''
     )
     const fuelEfficiency = useLocalStorage('fuelEfficiency')[0]
+    const { errors, dirtyFields } = useFormState({
+        control,
+        name: 'gas',
+    })
+
+    const isAllRequiredFieldsFilled =
+        dirtyFields.gas?.fuelEfficiency && dirtyFields.gas?.gasPrice
+
+    const hasTabErrors =
+        Object.keys(errors).filter((tab) => tab === 'gas').length > 0
+
+    useEffect(() => {
+        checkTabValidity({
+            hasTabErrors,
+            isAllRequiredFieldsFilled,
+            setTabIsValid,
+        })
+    }, [hasTabErrors, isAllRequiredFieldsFilled, setTabIsValid])
 
     const vehicleBuyingCost = (
         <FormNumberInput
@@ -91,4 +113,24 @@ export default function GasVehicleForm({ control }: Props) {
             </Row>
         </Grid>
     )
+}
+
+interface checkTabProps {
+    hasTabErrors: boolean
+    isAllRequiredFieldsFilled: boolean
+    setTabIsValid: (isValid: TabValidStates) => void
+}
+
+function checkTabValidity({
+    hasTabErrors,
+    isAllRequiredFieldsFilled,
+    setTabIsValid,
+}: checkTabProps) {
+    if (hasTabErrors) {
+        setTabIsValid('invalid')
+    } else if (!isAllRequiredFieldsFilled) {
+        setTabIsValid('incomplete')
+    } else {
+        setTabIsValid('valid')
+    }
 }

@@ -1,15 +1,36 @@
+import { useEffect } from 'react'
 import { Grid, Row, Col } from '@/components'
+import { useFormState } from 'react-hook-form'
 import { useLocalStorage } from '@/hooks'
 import { FormNumberInput } from './FormNumberInput'
 import { FormMonthPicker } from './FormMonthPicker'
 import { getUnitAbbreviation } from '@/utils'
+import type { TabValidStates } from '@/types'
 
 interface Props {
     control: any
+    setTabIsValid: (isValid: TabValidStates) => void
 }
 
-export default function CommonsForm({ control }: Props) {
+export default function CommonsForm({ control, setTabIsValid }: Props) {
     const distance = getUnitAbbreviation(useLocalStorage('distance')[0] ?? '')
+    const { errors, dirtyFields } = useFormState({
+        control,
+        name: 'commons',
+    })
+
+    const isAllRequiredFieldsFilled = dirtyFields.commons?.distanceDrivenPerWeek
+
+    const hasTabErrors =
+        Object.keys(errors).filter((tab) => tab === 'commons').length > 0
+
+    useEffect(() => {
+        checkTabValidity({
+            hasTabErrors,
+            isAllRequiredFieldsFilled,
+            setTabIsValid,
+        })
+    }, [hasTabErrors, isAllRequiredFieldsFilled, setTabIsValid])
 
     const interestRatePerYear = (
         <FormNumberInput
@@ -74,4 +95,24 @@ export default function CommonsForm({ control }: Props) {
             </Row>
         </Grid>
     )
+}
+
+interface checkTabProps {
+    hasTabErrors: boolean
+    isAllRequiredFieldsFilled: boolean
+    setTabIsValid: (isValid: TabValidStates) => void
+}
+
+function checkTabValidity({
+    hasTabErrors,
+    isAllRequiredFieldsFilled,
+    setTabIsValid,
+}: checkTabProps) {
+    if (hasTabErrors) {
+        setTabIsValid('invalid')
+    } else if (!isAllRequiredFieldsFilled) {
+        setTabIsValid('incomplete')
+    } else {
+        setTabIsValid('valid')
+    }
 }
