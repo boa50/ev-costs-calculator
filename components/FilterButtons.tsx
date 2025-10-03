@@ -1,10 +1,11 @@
 import { View, Pressable, Text } from 'react-native'
+import type { TabNames, TabValidStates } from '@/types'
 
 export type FilterButtonsObject = {
-    [index: string]: {
+    [index in TabNames]: {
         label: string
         isActive: boolean
-        isValid: boolean | undefined
+        isValid: TabValidStates
     }
 }
 
@@ -35,7 +36,9 @@ export function FilterButtons({ state, setState }: Props) {
                 <Button
                     {...values}
                     key={key}
-                    setActive={() => handleToggleActive(key)}
+                    setActive={() =>
+                        handleToggleActive(key as keyof FilterButtonsObject)
+                    }
                 />
             ))}
         </View>
@@ -45,17 +48,17 @@ export function FilterButtons({ state, setState }: Props) {
 type ButtonProps = {
     label: string
     isActive: boolean
-    isValid: boolean | undefined
+    isValid: TabValidStates
     setActive: () => void
 }
 
 function Button({ label, isActive, isValid, setActive }: ButtonProps) {
     const statusAppearance =
-        isValid === undefined
+        isValid === 'incomplete'
             ? isActive
                 ? 'bg-gray-300'
                 : 'bg-gray-600'
-            : isValid === false
+            : isValid === 'invalid'
               ? isActive
                   ? 'bg-red-400'
                   : 'bg-red-400'

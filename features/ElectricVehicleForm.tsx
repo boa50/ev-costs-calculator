@@ -1,14 +1,38 @@
+import { useEffect } from 'react'
 import { Grid, Row, Col } from '@/components'
+import { useFormState } from 'react-hook-form'
 import { useLocalStorage } from '@/hooks'
 import { getUnitAbbreviation } from '@/utils'
 import { FormNumberInput } from './FormNumberInput'
+import type { TabValidStates } from '@/types'
 
 interface Props {
     control: any
+    setTabIsValid: (isValid: TabValidStates) => void
 }
 
-export default function ElectricVehicleForm({ control }: Props) {
+export default function ElectricVehicleForm({ control, setTabIsValid }: Props) {
     const distance = getUnitAbbreviation(useLocalStorage('distance')[0] ?? '')
+    const { errors, dirtyFields } = useFormState({
+        control,
+        name: 'ev',
+    })
+
+    const isAllRequiredFieldsFilled =
+        dirtyFields.ev?.batteryAutonomy &&
+        dirtyFields.ev?.batteryCapacity &&
+        dirtyFields.ev?.electricityPrice
+
+    const hasTabErrors =
+        Object.keys(errors).filter((tab) => tab === 'ev').length > 0
+
+    useEffect(() => {
+        checkTabValidity({
+            hasTabErrors,
+            isAllRequiredFieldsFilled,
+            setTabIsValid,
+        })
+    }, [hasTabErrors, isAllRequiredFieldsFilled, setTabIsValid])
 
     const vehicleBuyingCost = (
         <FormNumberInput
@@ -101,4 +125,24 @@ export default function ElectricVehicleForm({ control }: Props) {
             </Row>
         </Grid>
     )
+}
+
+interface checkTabProps {
+    hasTabErrors: boolean
+    isAllRequiredFieldsFilled: boolean
+    setTabIsValid: (isValid: TabValidStates) => void
+}
+
+function checkTabValidity({
+    hasTabErrors,
+    isAllRequiredFieldsFilled,
+    setTabIsValid,
+}: checkTabProps) {
+    if (hasTabErrors) {
+        setTabIsValid('invalid')
+    } else if (!isAllRequiredFieldsFilled) {
+        setTabIsValid('incomplete')
+    } else {
+        setTabIsValid('valid')
+    }
 }

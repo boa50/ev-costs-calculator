@@ -23,14 +23,18 @@ import {
     validateLocalStorageUnits,
     getCurrentMonthNumber,
 } from '@/utils'
-import type { FormFields } from '@/types'
+import type { FormFields, TabNames, TabValidStates } from '@/types'
 
 export default function Index() {
     const [filterButtonsState, setFilterButtonsState] =
         useState<FilterButtonsObject>({
-            electric: { label: 'Electric', isActive: true, isValid: undefined },
-            gas: { label: 'Gas', isActive: false, isValid: true },
-            commons: { label: 'Commons', isActive: false, isValid: undefined },
+            ev: { label: 'Electric', isActive: true, isValid: 'incomplete' },
+            gas: { label: 'Gas', isActive: false, isValid: 'valid' },
+            commons: {
+                label: 'Commons',
+                isActive: false,
+                isValid: 'incomplete',
+            },
         })
     const [costs, setCosts] = useState<{
         annual: number
@@ -59,6 +63,7 @@ export default function Index() {
         mode: 'onChange',
         defaultValues: getFormDefaultValues(),
     })
+
     const onSubmit = (data: any) => {
         //// TO IMPLEMENT
         // if (electricVehicleState) {
@@ -88,6 +93,16 @@ export default function Index() {
         // }
     }
 
+    const handleChangeTabValidState = (
+        tab: TabNames,
+        isValid: TabValidStates
+    ) => {
+        setFilterButtonsState((prevState) => ({
+            ...prevState,
+            [tab]: { ...prevState[tab], isValid: isValid },
+        }))
+    }
+
     return (
         <Container>
             <View className="pb-4">
@@ -97,8 +112,13 @@ export default function Index() {
                 />
             </View>
 
-            <FormView isActive={filterButtonsState.electric.isActive}>
-                <ElectricVehicleForm control={control} />
+            <FormView isActive={filterButtonsState.ev.isActive}>
+                <ElectricVehicleForm
+                    control={control}
+                    setTabIsValid={(isValid) =>
+                        handleChangeTabValidState('ev', isValid)
+                    }
+                />
             </FormView>
 
             <FormView isActive={filterButtonsState.gas.isActive}>

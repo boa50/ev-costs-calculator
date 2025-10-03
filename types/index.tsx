@@ -35,3 +35,6 @@ export type FormFields =
     | 'commons.currentMonth'
     | 'commons.annualPaymentsMonth'
     | 'commons.distanceDrivenPerWeek'
+
+export type TabNames = 'ev' | 'gas' | 'commons'
+export type TabValidStates = 'valid' | 'invalid' | 'incomplete'
