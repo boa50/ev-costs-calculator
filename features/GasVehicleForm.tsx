@@ -4,14 +4,19 @@ import { useFormState } from 'react-hook-form'
 import { useLocalStorage } from '@/hooks'
 import { getUnitAbbreviation } from '@/utils'
 import { FormNumberInput } from './FormNumberInput'
-import type { TabValidStates } from '@/types'
+import type { TabValidStates, FormFields } from '@/types'
 
 interface Props {
     control: any
     setTabIsValid: (isValid: TabValidStates) => void
+    triggerRevalidation: (fields: FormFields[]) => void
 }
 
-export default function GasVehicleForm({ control, setTabIsValid }: Props) {
+export default function GasVehicleForm({
+    control,
+    setTabIsValid,
+    triggerRevalidation,
+}: Props) {
     const gasMeasurement = getUnitAbbreviation(
         useLocalStorage('gasMeasurement')[0] ?? ''
     )
@@ -22,7 +27,14 @@ export default function GasVehicleForm({ control, setTabIsValid }: Props) {
     })
 
     const isAllRequiredFieldsFilled =
-        dirtyFields.gas?.fuelEfficiency && dirtyFields.gas?.gasPrice
+        dirtyFields.gas === undefined ||
+        (dirtyFields.gas?.fuelEfficiency && dirtyFields.gas?.gasPrice)
+
+    const customOnChange = () => {
+        if (dirtyFields.gas === undefined) {
+            triggerRevalidation(['gas.fuelEfficiency', 'gas.gasPrice'])
+        }
+    }
 
     const hasTabErrors =
         Object.keys(errors).filter((tab) => tab === 'gas').length > 0
@@ -42,6 +54,7 @@ export default function GasVehicleForm({ control, setTabIsValid }: Props) {
             label="Vehicle buying cost"
             iconLeft="$"
             placeholder="0.00"
+            customOnChange={customOnChange}
         />
     )
     const insurancePerYear = (
@@ -51,6 +64,7 @@ export default function GasVehicleForm({ control, setTabIsValid }: Props) {
             label="Insurance per year"
             iconLeft="$"
             placeholder="0.00"
+            customOnChange={customOnChange}
         />
     )
     const taxesPerYear = (
@@ -61,6 +75,7 @@ export default function GasVehicleForm({ control, setTabIsValid }: Props) {
             iconLeft="$"
             placeholder="0.00"
             hint="How much taxes you pay every year"
+            customOnChange={customOnChange}
         />
     )
     const maintenancePerYear = (
@@ -71,6 +86,7 @@ export default function GasVehicleForm({ control, setTabIsValid }: Props) {
             iconLeft="$"
             placeholder="0.00"
             hint="Vehicle maintenance costs"
+            customOnChange={customOnChange}
         />
     )
     const fuelEfficiencyInput = (
@@ -78,10 +94,12 @@ export default function GasVehicleForm({ control, setTabIsValid }: Props) {
             control={control}
             name="gas.fuelEfficiency"
             label="Fuel efficiency"
-            required={true}
+            requiredIfTabFilled={true}
+            dirtyTabFields={dirtyFields.gas}
             iconRight={fuelEfficiency}
             placeholder="0"
             hint="How far you can drive the vehicle per unit of fuel"
+            customOnChange={customOnChange}
         />
     )
     const gasPrice = (
@@ -89,11 +107,13 @@ export default function GasVehicleForm({ control, setTabIsValid }: Props) {
             control={control}
             name="gas.gasPrice"
             label="Gas price"
-            required={true}
+            requiredIfTabFilled={true}
+            dirtyTabFields={dirtyFields.gas}
             iconLeft="$"
             iconRight={gasMeasurement}
             placeholder="0.00"
             hint="How far you can drive the vehicle per unit of fuel"
+            customOnChange={customOnChange}
         />
     )
 

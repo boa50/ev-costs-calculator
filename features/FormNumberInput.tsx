@@ -11,6 +11,9 @@ interface Props {
     placeholder?: string
     hint?: string
     required?: boolean
+    requiredIfTabFilled?: boolean
+    dirtyTabFields?: any
+    customOnChange?: () => void
 }
 
 export function FormNumberInput({
@@ -22,12 +25,23 @@ export function FormNumberInput({
     placeholder,
     hint,
     required = false,
+    requiredIfTabFilled = false,
+    dirtyTabFields,
+    customOnChange = () => {},
 }: Props) {
     return (
         <Controller
             control={control}
             name={name}
             rules={{
+                validate: (value) => {
+                    return (
+                        !requiredIfTabFilled ||
+                        dirtyTabFields === undefined ||
+                        Object.keys(dirtyTabFields ?? {}).length === 0 ||
+                        value !== ''
+                    )
+                },
                 required: required,
                 pattern: /^\d{1,10}$|(?=^.{1,10}$)^\d+[\.\,]\d{0,2}$/g,
             }}
@@ -35,8 +49,11 @@ export function FormNumberInput({
                 <Input
                     label={label}
                     value={value}
-                    setValue={onChange}
-                    required={required}
+                    setValue={(value) => {
+                        onChange(value)
+                        customOnChange()
+                    }}
+                    required={required || requiredIfTabFilled}
                     iconLeft={iconLeft}
                     iconRight={iconRight}
                     placeholder={placeholder}

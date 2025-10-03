@@ -29,7 +29,7 @@ export default function Index() {
     const [filterButtonsState, setFilterButtonsState] =
         useState<FilterButtonsObject>({
             ev: { label: 'Electric', isActive: true, isValid: 'incomplete' },
-            gas: { label: 'Gas', isActive: false, isValid: 'incomplete' },
+            gas: { label: 'Gas', isActive: false, isValid: 'valid' },
             commons: {
                 label: 'Commons',
                 isActive: false,
@@ -59,10 +59,11 @@ export default function Index() {
 
     const handleResetFields = () => {}
 
-    const { handleSubmit, control, reset } = useForm({
+    const { handleSubmit, control, reset, trigger } = useForm({
         mode: 'onChange',
         defaultValues: getFormDefaultValues(),
     })
+    trigger(['gas.fuelEfficiency', 'gas.gasPrice'])
 
     const onSubmit = (data: any) => {
         //// TO IMPLEMENT
@@ -127,6 +128,9 @@ export default function Index() {
                     setTabIsValid={(isValid) =>
                         handleChangeTabValidState('gas', isValid)
                     }
+                    triggerRevalidation={(fields: FormFields[]) => {
+                        trigger(fields)
+                    }}
                 />
             </FormView>
 

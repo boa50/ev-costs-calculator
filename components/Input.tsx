@@ -41,6 +41,7 @@ export function Input({
             setIsInputValid(true)
             setErrorMessage('')
             if (isOnFocus) setBorderColour('border-sky-700')
+            else setBorderColour('border-gray-400')
         }
     }, [errorType, isOnFocus])
 
@@ -53,11 +54,9 @@ export function Input({
 
     const onFocus = () => {
         setIsOnFocus(true)
-        setBorderColour('border-sky-700')
     }
     const onBlur = () => {
         setIsOnFocus(false)
-        if (!errorType) setBorderColour('border-gray-400')
     }
 
     const handleChangeText = (text: string) => {
@@ -147,6 +146,9 @@ function handleErrorMessage(
 ) {
     switch (errorType) {
         case 'required':
+            setErrorMessage("This field can't be empty")
+            break
+        case 'validate':
             setErrorMessage("This field can't be empty")
             break
         case 'pattern':
