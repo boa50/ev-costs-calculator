@@ -57,7 +57,7 @@ export default function Index() {
         setFuelEfficiency
     )
 
-    const handleResetFields = () => {}
+    const handleResetFields = () => reset()
 
     const { handleSubmit, control, reset, trigger } = useForm({
         mode: 'onChange',
