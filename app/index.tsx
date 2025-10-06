@@ -63,7 +63,6 @@ export default function Index() {
         mode: 'onChange',
         defaultValues: getFormDefaultValues(),
     })
-    trigger(['gas.fuelEfficiency', 'gas.gasPrice'])
 
     const onSubmit = (data: any) => {
         //// TO IMPLEMENT

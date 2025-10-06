@@ -31,9 +31,8 @@ export default function GasVehicleForm({
         (dirtyFields.gas?.fuelEfficiency && dirtyFields.gas?.gasPrice)
 
     const customOnChange = () => {
-        if (dirtyFields.gas === undefined) {
+        if (dirtyFields.gas === undefined)
             triggerRevalidation(['gas.fuelEfficiency', 'gas.gasPrice'])
-        }
     }
 
     const hasTabErrors =
