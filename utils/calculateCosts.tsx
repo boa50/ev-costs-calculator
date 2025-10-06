@@ -2,7 +2,10 @@ import type { ElectricVehicle, GasVehicle } from '@/types'
 
 export function calculateCosts(
     car: ElectricVehicle | GasVehicle,
-    distanceDrivenPerWeek: number
+    distanceDrivenPerWeek: number,
+    distanceUnit?: string,
+    gasMeasurementUnit?: string,
+    fuelEfficiencyUnit?: string
 ): { annualCosts: number; monthlyCosts: number } {
     const weeksPerMonth = 365 / 12 / 7
 
@@ -21,14 +24,65 @@ export function calculateCosts(
     } else {
         annualCosts = car.taxesPerYear + car.insurancePerYear
 
-        const distanceCost = car.gasPrice / car.fuelEfficiency
+        const gasPrice = convertGasMeasurementToStandard(
+            car.gasPrice,
+            gasMeasurementUnit ?? '',
+            fuelEfficiencyUnit ?? ''
+        )
+        const distanceDrivenWeek = convertDistanceToStandard(
+            distanceDrivenPerWeek,
+            distanceUnit ?? '',
+            fuelEfficiencyUnit ?? ''
+        )
+        const fuelEfficiency = convertFuelEfficiencyToStandard(
+            car.fuelEfficiency,
+            fuelEfficiencyUnit ?? ''
+        )
+
+        const distanceCost = gasPrice / fuelEfficiency
         const monthlyDrivingCost =
-            distanceCost * distanceDrivenPerWeek * weeksPerMonth
+            distanceCost * distanceDrivenWeek * weeksPerMonth
 
         monthlyCosts = monthlyDrivingCost + yearToMonth(car.maintenancePerYear)
     }
 
     return { annualCosts, monthlyCosts }
+}
+
+function convertDistanceToStandard(
+    num: number,
+    distance: string,
+    fuelEfficiency: string
+) {
+    const milesToKmMultiplier = 1.609344
+
+    if (distance === 'miles' && fuelEfficiency !== 'MPG')
+        return num * milesToKmMultiplier
+    if (distance === 'kilometres' && fuelEfficiency === 'MPG')
+        return num / milesToKmMultiplier
+
+    return num
+}
+
+function convertGasMeasurementToStandard(
+    num: number,
+    gasMeasurement: string,
+    fuelEfficiency: string
+) {
+    const gallonsToLitresMultiplier = 3.785411784
+
+    if (gasMeasurement === 'gallons' && fuelEfficiency !== 'MPG')
+        return num * gallonsToLitresMultiplier
+    if (gasMeasurement === 'litres' && fuelEfficiency === 'MPG')
+        return num / gallonsToLitresMultiplier
+
+    return num
+}
+
+function convertFuelEfficiencyToStandard(num: number, fuelEfficiency: string) {
+    if (fuelEfficiency === 'L/100 km') return 100 / num
+
+    return num
 }
 
 function yearToMonth(value: number, isPercentage?: boolean): number {

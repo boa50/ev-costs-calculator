@@ -88,7 +88,13 @@ export default function Index() {
             const {
                 annualCosts: gasAnnualCosts,
                 monthlyCosts: gasMonthlyCosts,
-            } = calculateCosts(gasVehicle, distanceDrivenPerWeek)
+            } = calculateCosts(
+                gasVehicle,
+                distanceDrivenPerWeek,
+                distance,
+                gasMeasurement,
+                fuelEfficiency
+            )
             setCosts({
                 annual: gasAnnualCosts,
                 monthly: gasMonthlyCosts,
