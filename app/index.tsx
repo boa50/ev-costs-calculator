@@ -22,8 +22,15 @@ import {
     getGasVehicleFromForm,
     validateLocalStorageUnits,
     getCurrentMonthNumber,
+    calculateEconomy,
 } from '@/utils'
 import type { FormValues, FormFields, TabNames, TabValidStates } from '@/types'
+
+type Costs = {
+    annual: number
+    monthly: number
+    perYear: number
+}
 
 export default function Index() {
     const [filterButtonsState, setFilterButtonsState] =
@@ -36,11 +43,9 @@ export default function Index() {
                 isValid: 'incomplete',
             },
         })
-    const [costs, setCosts] = useState<{
-        annual: number
-        monthly: number
-        perYear: number
-    }>()
+    const [electricCosts, setElectricCosts] = useState<Costs>()
+    const [gasCosts, setGasCosts] = useState<Costs>()
+    const [economy, setEconomy] = useState<Costs>()
 
     const [distance, setDistance] = useLocalStorage('distance')
     const [gasMeasurement, setGasMeasurement] =
@@ -73,7 +78,7 @@ export default function Index() {
 
         const { annualCosts: evAnnualCosts, monthlyCosts: evMonthlyCosts } =
             calculateCosts(electricVehicle, distanceDrivenPerWeek)
-        setCosts({
+        setElectricCosts({
             annual: evAnnualCosts,
             monthly: evMonthlyCosts,
             perYear: evAnnualCosts + evMonthlyCosts * 12,
@@ -95,10 +100,24 @@ export default function Index() {
                 gasMeasurement,
                 fuelEfficiency
             )
-            setCosts({
+            setGasCosts({
                 annual: gasAnnualCosts,
                 monthly: gasMonthlyCosts,
                 perYear: gasAnnualCosts + gasMonthlyCosts * 12,
+            })
+
+            const { annualEconomy, monthlyEconomy, perYearEconomy } =
+                calculateEconomy(
+                    gasAnnualCosts,
+                    evAnnualCosts,
+                    gasMonthlyCosts,
+                    evMonthlyCosts
+                )
+
+            setEconomy({
+                annual: annualEconomy,
+                monthly: monthlyEconomy,
+                perYear: perYearEconomy,
             })
         }
     }
@@ -152,18 +171,17 @@ export default function Index() {
                 />
             </FormView>
 
-            {costs ? (
-                <View className="pt-4 flex-1">
-                    <Text>
-                        Annual cost: $ {formatMonetaryNumber(costs.annual)}
-                    </Text>
-                    <Text>
-                        Montlhy cost: $ {formatMonetaryNumber(costs.monthly)}
-                    </Text>
-                    <Text>
-                        Total cost per year: ${' '}
-                        {formatMonetaryNumber(costs.perYear)}
-                    </Text>
+            {electricCosts ? (
+                <View className="pt-4 flex-1 gap-4">
+                    <CostsView title="Electric" costs={electricCosts} />
+                    {gasCosts && <CostsView title="Gas" costs={gasCosts} />}
+                    {economy && (
+                        <CostsView
+                            title="Economy"
+                            costs={economy}
+                            isEconomy={true}
+                        />
+                    )}
                 </View>
             ) : (
                 <View className="flex-1"></View>
@@ -199,6 +217,35 @@ function FormView({
 }) {
     return (
         <View className={`${isActive ? 'block' : 'hidden'}`}>{children}</View>
+    )
+}
+
+function CostsView({
+    title,
+    costs,
+    isEconomy,
+}: {
+    title: string
+    costs: Costs
+    isEconomy?: boolean
+}) {
+    const costEconomyText = isEconomy ? 'economy' : 'cost'
+
+    return (
+        <View>
+            <Text className="font-medium">{title}</Text>
+            <Text>
+                Annual {costEconomyText}: $ {formatMonetaryNumber(costs.annual)}
+            </Text>
+            <Text>
+                Montlhy {costEconomyText}: ${' '}
+                {formatMonetaryNumber(costs.monthly)}
+            </Text>
+            <Text>
+                Total {costEconomyText} per year: ${' '}
+                {formatMonetaryNumber(costs.perYear)}
+            </Text>
+        </View>
     )
 }
 

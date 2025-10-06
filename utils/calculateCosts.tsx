@@ -49,6 +49,19 @@ export function calculateCosts(
     return { annualCosts, monthlyCosts }
 }
 
+export function calculateEconomy(
+    gasAnnualCosts: number,
+    evAnnualCosts: number,
+    gasMonthlyCosts: number,
+    evMonthlyCosts: number
+) {
+    const annualEconomy = gasAnnualCosts - evAnnualCosts
+    const monthlyEconomy = gasMonthlyCosts - evMonthlyCosts
+    const perYearEconomy = annualEconomy + monthlyEconomy * 12
+
+    return { annualEconomy, monthlyEconomy, perYearEconomy }
+}
+
 function convertDistanceToStandard(
     num: number,
     distance: string,
