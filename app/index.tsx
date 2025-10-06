@@ -77,7 +77,8 @@ export default function Index() {
         const electricVehicle = getElectricVehicleFromForm(data)
 
         const { annualCosts: evAnnualCosts, monthlyCosts: evMonthlyCosts } =
-            calculateCosts(electricVehicle, distanceDrivenPerWeek)
+            calculateCosts({ car: electricVehicle, distanceDrivenPerWeek })
+
         setElectricCosts({
             annual: evAnnualCosts,
             monthly: evMonthlyCosts,
@@ -93,13 +94,14 @@ export default function Index() {
             const {
                 annualCosts: gasAnnualCosts,
                 monthlyCosts: gasMonthlyCosts,
-            } = calculateCosts(
-                gasVehicle,
+            } = calculateCosts({
+                car: gasVehicle,
                 distanceDrivenPerWeek,
-                distance,
-                gasMeasurement,
-                fuelEfficiency
-            )
+                distanceUnit: distance,
+                fuelEfficiencyUnit: gasMeasurement,
+                gasMeasurementUnit: fuelEfficiency,
+            })
+
             setGasCosts({
                 annual: gasAnnualCosts,
                 monthly: gasMonthlyCosts,
@@ -107,12 +109,12 @@ export default function Index() {
             })
 
             const { annualEconomy, monthlyEconomy, perYearEconomy } =
-                calculateEconomy(
+                calculateEconomy({
                     gasAnnualCosts,
                     evAnnualCosts,
                     gasMonthlyCosts,
-                    evMonthlyCosts
-                )
+                    evMonthlyCosts,
+                })
 
             setEconomy({
                 annual: annualEconomy,

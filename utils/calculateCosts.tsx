@@ -1,12 +1,20 @@
 import type { ElectricVehicle, GasVehicle } from '@/types'
 
-export function calculateCosts(
-    car: ElectricVehicle | GasVehicle,
-    distanceDrivenPerWeek: number,
-    distanceUnit?: string,
-    gasMeasurementUnit?: string,
+interface CalculateCostsProps {
+    car: ElectricVehicle | GasVehicle
+    distanceDrivenPerWeek: number
+    distanceUnit?: string
+    gasMeasurementUnit?: string
     fuelEfficiencyUnit?: string
-): { annualCosts: number; monthlyCosts: number } {
+}
+
+export function calculateCosts({
+    car,
+    distanceDrivenPerWeek,
+    distanceUnit = '',
+    gasMeasurementUnit = '',
+    fuelEfficiencyUnit = '',
+}: CalculateCostsProps): { annualCosts: number; monthlyCosts: number } {
     const weeksPerMonth = 365 / 12 / 7
 
     let annualCosts = 0
@@ -26,17 +34,17 @@ export function calculateCosts(
 
         const gasPrice = convertGasMeasurementToStandard(
             car.gasPrice,
-            gasMeasurementUnit ?? '',
-            fuelEfficiencyUnit ?? ''
+            gasMeasurementUnit,
+            fuelEfficiencyUnit
         )
         const distanceDrivenWeek = convertDistanceToStandard(
             distanceDrivenPerWeek,
-            distanceUnit ?? '',
-            fuelEfficiencyUnit ?? ''
+            distanceUnit,
+            fuelEfficiencyUnit
         )
         const fuelEfficiency = convertFuelEfficiencyToStandard(
             car.fuelEfficiency,
-            fuelEfficiencyUnit ?? ''
+            fuelEfficiencyUnit
         )
 
         const distanceCost = gasPrice / fuelEfficiency
@@ -49,12 +57,19 @@ export function calculateCosts(
     return { annualCosts, monthlyCosts }
 }
 
-export function calculateEconomy(
-    gasAnnualCosts: number,
-    evAnnualCosts: number,
-    gasMonthlyCosts: number,
+interface CalculateEconomyProps {
+    gasAnnualCosts: number
+    evAnnualCosts: number
+    gasMonthlyCosts: number
     evMonthlyCosts: number
-) {
+}
+
+export function calculateEconomy({
+    gasAnnualCosts,
+    evAnnualCosts,
+    gasMonthlyCosts,
+    evMonthlyCosts,
+}: CalculateEconomyProps) {
     const annualEconomy = gasAnnualCosts - evAnnualCosts
     const monthlyEconomy = gasMonthlyCosts - evMonthlyCosts
     const perYearEconomy = annualEconomy + monthlyEconomy * 12
