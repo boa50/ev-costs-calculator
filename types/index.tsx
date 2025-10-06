@@ -1,5 +1,5 @@
 type BaseVehicle = {
-    cost: number
+    buyingCost: number
     insurancePerYear: number
     taxesPerYear: number
     maintenancePerYear: number
@@ -37,4 +37,41 @@ export type FormFields =
     | 'commons.distanceDrivenPerWeek'
 
 export type TabNames = 'ev' | 'gas' | 'commons'
+
 export type TabValidStates = 'valid' | 'invalid' | 'incomplete'
+
+type EvFields =
+    | 'buyingCost'
+    | 'insurancePerYear'
+    | 'taxesPerYear'
+    | 'maintenancePerYear'
+    | 'batteryAutonomy'
+    | 'batteryCapacity'
+    | 'electricityPrice'
+
+type GasFields =
+    | 'buyingCost'
+    | 'insurancePerYear'
+    | 'taxesPerYear'
+    | 'maintenancePerYear'
+    | 'fuelEfficiency'
+    | 'gasPrice'
+
+type CommonsFields =
+    | 'interestRatePerYear'
+    | 'inflationPerYear'
+    | 'currentMonth'
+    | 'annualPaymentsMonth'
+    | 'distanceDrivenPerWeek'
+
+export type FormValues = {
+    ev: {
+        [key in EvFields]: string
+    }
+    gas: {
+        [key in GasFields]: string
+    }
+    commons: {
+        [key in CommonsFields]: string
+    }
+}

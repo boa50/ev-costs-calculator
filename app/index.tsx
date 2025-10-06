@@ -23,7 +23,7 @@ import {
     validateLocalStorageUnits,
     getCurrentMonthNumber,
 } from '@/utils'
-import type { FormFields, TabNames, TabValidStates } from '@/types'
+import type { FormValues, FormFields, TabNames, TabValidStates } from '@/types'
 
 export default function Index() {
     const [filterButtonsState, setFilterButtonsState] =
@@ -59,38 +59,42 @@ export default function Index() {
 
     const handleResetFields = () => reset()
 
-    const { handleSubmit, control, reset, trigger } = useForm({
+    const { handleSubmit, control, reset, trigger } = useForm<FormValues>({
         mode: 'onChange',
         defaultValues: getFormDefaultValues(),
     })
 
-    const onSubmit = (data: any) => {
-        //// TO IMPLEMENT
-        // if (electricVehicleState) {
-        //         const car = getElectricVehicleFromForm(electricVehicleState)
-        //         const { annualCosts, monthlyCosts } = calculateCosts(
-        //             car,
-        //             convertTextToNumber(commonsFormState.distanceDrivenPerWeek)
-        //         )
-        //         setCosts({
-        //             annual: annualCosts,
-        //             monthly: monthlyCosts,
-        //             perYear: annualCosts + monthlyCosts * 12,
-        //         })
-        //     }
-        //     if (gasVehicleState) {
-        //         const car = getGasVehicleFromForm(gasVehicleState)
-        //         const { annualCosts, monthlyCosts } = calculateCosts(
-        //             car,
-        //             convertTextToNumber(commonsFormState.distanceDrivenPerWeek)
-        //         )
-        //         setCosts({
-        //             annual: annualCosts,
-        //             monthly: monthlyCosts,
-        //             perYear: annualCosts + monthlyCosts * 12,
-        //         })
-        //     }
-        // }
+    const onSubmit = (data: FormValues) => {
+        const distanceDrivenPerWeek = convertTextToNumber(
+            data.commons.distanceDrivenPerWeek,
+            true
+        )
+        const electricVehicle = getElectricVehicleFromForm(data)
+
+        const { annualCosts: evAnnualCosts, monthlyCosts: evMonthlyCosts } =
+            calculateCosts(electricVehicle, distanceDrivenPerWeek)
+        setCosts({
+            annual: evAnnualCosts,
+            monthly: evMonthlyCosts,
+            perYear: evAnnualCosts + evMonthlyCosts * 12,
+        })
+
+        const hasGasVehicle =
+            data.gas.fuelEfficiency !== '' && data.gas.gasPrice !== ''
+
+        if (hasGasVehicle) {
+            const gasVehicle = getGasVehicleFromForm(data)
+
+            const {
+                annualCosts: gasAnnualCosts,
+                monthlyCosts: gasMonthlyCosts,
+            } = calculateCosts(gasVehicle, distanceDrivenPerWeek)
+            setCosts({
+                annual: gasAnnualCosts,
+                monthly: gasMonthlyCosts,
+                perYear: gasAnnualCosts + gasMonthlyCosts * 12,
+            })
+        }
     }
 
     const handleChangeTabValidState = (
@@ -192,25 +196,31 @@ function FormView({
     )
 }
 
-function getFormDefaultValues(): { [key in FormFields]: string } {
+function getFormDefaultValues(): FormValues {
     return {
-        'ev.batteryAutonomy': '',
-        'ev.batteryCapacity': '',
-        'ev.buyingCost': '',
-        'ev.electricityPrice': '',
-        'ev.insurancePerYear': '',
-        'ev.maintenancePerYear': '',
-        'ev.taxesPerYear': '',
-        'gas.buyingCost': '',
-        'gas.fuelEfficiency': '',
-        'gas.gasPrice': '',
-        'gas.insurancePerYear': '',
-        'gas.maintenancePerYear': '',
-        'gas.taxesPerYear': '',
-        'commons.annualPaymentsMonth': '1',
-        'commons.currentMonth': getCurrentMonthNumber(),
-        'commons.distanceDrivenPerWeek': '',
-        'commons.inflationPerYear': '',
-        'commons.interestRatePerYear': '',
+        ev: {
+            batteryAutonomy: '',
+            batteryCapacity: '',
+            buyingCost: '',
+            electricityPrice: '',
+            insurancePerYear: '',
+            maintenancePerYear: '',
+            taxesPerYear: '',
+        },
+        gas: {
+            buyingCost: '',
+            fuelEfficiency: '',
+            gasPrice: '',
+            insurancePerYear: '',
+            maintenancePerYear: '',
+            taxesPerYear: '',
+        },
+        commons: {
+            annualPaymentsMonth: '1',
+            currentMonth: getCurrentMonthNumber(),
+            distanceDrivenPerWeek: '',
+            inflationPerYear: '',
+            interestRatePerYear: '',
+        },
     }
 }

@@ -1,34 +1,26 @@
 import { convertTextToNumber } from './convertTextToNumber'
-import type {
-    ElectricVehicle,
-    ElectricVehicleFormState,
-    GasVehicle,
-    GasVehicleFormState,
-} from '@/types'
+import type { ElectricVehicle, GasVehicle, FormValues } from '@/types'
 
 export function getElectricVehicleFromForm(
-    formValues: ElectricVehicleFormState
+    formValues: FormValues
 ): ElectricVehicle {
-    return {
-        cost: convertTextToNumber(formValues.cost),
-        insurancePerYear: convertTextToNumber(formValues.insurancePerYear),
-        taxesPerYear: convertTextToNumber(formValues.taxesPerYear),
-        maintenancePerYear: convertTextToNumber(formValues.maintenancePerYear),
-        batteryAutonomy: convertTextToNumber(formValues.batteryAutonomy),
-        batteryCapacity: convertTextToNumber(formValues.batteryCapacity),
-        electricityPrice: convertTextToNumber(formValues.electricityPrice),
-    }
+    const evFormValues = formValues.ev
+    const vehicle: any = {}
+
+    Object.entries(evFormValues).forEach(([key, value]) => {
+        vehicle[key] = convertTextToNumber(value, true)
+    })
+
+    return vehicle
 }
 
-export function getGasVehicleFromForm(
-    formValues: GasVehicleFormState
-): GasVehicle {
-    return {
-        cost: convertTextToNumber(formValues.cost),
-        insurancePerYear: convertTextToNumber(formValues.insurancePerYear),
-        taxesPerYear: convertTextToNumber(formValues.taxesPerYear),
-        maintenancePerYear: convertTextToNumber(formValues.maintenancePerYear),
-        fuelEfficiency: convertTextToNumber(formValues.fuelEfficiency),
-        gasPrice: convertTextToNumber(formValues.gasPrice),
-    }
+export function getGasVehicleFromForm(formValues: FormValues): GasVehicle {
+    const gasFormValues = formValues.gas
+    const vehicle: any = {}
+
+    Object.entries(gasFormValues).forEach(([key, value]) => {
+        vehicle[key] = convertTextToNumber(value, true)
+    })
+
+    return vehicle
 }
