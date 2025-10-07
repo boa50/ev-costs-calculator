@@ -23,6 +23,7 @@ import {
     validateLocalStorageUnits,
     getCurrentMonthNumber,
     calculateEconomy,
+    showNumberSingularOrPlural,
 } from '@/utils'
 import type { FormValues, FormFields, TabNames, TabValidStates } from '@/types'
 
@@ -278,15 +279,21 @@ function CostsView({ title, data, initialCost }: CostsViewProps) {
                 initialCost !== undefined &&
                 initialCost > 0 &&
                 (data.isMaxYears ? (
-                    <Text>
+                    <Text className="pt-2">
                         You will take more than {data.numYears} years to recover
                         the $ {formatMonetaryNumber(initialCost)} initial cost
                     </Text>
                 ) : (
-                    <Text>
-                        You will take {data.numYears} years and {data.numMonths}{' '}
-                        months to recover the ${' '}
-                        {formatMonetaryNumber(initialCost)} initial cost
+                    <Text className="pt-2">
+                        {`You will take ${showNumberSingularOrPlural(
+                            data.numYears ?? 0,
+                            'year',
+                            'years'
+                        )} and ${showNumberSingularOrPlural(
+                            data.numMonths ?? 0,
+                            'month',
+                            'months'
+                        )} to recover the $ ${formatMonetaryNumber(initialCost)} initial cost`}
                     </Text>
                 ))}
         </View>
