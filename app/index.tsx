@@ -265,14 +265,13 @@ function CostsView({ title, data, initialCost }: CostsViewProps) {
         <View>
             <Text className="font-medium">{title}</Text>
             <Text>
-                Annual {costEconomyText}: $ {formatMonetaryNumber(data.annual)}
+                Annual {costEconomyText}: {formatMonetaryNumber(data.annual)}
             </Text>
             <Text>
-                Montlhy {costEconomyText}: ${' '}
-                {formatMonetaryNumber(data.monthly)}
+                Montlhy {costEconomyText}: {formatMonetaryNumber(data.monthly)}
             </Text>
             <Text>
-                Total {costEconomyText} per year: ${' '}
+                Total {costEconomyText} per year:{' '}
                 {formatMonetaryNumber(data.perYear)}
             </Text>
             {isEconomy &&
@@ -281,7 +280,7 @@ function CostsView({ title, data, initialCost }: CostsViewProps) {
                 (data.isMaxYears ? (
                     <Text className="pt-2">
                         You will take more than {data.numYears} years to recover
-                        the $ {formatMonetaryNumber(initialCost)} initial cost
+                        the {formatMonetaryNumber(initialCost)} initial cost
                     </Text>
                 ) : (
                     <Text className="pt-2">
@@ -293,7 +292,7 @@ function CostsView({ title, data, initialCost }: CostsViewProps) {
                             data.numMonths ?? 0,
                             'month',
                             'months'
-                        )} to recover the $ ${formatMonetaryNumber(initialCost)} initial cost`}
+                        )} to recover the ${formatMonetaryNumber(initialCost)} initial cost`}
                     </Text>
                 ))}
         </View>
