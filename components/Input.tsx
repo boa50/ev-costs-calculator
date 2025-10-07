@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { View, TextInput, Text } from 'react-native'
+import { useLocales } from 'expo-localization'
 import { InputLabel } from './InputLabel'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import colors from 'tailwindcss/colors'
@@ -126,6 +127,8 @@ function InputIcon({
     const iconDynamicClasses =
         position === 'left' ? 'rounded-l-2xl' : 'rounded-r-2xl'
     const textColour = isInputValid ? 'text-gray-800' : 'text-red-600'
+    const userLocale = useLocales()
+    const iconFormatted = icon === '$' ? userLocale[0].currencySymbol : icon
 
     return (
         icon && (
@@ -133,7 +136,7 @@ function InputIcon({
                 className={`flex flex-row h-full items-center justify-center px-2 ${iconDynamicClasses}`}
             >
                 <Text className={`text-md font-normal ${textColour}`}>
-                    {icon}
+                    {iconFormatted}
                 </Text>
             </View>
         )
