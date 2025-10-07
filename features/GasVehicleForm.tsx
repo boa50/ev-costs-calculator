@@ -123,12 +123,12 @@ export default function GasVehicleForm({
                 <Col>{gasPrice}</Col>
             </Row>
             <Row>
-                <Col>{vehicleBuyingCost}</Col>
                 <Col>{insurancePerYear}</Col>
+                <Col>{taxesPerYear}</Col>
             </Row>
             <Row>
-                <Col>{taxesPerYear}</Col>
                 <Col>{maintenancePerYear}</Col>
+                <Col>{vehicleBuyingCost}</Col>
             </Row>
         </Grid>
     )
