@@ -31,6 +31,11 @@ type Costs = {
     monthly: number
     perYear: number
 }
+type Economy = Costs & {
+    numYears: number | undefined
+    numMonths: number | undefined
+    isMaxYears: boolean | undefined
+}
 
 export default function Index() {
     const [filterButtonsState, setFilterButtonsState] =
@@ -45,7 +50,8 @@ export default function Index() {
         })
     const [electricCosts, setElectricCosts] = useState<Costs>()
     const [gasCosts, setGasCosts] = useState<Costs>()
-    const [economy, setEconomy] = useState<Costs>()
+    const [economy, setEconomy] = useState<Economy>()
+    const [initialCost, setInitialCost] = useState<number>()
 
     const [distance, setDistance] = useLocalStorage('distance')
     const [gasMeasurement, setGasMeasurement] =
@@ -74,6 +80,7 @@ export default function Index() {
             data.commons.distanceDrivenPerWeek,
             true
         )
+
         const electricVehicle = getElectricVehicleFromForm(data)
 
         const { annualCosts: evAnnualCosts, monthlyCosts: evMonthlyCosts } =
@@ -108,18 +115,39 @@ export default function Index() {
                 perYear: gasAnnualCosts + gasMonthlyCosts * 12,
             })
 
-            const { annualEconomy, monthlyEconomy, perYearEconomy } =
-                calculateEconomy({
-                    gasAnnualCosts,
-                    evAnnualCosts,
-                    gasMonthlyCosts,
-                    evMonthlyCosts,
-                })
+            const isCalculateTimeToRecoverInvestment =
+                electricVehicle.buyingCost > 0 && gasVehicle.buyingCost > 0
+            let initialCost
+
+            if (isCalculateTimeToRecoverInvestment) {
+                initialCost = electricVehicle.buyingCost - gasVehicle.buyingCost
+
+                setInitialCost(initialCost)
+            }
+
+            const {
+                annualEconomy,
+                monthlyEconomy,
+                perYearEconomy,
+                numYears,
+                numMonths,
+                isMaxYears,
+            } = calculateEconomy({
+                gasAnnualCosts,
+                evAnnualCosts,
+                gasMonthlyCosts,
+                evMonthlyCosts,
+                initialCost,
+                commonsData: data.commons,
+            })
 
             setEconomy({
                 annual: annualEconomy,
                 monthly: monthlyEconomy,
                 perYear: perYearEconomy,
+                numYears: numYears,
+                numMonths: numMonths,
+                isMaxYears: isMaxYears,
             })
         }
     }
@@ -175,13 +203,13 @@ export default function Index() {
 
             {electricCosts ? (
                 <View className="pt-4 flex-1 gap-4">
-                    <CostsView title="Electric" costs={electricCosts} />
-                    {gasCosts && <CostsView title="Gas" costs={gasCosts} />}
+                    <CostsView title="Electric" data={electricCosts} />
+                    {gasCosts && <CostsView title="Gas" data={gasCosts} />}
                     {economy && (
                         <CostsView
                             title="Economy"
-                            costs={economy}
-                            isEconomy={true}
+                            data={economy}
+                            initialCost={initialCost}
                         />
                     )}
                 </View>
@@ -222,33 +250,51 @@ function FormView({
     )
 }
 
-function CostsView({
-    title,
-    costs,
-    isEconomy,
-}: {
+interface CostsViewProps {
     title: string
-    costs: Costs
-    isEconomy?: boolean
-}) {
+    data: Costs | Economy
+    initialCost?: number
+}
+
+function CostsView({ title, data, initialCost }: CostsViewProps) {
+    const isEconomy = isEconomyData(data)
     const costEconomyText = isEconomy ? 'economy' : 'cost'
 
     return (
         <View>
             <Text className="font-medium">{title}</Text>
             <Text>
-                Annual {costEconomyText}: $ {formatMonetaryNumber(costs.annual)}
+                Annual {costEconomyText}: $ {formatMonetaryNumber(data.annual)}
             </Text>
             <Text>
                 Montlhy {costEconomyText}: ${' '}
-                {formatMonetaryNumber(costs.monthly)}
+                {formatMonetaryNumber(data.monthly)}
             </Text>
             <Text>
                 Total {costEconomyText} per year: ${' '}
-                {formatMonetaryNumber(costs.perYear)}
+                {formatMonetaryNumber(data.perYear)}
             </Text>
+            {isEconomy &&
+                initialCost !== undefined &&
+                initialCost > 0 &&
+                (data.isMaxYears ? (
+                    <Text>
+                        You will take more than {data.numYears} years to recover
+                        the $ {formatMonetaryNumber(initialCost)} initial cost
+                    </Text>
+                ) : (
+                    <Text>
+                        You will take {data.numYears} years and {data.numMonths}{' '}
+                        months to recover the ${' '}
+                        {formatMonetaryNumber(initialCost)} initial cost
+                    </Text>
+                ))}
         </View>
     )
+}
+
+function isEconomyData(data: Costs | Economy): data is Economy {
+    return Object.hasOwn(data, 'numYears')
 }
 
 function getFormDefaultValues(): FormValues {

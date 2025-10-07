@@ -57,7 +57,7 @@ type GasFields =
     | 'fuelEfficiency'
     | 'gasPrice'
 
-type CommonsFields =
+export type CommonsFields =
     | 'interestRatePerYear'
     | 'inflationPerYear'
     | 'currentMonth'

@@ -1,4 +1,6 @@
-import type { ElectricVehicle, GasVehicle } from '@/types'
+import { convertTextToNumber } from './convertTextToNumber'
+import { convertAnnualToMonthly } from './convertAnnualToMonthy'
+import type { ElectricVehicle, GasVehicle, CommonsFields } from '@/types'
 
 interface CalculateCostsProps {
     car: ElectricVehicle | GasVehicle
@@ -62,6 +64,8 @@ interface CalculateEconomyProps {
     evAnnualCosts: number
     gasMonthlyCosts: number
     evMonthlyCosts: number
+    initialCost?: number
+    commonsData: { [key in CommonsFields]: string }
 }
 
 export function calculateEconomy({
@@ -69,10 +73,69 @@ export function calculateEconomy({
     evAnnualCosts,
     gasMonthlyCosts,
     evMonthlyCosts,
-}: CalculateEconomyProps) {
+    initialCost,
+    commonsData,
+}: CalculateEconomyProps): {
+    annualEconomy: number
+    monthlyEconomy: number
+    perYearEconomy: number
+    numYears?: number
+    numMonths?: number
+    isMaxYears?: boolean
+} {
     const annualEconomy = gasAnnualCosts - evAnnualCosts
     const monthlyEconomy = gasMonthlyCosts - evMonthlyCosts
     const perYearEconomy = annualEconomy + monthlyEconomy * 12
+
+    if (initialCost !== undefined && initialCost > 0) {
+        const maxYears = 50
+        const maxNumMonths = maxYears * 12
+        let debt = initialCost
+
+        const currentMonth = convertTextToNumber(commonsData.currentMonth, true)
+        const annualPaymentsMonth = convertTextToNumber(
+            commonsData.annualPaymentsMonth,
+            true
+        )
+        const interestRatePerYear =
+            convertTextToNumber(commonsData.interestRatePerYear, true) / 100
+        const inflationPerYear =
+            convertTextToNumber(commonsData.inflationPerYear, true) / 100
+        const montlyRealInterestRate = convertAnnualToMonthly(
+            interestRatePerYear - inflationPerYear,
+            true
+        )
+
+        for (let numMonths = 1; numMonths <= maxNumMonths; numMonths++) {
+            const currentMonthCalc = ((currentMonth - 1 + numMonths) % 12) + 1
+            const currentYearCalc = Math.floor(numMonths / 12)
+
+            debt *= 1 + montlyRealInterestRate
+
+            debt -= monthlyEconomy
+
+            if (annualPaymentsMonth === currentMonthCalc) debt -= annualEconomy
+
+            if (debt <= 0)
+                return {
+                    annualEconomy,
+                    monthlyEconomy,
+                    perYearEconomy,
+                    numYears: currentYearCalc,
+                    numMonths: numMonths % 12,
+                    isMaxYears: false,
+                }
+        }
+
+        return {
+            annualEconomy,
+            monthlyEconomy,
+            perYearEconomy,
+            numYears: maxYears,
+            numMonths: 0,
+            isMaxYears: true,
+        }
+    }
 
     return { annualEconomy, monthlyEconomy, perYearEconomy }
 }
