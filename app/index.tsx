@@ -13,6 +13,7 @@ import {
     Row,
     Col,
     Container,
+    IconButton,
 } from '@/components'
 import {
     calculateCosts,
@@ -59,6 +60,8 @@ export default function Index() {
         useLocalStorage('gasMeasurement')
     const [fuelEfficiency, setFuelEfficiency] =
         useLocalStorage('fuelEfficiency')
+    const [formValuesLocalStorage, setFormValuesLocalStorage] =
+        useLocalStorage('formValues')
 
     validateLocalStorageUnits(
         distance,
@@ -69,12 +72,21 @@ export default function Index() {
         setFuelEfficiency
     )
 
-    const handleResetFields = () => reset()
+    const { handleSubmit, control, reset, trigger, getValues } =
+        useForm<FormValues>({
+            mode: 'onChange',
+            defaultValues: getFormDefaultValues(),
+            values:
+                formValuesLocalStorage !== undefined
+                    ? JSON.parse(formValuesLocalStorage)
+                    : undefined,
+        })
 
-    const { handleSubmit, control, reset, trigger } = useForm<FormValues>({
-        mode: 'onChange',
-        defaultValues: getFormDefaultValues(),
-    })
+    const handleResetFields = () => reset(getFormDefaultValues())
+
+    const handleSaveValues = () => {
+        setFormValuesLocalStorage(JSON.stringify(getValues()))
+    }
 
     const onSubmit = (data: FormValues) => {
         const distanceDrivenPerWeek = convertTextToNumber(
@@ -218,21 +230,28 @@ export default function Index() {
                 <View className="flex-1"></View>
             )}
 
-            <Grid additionalClasses="pb-4">
+            <Grid additionalClasses="mb-4">
                 <Row>
+                    <View>
+                        <IconButton
+                            icon="save-alt"
+                            theme="secondary"
+                            onPress={handleSaveValues}
+                        />
+                    </View>
                     <Col>
                         <Button
                             label="Calculate"
                             onPress={handleSubmit(onSubmit)}
                         />
                     </Col>
-                    <Col>
-                        <Button
-                            label="Reset fields"
+                    <View>
+                        <IconButton
+                            icon="clear"
                             theme="secondary"
                             onPress={handleResetFields}
                         />
-                    </Col>
+                    </View>
                 </Row>
             </Grid>
         </Container>
