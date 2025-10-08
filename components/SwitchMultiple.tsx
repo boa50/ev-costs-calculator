@@ -47,12 +47,12 @@ export function SwitchMultiple({
                             offsetY: 0,
                             blurRadius: 2,
                             spreadDistance: 0.5,
-                            color: colors.gray[400],
+                            color: colors.gray[300],
                             inset: true,
                         },
                     ],
                 }}
-                className="rounded-md flex-row bg-gray-300"
+                className="rounded-md flex-row bg-gray-200"
             >
                 <Animated.View
                     style={{
@@ -60,7 +60,7 @@ export function SwitchMultiple({
                         margin: 2,
                         transform: [{ translateX }],
                     }}
-                    className="absolute h-full rounded-md border border-sky-600 bg-gray-100"
+                    className="absolute h-full rounded-md shadow-lg shadow-gray-600 bg-gray-100"
                 ></Animated.View>
                 {options.map((option) => (
                     <SwitchItem
@@ -95,7 +95,7 @@ function SwitchItem({
     const style = useAnimatedStyle(() => ({
         color: isSelected
             ? withTiming(colors.sky[800], { duration: durationIn })
-            : withTiming(colors.gray[500], { duration: durationOut }),
+            : withTiming(colors.gray[400], { duration: durationOut }),
         fontWeight: isSelected
             ? withTiming(500, { duration: durationIn })
             : withTiming(400, { duration: durationOut }),

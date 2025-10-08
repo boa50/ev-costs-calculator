@@ -14,17 +14,17 @@ export function Header({ title, routeName }: Props) {
     const isIndex = routeName === 'index'
 
     return (
-        <View className="flex-row h-18 pt-9 pb-3 px-4 bg-gray-300 items-center">
+        <View className="flex-row h-20 pt-9 pb-3 px-4 bg-sky-700 items-center">
             {router.canGoBack() && (
                 <Pressable onPress={router.back} className="mr-2 -ml-1">
                     <MaterialCommunityIcons
                         name="arrow-left"
                         size={24}
-                        color={colors.gray[800]}
+                        color={colors.gray[100]}
                     />
                 </Pressable>
             )}
-            <Text className="flex-1 text-gray-800 text-xl font-medium">
+            <Text className="flex-1 text-gray-100 text-xl font-medium">
                 {title}
             </Text>
             {isIndex && <Menu />}
@@ -48,7 +48,7 @@ function Menu() {
                 <MaterialCommunityIcons
                     name="dots-vertical"
                     size={24}
-                    color={colors.gray[800]}
+                    color={colors.gray[100]}
                 />
             </Pressable>
             {isVisible && (

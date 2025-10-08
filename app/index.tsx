@@ -219,9 +219,20 @@ export default function Index() {
             </FormView>
 
             {electricCosts ? (
-                <View className="pt-4 flex-1 gap-4">
-                    <CostsView title="Electric" data={electricCosts} />
-                    {gasCosts && <CostsView title="Gas" data={gasCosts} />}
+                <Grid additionalClasses="pt-4 flex-1 gap-4">
+                    <Row>
+                        <Col>
+                            <CostsView
+                                title="Electric Costs"
+                                data={electricCosts}
+                            />
+                        </Col>
+                        <Col>
+                            {gasCosts && (
+                                <CostsView title="Gas Costs" data={gasCosts} />
+                            )}
+                        </Col>
+                    </Row>
                     {economy && (
                         <CostsView
                             title="Economy"
@@ -229,7 +240,7 @@ export default function Index() {
                             initialCost={initialCost}
                         />
                     )}
-                </View>
+                </Grid>
             ) : (
                 <View className="flex-1"></View>
             )}
@@ -282,21 +293,13 @@ interface CostsViewProps {
 
 function CostsView({ title, data, initialCost }: CostsViewProps) {
     const isEconomy = isEconomyData(data)
-    const costEconomyText = isEconomy ? 'economy' : 'cost'
 
     return (
         <View>
             <Text className="font-medium">{title}</Text>
-            <Text>
-                Annual {costEconomyText}: {formatMonetaryNumber(data.annual)}
-            </Text>
-            <Text>
-                Montlhy {costEconomyText}: {formatMonetaryNumber(data.monthly)}
-            </Text>
-            <Text>
-                Total {costEconomyText} per year:{' '}
-                {formatMonetaryNumber(data.perYear)}
-            </Text>
+            <Text>Annual: {formatMonetaryNumber(data.annual)}</Text>
+            <Text>Montlhy: {formatMonetaryNumber(data.monthly)}</Text>
+            <Text>Total per year: {formatMonetaryNumber(data.perYear)}</Text>
             {isEconomy &&
                 initialCost !== undefined &&
                 initialCost > 0 &&
