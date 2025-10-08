@@ -75,3 +75,14 @@ export type FormValues = {
         [key in CommonsFields]: string
     }
 }
+
+export type Costs = {
+    annual: number
+    monthly: number
+    perYear: number
+}
+export type Economy = Costs & {
+    numYears: number | undefined
+    numMonths: number | undefined
+    isMaxYears: boolean | undefined
+}

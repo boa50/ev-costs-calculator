@@ -1,8 +1,9 @@
 import { useState } from 'react'
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import ElectricVehicleForm from '@/features/ElectricVehicleForm'
 import GasVehicleForm from '@/features/GasVehicleForm'
 import CommonsForm from '@/features/CommonsForm'
+import { CostsCard, RecoverInvestmentCard } from '@/features/CostsCard'
 import { useLocalStorage } from '@/hooks'
 import { useForm } from 'react-hook-form'
 import {
@@ -19,26 +20,20 @@ import {
 import {
     calculateCosts,
     convertTextToNumber,
-    formatMonetaryNumber,
     getElectricVehicleFromForm,
     getGasVehicleFromForm,
     validateLocalStorageUnits,
     getCurrentMonthNumber,
     calculateEconomy,
-    showNumberSingularOrPlural,
 } from '@/utils'
-import type { FormValues, FormFields, TabNames, TabValidStates } from '@/types'
-
-type Costs = {
-    annual: number
-    monthly: number
-    perYear: number
-}
-type Economy = Costs & {
-    numYears: number | undefined
-    numMonths: number | undefined
-    isMaxYears: boolean | undefined
-}
+import type {
+    FormValues,
+    FormFields,
+    TabNames,
+    TabValidStates,
+    Costs,
+    Economy,
+} from '@/types'
 
 export default function Index() {
     const [filterButtonsState, setFilterButtonsState] =
@@ -222,23 +217,43 @@ export default function Index() {
                 <Grid additionalClasses="pt-4 flex-1 gap-4">
                     <Row>
                         <Col>
-                            <CostsView
+                            <CostsCard
                                 title="Electric Costs"
                                 data={electricCosts}
+                                icon="electricity"
                             />
                         </Col>
                         <Col>
                             {gasCosts && (
-                                <CostsView title="Gas Costs" data={gasCosts} />
+                                <CostsCard
+                                    title="Gas Costs"
+                                    data={gasCosts}
+                                    icon="gas"
+                                />
                             )}
                         </Col>
                     </Row>
                     {economy && (
-                        <CostsView
-                            title="Economy"
-                            data={economy}
-                            initialCost={initialCost}
-                        />
+                        <>
+                            <Row>
+                                <Col>
+                                    <CostsCard
+                                        title="Economy"
+                                        data={economy}
+                                        icon="money"
+                                    />
+                                </Col>
+                                <Col></Col>
+                            </Row>
+                            {initialCost !== undefined && (
+                                <Row>
+                                    <RecoverInvestmentCard
+                                        data={economy}
+                                        initialCost={initialCost}
+                                    />
+                                </Row>
+                            )}
+                        </>
                     )}
                 </Grid>
             ) : (
@@ -285,49 +300,49 @@ function FormView({
     )
 }
 
-interface CostsViewProps {
-    title: string
-    data: Costs | Economy
-    initialCost?: number
-}
+// interface CostsViewProps {
+//     title: string
+//     data: Costs | Economy
+//     initialCost?: number
+// }
 
-function CostsView({ title, data, initialCost }: CostsViewProps) {
-    const isEconomy = isEconomyData(data)
+// function CostsView({ title, data, initialCost }: CostsViewProps) {
+//     const isEconomy = isEconomyData(data)
 
-    return (
-        <View>
-            <Text className="font-medium">{title}</Text>
-            <Text>Annual: {formatMonetaryNumber(data.annual)}</Text>
-            <Text>Montlhy: {formatMonetaryNumber(data.monthly)}</Text>
-            <Text>Total per year: {formatMonetaryNumber(data.perYear)}</Text>
-            {isEconomy &&
-                initialCost !== undefined &&
-                initialCost > 0 &&
-                (data.isMaxYears ? (
-                    <Text className="pt-2">
-                        You will take more than {data.numYears} years to recover
-                        the {formatMonetaryNumber(initialCost)} initial cost
-                    </Text>
-                ) : (
-                    <Text className="pt-2">
-                        {`You will take ${showNumberSingularOrPlural(
-                            data.numYears ?? 0,
-                            'year',
-                            'years'
-                        )} and ${showNumberSingularOrPlural(
-                            data.numMonths ?? 0,
-                            'month',
-                            'months'
-                        )} to recover the ${formatMonetaryNumber(initialCost)} initial cost`}
-                    </Text>
-                ))}
-        </View>
-    )
-}
+//     return (
+//         <View>
+//             <Text className="font-medium">{title}</Text>
+//             <Text>Annual: {formatMonetaryNumber(data.annual)}</Text>
+//             <Text>Montlhy: {formatMonetaryNumber(data.monthly)}</Text>
+//             <Text>Total per year: {formatMonetaryNumber(data.perYear)}</Text>
+//             {isEconomy &&
+//                 initialCost !== undefined &&
+//                 initialCost > 0 &&
+//                 (data.isMaxYears ? (
+//                     <Text className="pt-2">
+//                         You will take more than {data.numYears} years to recover
+//                         the {formatMonetaryNumber(initialCost)} initial cost
+//                     </Text>
+//                 ) : (
+//                     <Text className="pt-2">
+//                         {`You will take ${showNumberSingularOrPlural(
+//                             data.numYears ?? 0,
+//                             'year',
+//                             'years'
+//                         )} and ${showNumberSingularOrPlural(
+//                             data.numMonths ?? 0,
+//                             'month',
+//                             'months'
+//                         )} to recover the ${formatMonetaryNumber(initialCost)} initial cost`}
+//                     </Text>
+//                 ))}
+//         </View>
+//     )
+// }
 
-function isEconomyData(data: Costs | Economy): data is Economy {
-    return Object.hasOwn(data, 'numYears')
-}
+// function isEconomyData(data: Costs | Economy): data is Economy {
+//     return Object.hasOwn(data, 'numYears')
+// }
 
 function getFormDefaultValues(): FormValues {
     return {
