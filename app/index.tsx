@@ -14,6 +14,7 @@ import {
     Col,
     Container,
     IconButton,
+    useToast,
 } from '@/components'
 import {
     calculateCosts,
@@ -72,6 +73,8 @@ export default function Index() {
         setFuelEfficiency
     )
 
+    const { showToast } = useToast()
+
     const { handleSubmit, control, reset, trigger, getValues } =
         useForm<FormValues>({
             mode: 'onChange',
@@ -86,6 +89,7 @@ export default function Index() {
 
     const handleSaveValues = () => {
         setFormValuesLocalStorage(JSON.stringify(getValues()))
+        showToast('Form values saved with success', 'success')
     }
 
     const onSubmit = (data: FormValues) => {
@@ -247,7 +251,7 @@ export default function Index() {
                     </Col>
                     <View>
                         <IconButton
-                            icon="clear"
+                            icon="settings-backup-restore"
                             theme="secondary"
                             onPress={handleResetFields}
                         />

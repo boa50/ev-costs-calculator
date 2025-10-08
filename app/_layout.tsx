@@ -1,26 +1,31 @@
 import '../global.css'
 import { Stack } from 'expo-router'
-import { Header } from '@/components'
+import { Header, ToastProvider } from '@/components'
 import colors from 'tailwindcss/colors'
 
 export default function RootLayout() {
     return (
-        <Stack
-            screenOptions={{
-                header: (props) => (
-                    <Header
-                        title={props.options.title}
-                        routeName={props.route.name}
-                    />
-                ),
-                contentStyle: { backgroundColor: colors.gray[100] },
-            }}
-        >
-            <Stack.Screen name="index" options={{ title: 'Starting Point' }} />
-            <Stack.Screen
-                name="manageUnits"
-                options={{ title: 'Manage Units' }}
-            />
-        </Stack>
+        <ToastProvider>
+            <Stack
+                screenOptions={{
+                    header: (props) => (
+                        <Header
+                            title={props.options.title}
+                            routeName={props.route.name}
+                        />
+                    ),
+                    contentStyle: { backgroundColor: colors.gray[100] },
+                }}
+            >
+                <Stack.Screen
+                    name="index"
+                    options={{ title: 'Starting Point' }}
+                />
+                <Stack.Screen
+                    name="manageUnits"
+                    options={{ title: 'Manage Units' }}
+                />
+            </Stack>
+        </ToastProvider>
     )
 }

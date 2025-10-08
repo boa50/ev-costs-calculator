@@ -3,7 +3,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import colors from 'tailwindcss/colors'
 
 type Props = {
-    icon: 'clear' | 'save-alt'
+    icon: 'settings-backup-restore' | 'save-alt'
     theme?: 'primary' | 'secondary'
     onPress?: () => void
     width?: string
