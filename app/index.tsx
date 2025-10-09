@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { View } from 'react-native'
 import ElectricVehicleForm from '@/features/ElectricVehicleForm'
 import GasVehicleForm from '@/features/GasVehicleForm'
@@ -36,21 +36,6 @@ import type {
 } from '@/types'
 
 export default function Index() {
-    const [filterButtonsState, setFilterButtonsState] =
-        useState<FilterButtonsObject>({
-            ev: { label: 'Electric', isActive: true, isValid: 'incomplete' },
-            gas: { label: 'Gas', isActive: false, isValid: 'valid' },
-            commons: {
-                label: 'Commons',
-                isActive: false,
-                isValid: 'incomplete',
-            },
-        })
-    const [electricCosts, setElectricCosts] = useState<Costs>()
-    const [gasCosts, setGasCosts] = useState<Costs>()
-    const [economy, setEconomy] = useState<Economy>()
-    const [initialCost, setInitialCost] = useState<number>()
-
     const [distance, setDistance] = useLocalStorage('distance')
     const [gasMeasurement, setGasMeasurement] =
         useLocalStorage('gasMeasurement')
@@ -68,17 +53,57 @@ export default function Index() {
         setFuelEfficiency
     )
 
+    const [filterButtonsState, setFilterButtonsState] =
+        useState<FilterButtonsObject>({
+            ev: { label: 'Electric', isActive: true, isValid: 'incomplete' },
+            gas: { label: 'Gas', isActive: false, isValid: 'valid' },
+            commons: {
+                label: 'Commons',
+                isActive: false,
+                isValid: 'incomplete',
+            },
+        })
+    const [electricCosts, setElectricCosts] = useState<Costs>()
+    const [gasCosts, setGasCosts] = useState<Costs>()
+    const [economy, setEconomy] = useState<Economy>()
+    const [initialCost, setInitialCost] = useState<number>()
+    const [isLocalStorageChecked, setIsLocalStorageChecked] =
+        useState<boolean>(false)
+
     const { showToast } = useToast()
 
-    const { handleSubmit, control, reset, trigger, getValues } =
+    const { handleSubmit, control, reset, trigger, getValues, setValue } =
         useForm<FormValues>({
             mode: 'onChange',
             defaultValues: getFormDefaultValues(),
-            values:
-                formValuesLocalStorage !== undefined
-                    ? JSON.parse(formValuesLocalStorage)
-                    : undefined,
         })
+
+    useEffect(() => {
+        if (!isLocalStorageChecked) {
+            if (formValuesLocalStorage !== undefined) {
+                const defaultValues = getFormDefaultValues()
+                const values = JSON.parse(formValuesLocalStorage) as FormValues
+                const options = {
+                    shouldValidate: true,
+                    shouldDirty: true,
+                    shouldTouch: true,
+                }
+
+                Object.entries(values).forEach(([key, objValues]) => {
+                    Object.entries(objValues).forEach(([subKey, value]) => {
+                        const typedKey = key as keyof FormValues
+                        const concatKey = `${key}.${subKey}` as FormFields
+
+                        // @ts-ignore Could't find a good way to ensure typing in this case
+                        if (value !== defaultValues[typedKey][subKey])
+                            setValue(concatKey, value, options)
+                    })
+                })
+            }
+
+            setIsLocalStorageChecked(true)
+        }
+    }, [isLocalStorageChecked, formValuesLocalStorage, setValue])
 
     const handleResetFields = () => reset(getFormDefaultValues())
 
@@ -299,50 +324,6 @@ function FormView({
         <View className={`${isActive ? 'block' : 'hidden'}`}>{children}</View>
     )
 }
-
-// interface CostsViewProps {
-//     title: string
-//     data: Costs | Economy
-//     initialCost?: number
-// }
-
-// function CostsView({ title, data, initialCost }: CostsViewProps) {
-//     const isEconomy = isEconomyData(data)
-
-//     return (
-//         <View>
-//             <Text className="font-medium">{title}</Text>
-//             <Text>Annual: {formatMonetaryNumber(data.annual)}</Text>
-//             <Text>Montlhy: {formatMonetaryNumber(data.monthly)}</Text>
-//             <Text>Total per year: {formatMonetaryNumber(data.perYear)}</Text>
-//             {isEconomy &&
-//                 initialCost !== undefined &&
-//                 initialCost > 0 &&
-//                 (data.isMaxYears ? (
-//                     <Text className="pt-2">
-//                         You will take more than {data.numYears} years to recover
-//                         the {formatMonetaryNumber(initialCost)} initial cost
-//                     </Text>
-//                 ) : (
-//                     <Text className="pt-2">
-//                         {`You will take ${showNumberSingularOrPlural(
-//                             data.numYears ?? 0,
-//                             'year',
-//                             'years'
-//                         )} and ${showNumberSingularOrPlural(
-//                             data.numMonths ?? 0,
-//                             'month',
-//                             'months'
-//                         )} to recover the ${formatMonetaryNumber(initialCost)} initial cost`}
-//                     </Text>
-//                 ))}
-//         </View>
-//     )
-// }
-
-// function isEconomyData(data: Costs | Economy): data is Economy {
-//     return Object.hasOwn(data, 'numYears')
-// }
 
 function getFormDefaultValues(): FormValues {
     return {

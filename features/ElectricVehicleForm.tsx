@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { Grid, Row, Col } from '@/components'
 import { useFormState } from 'react-hook-form'
 import { useLocalStorage } from '@/hooks'
-import { getUnitAbbreviation } from '@/utils'
+import { getUnitAbbreviation, checkTabValidity } from '@/utils'
 import { FormNumberInput } from './FormNumberInput'
 import type { TabValidStates } from '@/types'
 
@@ -125,24 +125,4 @@ export default function ElectricVehicleForm({ control, setTabIsValid }: Props) {
             </Row>
         </Grid>
     )
-}
-
-interface checkTabProps {
-    hasTabErrors: boolean
-    isAllRequiredFieldsFilled: boolean
-    setTabIsValid: (isValid: TabValidStates) => void
-}
-
-function checkTabValidity({
-    hasTabErrors,
-    isAllRequiredFieldsFilled,
-    setTabIsValid,
-}: checkTabProps) {
-    if (hasTabErrors) {
-        setTabIsValid('invalid')
-    } else if (!isAllRequiredFieldsFilled) {
-        setTabIsValid('incomplete')
-    } else {
-        setTabIsValid('valid')
-    }
 }

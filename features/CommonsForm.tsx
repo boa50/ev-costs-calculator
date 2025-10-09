@@ -4,7 +4,7 @@ import { useFormState } from 'react-hook-form'
 import { useLocalStorage } from '@/hooks'
 import { FormNumberInput } from './FormNumberInput'
 import { FormMonthPicker } from './FormMonthPicker'
-import { getUnitAbbreviation } from '@/utils'
+import { getUnitAbbreviation, checkTabValidity } from '@/utils'
 import type { TabValidStates } from '@/types'
 
 interface Props {
@@ -95,24 +95,4 @@ export default function CommonsForm({ control, setTabIsValid }: Props) {
             </Row>
         </Grid>
     )
-}
-
-interface checkTabProps {
-    hasTabErrors: boolean
-    isAllRequiredFieldsFilled: boolean
-    setTabIsValid: (isValid: TabValidStates) => void
-}
-
-function checkTabValidity({
-    hasTabErrors,
-    isAllRequiredFieldsFilled,
-    setTabIsValid,
-}: checkTabProps) {
-    if (hasTabErrors) {
-        setTabIsValid('invalid')
-    } else if (!isAllRequiredFieldsFilled) {
-        setTabIsValid('incomplete')
-    } else {
-        setTabIsValid('valid')
-    }
 }
