@@ -1,0 +1,30 @@
+{
+    "headers": {
+        "calculateCosts": "Calculate Costs",
+        "manageUnits": "Manage Units"
+    },
+    "menu": {
+        "manageUnits": "Manage Units"
+    },
+    "form": {
+        "calculateButton": "Calculate"
+    },
+    "manageUnits": {
+        "distance": {
+            "title": "Distance",
+            "km": "kilometres",
+            "miles": "miles"
+        },
+        "gasMeasurement": {
+            "title": "Gas Measurement",
+            "litres": "litres",
+            "gallons": "gallons"
+        },
+        "fuelEfficiency": {
+            "title": "Fuel Efficiency",
+            "km_l": "km/L",
+            "mpg": "MPG",
+            "l_100km": "L/100 km"
+        }
+    }
+}

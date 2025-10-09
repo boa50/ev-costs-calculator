@@ -6,6 +6,7 @@ import CommonsForm from '@/features/CommonsForm'
 import { CostsCard, RecoverInvestmentCard } from '@/features/CostsCard'
 import { useLocalStorage } from '@/hooks'
 import { useForm } from 'react-hook-form'
+import { useTranslation } from 'react-i18next'
 import {
     Button,
     FilterButtons,
@@ -52,6 +53,8 @@ export default function Index() {
         fuelEfficiency,
         setFuelEfficiency
     )
+
+    const { t } = useTranslation()
 
     const [filterButtonsState, setFilterButtonsState] =
         useState<FilterButtonsObject>({
@@ -296,7 +299,7 @@ export default function Index() {
                     </View>
                     <Col>
                         <Button
-                            label="Calculate"
+                            label={t('form.calculateButton')}
                             onPress={handleSubmit(onSubmit)}
                         />
                     </Col>

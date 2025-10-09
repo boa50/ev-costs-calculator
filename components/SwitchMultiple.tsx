@@ -10,7 +10,7 @@ import colors from 'tailwindcss/colors'
 
 interface Props {
     label: string
-    options: string[]
+    options: { label: string; value: string }[]
     value: string
     setValue: (value: string) => void
     btnWidth?: number
@@ -23,7 +23,7 @@ export function SwitchMultiple({
     setValue,
     btnWidth = 64,
 }: Props) {
-    const optionPosition = options.indexOf(value)
+    const optionPosition = options.findIndex((option) => option.value === value)
     const translateX = useSharedValue<number>(
         calculateTranslateX(optionPosition, btnWidth)
     )
@@ -64,8 +64,9 @@ export function SwitchMultiple({
                 ></Animated.View>
                 {options.map((option) => (
                     <SwitchItem
-                        key={option}
-                        label={option}
+                        key={option.value}
+                        label={option.label}
+                        value={option.value}
                         btnWidth={btnWidth}
                         selectedValue={value}
                         setValue={setValue}
@@ -78,6 +79,7 @@ export function SwitchMultiple({
 
 interface SwitchItemProps {
     label: string
+    value: string
     btnWidth: number
     selectedValue: string
     setValue: (value: string) => void
@@ -85,11 +87,12 @@ interface SwitchItemProps {
 
 function SwitchItem({
     label,
+    value,
     btnWidth,
     selectedValue,
     setValue,
 }: SwitchItemProps) {
-    const isSelected = selectedValue === label
+    const isSelected = selectedValue === value
     const durationIn = 200
     const durationOut = 50
     const style = useAnimatedStyle(() => ({
@@ -102,7 +105,7 @@ function SwitchItem({
     }))
 
     return (
-        <Pressable onPress={() => setValue(label)}>
+        <Pressable onPress={() => setValue(value)}>
             <View
                 style={{ width: btnWidth }}
                 className={`py-1 border rounded-md items-center border-transparent`}

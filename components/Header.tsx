@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useRouter } from 'expo-router'
 import { View, Text, Pressable } from 'react-native'
+import { useTranslation } from 'react-i18next'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import colors from 'tailwindcss/colors'
 
@@ -33,6 +34,8 @@ export function Header({ title, routeName }: Props) {
 }
 
 function Menu() {
+    const { t } = useTranslation()
+
     const [isVisible, setIsVisible] = useState<boolean>(false)
 
     const handleToggleMenu = () => {
@@ -58,7 +61,7 @@ function Menu() {
                         style={{ width: 102 }}
                     >
                         <MenuItem
-                            label="Manage Units"
+                            label={t('menu.manageUnits')}
                             pathname="/manageUnits"
                             handleHideMenu={handleHideMenu}
                         />

@@ -1,9 +1,12 @@
-import '../global.css'
+import '@/global.css'
+import '@/i18n'
 import { Stack } from 'expo-router'
 import { Header, ToastProvider } from '@/components'
+import { useTranslation } from 'react-i18next'
 import colors from 'tailwindcss/colors'
 
 export default function RootLayout() {
+    const { t } = useTranslation()
     return (
         <ToastProvider>
             <Stack
@@ -19,11 +22,11 @@ export default function RootLayout() {
             >
                 <Stack.Screen
                     name="index"
-                    options={{ title: 'Calculate Costs' }}
+                    options={{ title: t('headers.calculateCosts') }}
                 />
                 <Stack.Screen
                     name="manageUnits"
-                    options={{ title: 'Manage Units' }}
+                    options={{ title: t('headers.manageUnits') }}
                 />
             </Stack>
         </ToastProvider>
