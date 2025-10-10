@@ -26,5 +26,21 @@
             "mpg": "MPG",
             "l_100km": "L/100 km"
         }
+    },
+    "components": {
+        "picker": {
+            "january": "January",
+            "february": "February",
+            "march": "March",
+            "april": "April",
+            "may": "May",
+            "june": "June",
+            "july": "July",
+            "august": "August",
+            "september": "September",
+            "october": "October",
+            "november": "November",
+            "december": "December"
+        }
     }
 }
