@@ -254,7 +254,7 @@ export default function Index() {
                     <Row>
                         <Col>
                             <CostsCard
-                                title="Electric Costs"
+                                title={t('form.costsCards.headers.ev')}
                                 data={electricCosts}
                                 icon="electricity"
                             />
@@ -262,7 +262,7 @@ export default function Index() {
                         <Col>
                             {gasCosts && (
                                 <CostsCard
-                                    title="Gas Costs"
+                                    title={t('form.costsCards.headers.gas')}
                                     data={gasCosts}
                                     icon="gas"
                                 />
@@ -274,7 +274,9 @@ export default function Index() {
                             <Row>
                                 <Col>
                                     <CostsCard
-                                        title="Economy"
+                                        title={t(
+                                            'form.costsCards.headers.economy'
+                                        )}
                                         data={economy}
                                         icon="money"
                                     />

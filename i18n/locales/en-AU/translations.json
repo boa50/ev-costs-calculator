@@ -70,6 +70,22 @@
                 "label": "Distance driven per week"
             }
         },
+        "costsCards": {
+            "headers": {
+                "ev": "Electric Costs",
+                "gas": "Gas Costs",
+                "economy": "Economy"
+            },
+            "shared": {
+                "annual": "Annual",
+                "monthly": "Monthly",
+                "totalPerYear": "Total per Year"
+            }
+        },
+        "recoverInvestmentCard": {
+            "exceeding": "You will take more than {{numYears}} years to recover the {{initialCost}} initial cost",
+            "default": "You will take {{numTextYears}} and {{numTextMonths}} to recover the {{initialCost}} initial cost"
+        },
         "buttons": {
             "calculate": "Calculate",
             "saveMessage": "Form values saved with success"
@@ -111,6 +127,16 @@
         "input": {
             "requiredMessage": "This field can't be empty",
             "invalidMessage": "This number is invalid"
+        }
+    },
+    "general": {
+        "month": {
+            "singular": "month",
+            "plural": "months"
+        },
+        "year": {
+            "singular": "year",
+            "plural": "years"
         }
     }
 }

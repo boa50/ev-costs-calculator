@@ -1,5 +1,6 @@
 import { View, Text } from 'react-native'
 import { formatMonetaryNumber, showNumberSingularOrPlural } from '@/utils'
+import { useTranslation } from 'react-i18next'
 import type { Costs, Economy } from '@/types'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6'
@@ -14,6 +15,8 @@ interface CostsCardProps {
 }
 
 export function CostsCard({ title, data, icon }: CostsCardProps) {
+    const { t } = useTranslation()
+
     return (
         <View className="bg-white p-2 shadow-gray-300 shadow-sm rounded-md">
             <View className="flex-row gap-1 items-center mb-1">
@@ -21,13 +24,16 @@ export function CostsCard({ title, data, icon }: CostsCardProps) {
                 <Text className="font-medium text-sky-800">{title}</Text>
             </View>
             <Text className="text-gray-800">
-                Annual: {formatMonetaryNumber(data.annual)}
+                {t('form.costsCards.shared.annual')}:{' '}
+                {formatMonetaryNumber(data.annual)}
             </Text>
             <Text className="text-gray-800">
-                Montlhy: {formatMonetaryNumber(data.monthly)}
+                {t('form.costsCards.shared.monthly')}:{' '}
+                {formatMonetaryNumber(data.monthly)}
             </Text>
             <Text className="text-gray-800">
-                Total per year: {formatMonetaryNumber(data.perYear)}
+                {t('form.costsCards.shared.totalPerYear')}:{' '}
+                {formatMonetaryNumber(data.perYear)}
             </Text>
         </View>
     )
@@ -74,25 +80,33 @@ export function RecoverInvestmentCard({
     data,
     initialCost,
 }: RecoverInvestmentCardProps) {
+    const { t } = useTranslation()
+
     return (
         <View>
             {initialCost > 0 &&
                 (data.isMaxYears ? (
                     <Text className="pt-2">
-                        You will take more than {data.numYears} years to recover
-                        the {formatMonetaryNumber(initialCost)} initial cost
+                        {t('form.recoverInvestmentCard.exceeding', {
+                            numYears: data.numYears,
+                            initialCost: formatMonetaryNumber(initialCost),
+                        })}
                     </Text>
                 ) : (
                     <Text className="pt-2">
-                        {`You will take ${showNumberSingularOrPlural(
-                            data.numYears ?? 0,
-                            'year',
-                            'years'
-                        )} and ${showNumberSingularOrPlural(
-                            data.numMonths ?? 0,
-                            'month',
-                            'months'
-                        )} to recover the ${formatMonetaryNumber(initialCost)} initial cost`}
+                        {t('form.recoverInvestmentCard.default', {
+                            numTextYears: showNumberSingularOrPlural(
+                                data.numYears ?? 0,
+                                t('general.year.singular'),
+                                t('general.year.plural')
+                            ),
+                            numTextMonths: showNumberSingularOrPlural(
+                                data.numMonths ?? 0,
+                                t('general.month.singular'),
+                                t('general.month.plural')
+                            ),
+                            initialCost: formatMonetaryNumber(initialCost),
+                        })}
                     </Text>
                 ))}
         </View>
