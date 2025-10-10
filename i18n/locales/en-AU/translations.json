@@ -49,6 +49,10 @@
             "october": "October",
             "november": "November",
             "december": "December"
+        },
+        "input": {
+            "requiredMessage": "This field can't be empty",
+            "invalidMessage": "This number is invalid"
         }
     }
 }

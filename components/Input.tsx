@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { View, TextInput, Text } from 'react-native'
 import { useLocales } from 'expo-localization'
 import { InputLabel } from './InputLabel'
+import { useTranslation } from 'react-i18next'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import colors from 'tailwindcss/colors'
 
@@ -28,6 +29,7 @@ export function Input({
     required,
     errorType,
 }: Props) {
+    const { t } = useTranslation()
     const [borderColour, setBorderColour] = useState<string>('border-gray-400')
     const [isInputValid, setIsInputValid] = useState<boolean>(true)
     const [isOnFocus, setIsOnFocus] = useState<boolean>(false)
@@ -37,14 +39,17 @@ export function Input({
         if (errorType) {
             setIsInputValid(false)
             setBorderColour('border-red-600')
-            handleErrorMessage(errorType, setErrorMessage)
+            handleErrorMessage(errorType, setErrorMessage, {
+                required: t('components.input.requiredMessage'),
+                invalid: t('components.input.invalidMessage'),
+            })
         } else {
             setIsInputValid(true)
             setErrorMessage('')
             if (isOnFocus) setBorderColour('border-sky-700')
             else setBorderColour('border-gray-400')
         }
-    }, [errorType, isOnFocus])
+    }, [errorType, isOnFocus, t])
 
     const inputDynamicClasses =
         !iconLeft && !iconRight
@@ -145,17 +150,18 @@ function InputIcon({
 
 function handleErrorMessage(
     errorType: string,
-    setErrorMessage: (text: string) => void
+    setErrorMessage: (text: string) => void,
+    messages: { required: string; invalid: string }
 ) {
     switch (errorType) {
         case 'required':
-            setErrorMessage("This field can't be empty")
+            setErrorMessage(messages.required)
             break
         case 'validate':
-            setErrorMessage("This field can't be empty")
+            setErrorMessage(messages.required)
             break
         case 'pattern':
-            setErrorMessage('This number is invalid')
+            setErrorMessage(messages.invalid)
             break
 
         default:
