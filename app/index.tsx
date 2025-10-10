@@ -58,10 +58,18 @@ export default function Index() {
 
     const [filterButtonsState, setFilterButtonsState] =
         useState<FilterButtonsObject>({
-            ev: { label: 'Electric', isActive: true, isValid: 'incomplete' },
-            gas: { label: 'Gas', isActive: false, isValid: 'valid' },
+            ev: {
+                label: t('form.tabs.ev'),
+                isActive: true,
+                isValid: 'incomplete',
+            },
+            gas: {
+                label: t('form.tabs.gas'),
+                isActive: false,
+                isValid: 'valid',
+            },
             commons: {
-                label: 'Commons',
+                label: t('form.tabs.commons'),
                 isActive: false,
                 isValid: 'incomplete',
             },

@@ -7,6 +7,11 @@
         "manageUnits": "Manage Units"
     },
     "form": {
+        "tabs": {
+            "ev": "Electric",
+            "gas": "Gas",
+            "commons": "Commons"
+        },
         "calculateButton": "Calculate"
     },
     "manageUnits": {
