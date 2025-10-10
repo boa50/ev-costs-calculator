@@ -1,5 +1,142 @@
 {
+    "headers": {
+        "calculateCosts": "Calcular Custos",
+        "manageUnits": "Gerenciar Unidades"
+    },
+    "menu": {
+        "manageUnits": "Gerenciar Unidades"
+    },
     "form": {
-        "calculateButton": "Calcular"
+        "tabs": {
+            "ev": "Elétrico",
+            "gas": "Combustão",
+            "commons": "Geral"
+        },
+        "shared": {
+            "buyingCost": {
+                "label": "Custo de compra do veículo"
+            },
+            "insurancePerYear": {
+                "label": "Seguro por ano"
+            },
+            "taxesPerYear": {
+                "label": "Impostos por ano",
+                "hint": "O quanto de imposto você paga todo ano"
+            },
+            "maintenancePerYear": {
+                "label": "Manutenção por ano",
+                "hint": "Custos de manutenção do veículo"
+            }
+        },
+        "ev": {
+            "batteryAutonomy": {
+                "label": "Autonomia da bateria",
+                "hint": "Distância que você pode dirigir o veículo sem precisar recarregá-lo"
+            },
+            "batteryCapacity": {
+                "label": "Capacidade da bateria"
+            },
+            "electricityPrice": {
+                "label": "Preço da eletricidade"
+            }
+        },
+        "gas": {
+            "fuelEfficiency": {
+                "label": "Economia de combustível",
+                "hint": "O quão longe você pode dirigir o veículo por unidade de combustível"
+            },
+            "gasPrice": {
+                "label": "Preço do combustível",
+                "hint": "Preço por unidade de combustível"
+            }
+        },
+        "commons": {
+            "interestRatePerYear": {
+                "label": "Taxa de juros anual",
+                "hint": "O quanto você consegue receber investindo em investimentos conservadores"
+            },
+            "inflationPerYear": {
+                "label": "Inflação por ano",
+                "hint": "Média de previsão da inflação para os próximos anos"
+            },
+            "currentMonth": {
+                "label": "Mês atual"
+            },
+            "annualPaymentsMonth": {
+                "label": "Mês dos pagamentos anuais",
+                "hint": "Mês em que você realiza os pagamentos anuais"
+            },
+            "distanceDrivenPerWeek": {
+                "label": "Distânca dirigida por semana"
+            }
+        },
+        "costsCards": {
+            "headers": {
+                "ev": "Custos do Elétrico",
+                "gas": "Custos do Combustão",
+                "economy": "Economia"
+            },
+            "shared": {
+                "annual": "Anual",
+                "monthly": "Mensal",
+                "totalPerYear": "Total por Ano"
+            }
+        },
+        "recoverInvestmentCard": {
+            "exceeding": "Você vai precisar de mais de {{numYears}} anos para recuperar os custos iniciais de {{initialCost}}",
+            "default": "Você vai precisar de {{numTextYears}} e {{numTextMonths}} para recuperar os custos iniciais de {{initialCost}}"
+        },
+        "buttons": {
+            "calculate": "Calcular",
+            "saveMessage": "Valores do formulário salvos com sucesso"
+        }
+    },
+    "manageUnits": {
+        "distance": {
+            "title": "Distância",
+            "km": "quilômetro",
+            "miles": "milhas"
+        },
+        "gasMeasurement": {
+            "title": "Unidade de Combustível",
+            "litres": "litros",
+            "gallons": "galões"
+        },
+        "fuelEfficiency": {
+            "title": "Eficiência",
+            "km_l": "km/L",
+            "mpg": "MPG",
+            "l_100km": "L/100 km"
+        }
+    },
+    "components": {
+        "picker": {
+            "january": "Janeiro",
+            "february": "Fevereiro",
+            "march": "Março",
+            "april": "Abril",
+            "may": "Maio",
+            "june": "Junho",
+            "july": "Julho",
+            "august": "Agosto",
+            "september": "Setembro",
+            "october": "Outubro",
+            "november": "Novembro",
+            "december": "Dezembro"
+        },
+        "input": {
+            "requiredMessage": "Esse campo não pode ficar vazio",
+            "invalidMessage": "Esse número é inválido"
+        }
+    },
+    "general": {
+        "month": {
+            "singular": "mês",
+            "plural": "meses"
+        },
+        "year": {
+            "singular": "ano",
+            "plural": "anos"
+        }
     }
 }
