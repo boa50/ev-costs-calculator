@@ -5,6 +5,7 @@ import { useLocalStorage } from '@/hooks'
 import { FormNumberInput } from './FormNumberInput'
 import { FormMonthPicker } from './FormMonthPicker'
 import { getUnitAbbreviation, checkTabValidity } from '@/utils'
+import { useTranslation } from 'react-i18next'
 import type { TabValidStates } from '@/types'
 
 interface Props {
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export default function CommonsForm({ control, setTabIsValid }: Props) {
+    const { t } = useTranslation()
     const distance = getUnitAbbreviation(useLocalStorage('distance')[0] ?? '')
     const { errors, dirtyFields } = useFormState({
         control,
@@ -36,42 +38,42 @@ export default function CommonsForm({ control, setTabIsValid }: Props) {
         <FormNumberInput
             control={control}
             name="commons.interestRatePerYear"
-            label="Interest rate per year"
+            label={t('form.commons.interestRatePerYear.label')}
             iconRight="%"
             placeholder="0.00"
-            hint="How much you can earn by investing in safe investments"
+            hint={t('form.commons.interestRatePerYear.hint')}
         />
     )
     const inflationPerYear = (
         <FormNumberInput
             control={control}
             name="commons.inflationPerYear"
-            label="Inflation per year"
+            label={t('form.commons.inflationPerYear.label')}
             iconRight="%"
             placeholder="0.00"
-            hint="Average of the forecast of your country inflation for the next years"
+            hint={t('form.commons.interestRatePerYear.hint')}
         />
     )
     const currentMonth = (
         <FormMonthPicker
             control={control}
             name="commons.currentMonth"
-            label="Current month"
+            label={t('form.commons.currentMonth.label')}
         />
     )
     const annualPaymentsMonth = (
         <FormMonthPicker
             control={control}
             name="commons.annualPaymentsMonth"
-            label="Annual payments month"
-            hint="Month when you must pay annual costs"
+            label={t('form.commons.annualPaymentsMonth.label')}
+            hint={t('form.commons.annualPaymentsMonth.hint')}
         />
     )
     const distanceDrivenPerWeek = (
         <FormNumberInput
             control={control}
             name="commons.distanceDrivenPerWeek"
-            label="Distance driven per week"
+            label={t('form.commons.distanceDrivenPerWeek.label')}
             required={true}
             iconRight={distance}
             placeholder="0"

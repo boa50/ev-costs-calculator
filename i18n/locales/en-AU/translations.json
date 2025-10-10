@@ -50,6 +50,26 @@
                 "hint": "Price per unit of fuel"
             }
         },
+        "commons": {
+            "interestRatePerYear": {
+                "label": "Interest rate per year",
+                "hint": "How much you can earn by investing in safe investments"
+            },
+            "inflationPerYear": {
+                "label": "Inflation per year",
+                "hint": "Average of the forecast of your country inflation for the next years"
+            },
+            "currentMonth": {
+                "label": "Current month"
+            },
+            "annualPaymentsMonth": {
+                "label": "Annual payments month",
+                "hint": "Month when you must pay annual costs"
+            },
+            "distanceDrivenPerWeek": {
+                "label": "Distance driven per week"
+            }
+        },
         "buttons": {
             "calculate": "Calculate",
             "saveMessage": "Form values saved with success"
