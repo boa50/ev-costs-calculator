@@ -120,7 +120,7 @@ export default function Index() {
 
     const handleSaveValues = () => {
         setFormValuesLocalStorage(JSON.stringify(getValues()))
-        showToast('Form values saved with success', 'success')
+        showToast(t('form.buttons.saveMessage'), 'success')
     }
 
     const onSubmit = (data: FormValues) => {
@@ -307,7 +307,7 @@ export default function Index() {
                     </View>
                     <Col>
                         <Button
-                            label={t('form.calculateButton')}
+                            label={t('form.buttons.calculate')}
                             onPress={handleSubmit(onSubmit)}
                         />
                     </Col>

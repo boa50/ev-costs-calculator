@@ -12,7 +12,10 @@
             "gas": "Gas",
             "commons": "Commons"
         },
-        "calculateButton": "Calculate"
+        "buttons": {
+            "calculate": "Calculate",
+            "saveMessage": "Form values saved with success"
+        }
     },
     "manageUnits": {
         "distance": {
