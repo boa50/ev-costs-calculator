@@ -4,6 +4,7 @@ import { useFormState } from 'react-hook-form'
 import { useLocalStorage } from '@/hooks'
 import { getUnitAbbreviation, checkTabValidity } from '@/utils'
 import { FormNumberInput } from './FormNumberInput'
+import { useTranslation } from 'react-i18next'
 import type { TabValidStates, FormFields } from '@/types'
 
 interface Props {
@@ -17,6 +18,7 @@ export default function GasVehicleForm({
     setTabIsValid,
     triggerRevalidation,
 }: Props) {
+    const { t } = useTranslation()
     const gasMeasurement = getUnitAbbreviation(
         useLocalStorage('gasMeasurement')[0] ?? ''
     )
@@ -50,7 +52,7 @@ export default function GasVehicleForm({
         <FormNumberInput
             control={control}
             name="gas.buyingCost"
-            label="Vehicle buying cost"
+            label={t('form.shared.buyingCost.label')}
             iconLeft="$"
             placeholder="0.00"
             customOnChange={customOnChange}
@@ -60,7 +62,7 @@ export default function GasVehicleForm({
         <FormNumberInput
             control={control}
             name="gas.insurancePerYear"
-            label="Insurance per year"
+            label={t('form.shared.insurancePerYear.label')}
             iconLeft="$"
             placeholder="0.00"
             customOnChange={customOnChange}
@@ -70,10 +72,10 @@ export default function GasVehicleForm({
         <FormNumberInput
             control={control}
             name="gas.taxesPerYear"
-            label="Taxes per year"
+            label={t('form.shared.taxesPerYear.label')}
             iconLeft="$"
             placeholder="0.00"
-            hint="How much taxes you pay every year"
+            hint={t('form.shared.taxesPerYear.hint')}
             customOnChange={customOnChange}
         />
     )
@@ -81,10 +83,10 @@ export default function GasVehicleForm({
         <FormNumberInput
             control={control}
             name="gas.maintenancePerYear"
-            label="Maintenance per year"
+            label={t('form.shared.maintenancePerYear.label')}
             iconLeft="$"
             placeholder="0.00"
-            hint="Vehicle maintenance costs"
+            hint={t('form.shared.maintenancePerYear.hint')}
             customOnChange={customOnChange}
         />
     )
@@ -92,12 +94,12 @@ export default function GasVehicleForm({
         <FormNumberInput
             control={control}
             name="gas.fuelEfficiency"
-            label="Fuel efficiency"
+            label={t('form.gas.fuelEfficiency.label')}
             requiredIfTabFilled={true}
             dirtyTabFields={dirtyFields.gas}
             iconRight={fuelEfficiency}
             placeholder="0"
-            hint="How far you can drive the vehicle per unit of fuel"
+            hint={t('form.gas.fuelEfficiency.hint')}
             customOnChange={customOnChange}
         />
     )
@@ -105,13 +107,13 @@ export default function GasVehicleForm({
         <FormNumberInput
             control={control}
             name="gas.gasPrice"
-            label="Gas price"
+            label={t('form.gas.gasPrice.label')}
             requiredIfTabFilled={true}
             dirtyTabFields={dirtyFields.gas}
             iconLeft="$"
             iconRight={gasMeasurement}
             placeholder="0.00"
-            hint="How far you can drive the vehicle per unit of fuel"
+            hint={t('form.gas.gasPrice.hint')}
             customOnChange={customOnChange}
         />
     )

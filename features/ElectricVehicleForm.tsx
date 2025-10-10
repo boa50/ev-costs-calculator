@@ -40,7 +40,7 @@ export default function ElectricVehicleForm({ control, setTabIsValid }: Props) {
         <FormNumberInput
             control={control}
             name="ev.buyingCost"
-            label={t('form.ev.buyingCost.label')}
+            label={t('form.shared.buyingCost.label')}
             iconLeft="$"
             placeholder="0.00"
         />
@@ -49,7 +49,7 @@ export default function ElectricVehicleForm({ control, setTabIsValid }: Props) {
         <FormNumberInput
             control={control}
             name="ev.insurancePerYear"
-            label={t('form.ev.insurancePerYear.label')}
+            label={t('form.shared.insurancePerYear.label')}
             iconLeft="$"
             placeholder="0.00"
         />
@@ -58,20 +58,20 @@ export default function ElectricVehicleForm({ control, setTabIsValid }: Props) {
         <FormNumberInput
             control={control}
             name="ev.taxesPerYear"
-            label={t('form.ev.taxesPerYear.label')}
+            label={t('form.shared.taxesPerYear.label')}
             iconLeft="$"
             placeholder="0.00"
-            hint={t('form.ev.taxesPerYear.hint')}
+            hint={t('form.shared.taxesPerYear.hint')}
         />
     )
     const maintenancePerYear = (
         <FormNumberInput
             control={control}
             name="ev.maintenancePerYear"
-            label={t('form.ev.maintenancePerYear.label')}
+            label={t('form.shared.maintenancePerYear.label')}
             iconLeft="$"
             placeholder="0.00"
-            hint={t('form.ev.maintenancePerYear.hint')}
+            hint={t('form.shared.maintenancePerYear.hint')}
         />
     )
     const batteryAutonomy = (

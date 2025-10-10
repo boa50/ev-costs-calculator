@@ -12,7 +12,7 @@
             "gas": "Gas",
             "commons": "Commons"
         },
-        "ev": {
+        "shared": {
             "buyingCost": {
                 "label": "Vehicle buying cost"
             },
@@ -26,7 +26,9 @@
             "maintenancePerYear": {
                 "label": "Maintenance per year",
                 "hint": "Vehicle maintenance costs"
-            },
+            }
+        },
+        "ev": {
             "batteryAutonomy": {
                 "label": "Batery autonomy",
                 "hint": "Distance you can drive the vehicle without recharging it"
@@ -36,6 +38,16 @@
             },
             "electricityPrice": {
                 "label": "Electricity price"
+            }
+        },
+        "gas": {
+            "fuelEfficiency": {
+                "label": "Fuel efficiency",
+                "hint": "How far you can drive the vehicle per unit of fuel"
+            },
+            "gasPrice": {
+                "label": "Gas price",
+                "hint": "Price per unit of fuel"
             }
         },
         "buttons": {
