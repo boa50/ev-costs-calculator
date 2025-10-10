@@ -4,6 +4,7 @@ import { useFormState } from 'react-hook-form'
 import { useLocalStorage } from '@/hooks'
 import { getUnitAbbreviation, checkTabValidity } from '@/utils'
 import { FormNumberInput } from './FormNumberInput'
+import { useTranslation } from 'react-i18next'
 import type { TabValidStates } from '@/types'
 
 interface Props {
@@ -12,6 +13,7 @@ interface Props {
 }
 
 export default function ElectricVehicleForm({ control, setTabIsValid }: Props) {
+    const { t } = useTranslation()
     const distance = getUnitAbbreviation(useLocalStorage('distance')[0] ?? '')
     const { errors, dirtyFields } = useFormState({
         control,
@@ -38,7 +40,7 @@ export default function ElectricVehicleForm({ control, setTabIsValid }: Props) {
         <FormNumberInput
             control={control}
             name="ev.buyingCost"
-            label="Vehicle buying cost"
+            label={t('form.ev.buyingCost.label')}
             iconLeft="$"
             placeholder="0.00"
         />
@@ -47,7 +49,7 @@ export default function ElectricVehicleForm({ control, setTabIsValid }: Props) {
         <FormNumberInput
             control={control}
             name="ev.insurancePerYear"
-            label="Insurance per year"
+            label={t('form.ev.insurancePerYear.label')}
             iconLeft="$"
             placeholder="0.00"
         />
@@ -56,38 +58,38 @@ export default function ElectricVehicleForm({ control, setTabIsValid }: Props) {
         <FormNumberInput
             control={control}
             name="ev.taxesPerYear"
-            label="Taxes per year"
+            label={t('form.ev.taxesPerYear.label')}
             iconLeft="$"
             placeholder="0.00"
-            hint="How much taxes you pay every year"
+            hint={t('form.ev.taxesPerYear.hint')}
         />
     )
     const maintenancePerYear = (
         <FormNumberInput
             control={control}
             name="ev.maintenancePerYear"
-            label="Maintenance per year"
+            label={t('form.ev.maintenancePerYear.label')}
             iconLeft="$"
             placeholder="0.00"
-            hint="Vehicle maintenance costs"
+            hint={t('form.ev.maintenancePerYear.hint')}
         />
     )
     const batteryAutonomy = (
         <FormNumberInput
             control={control}
             name="ev.batteryAutonomy"
-            label="Batery autonomy"
+            label={t('form.ev.batteryAutonomy.label')}
             required={true}
             iconRight={distance}
             placeholder="0"
-            hint="Distance you can drive the vehicle without recharging it"
+            hint={t('form.ev.batteryAutonomy.hint')}
         />
     )
     const batteryCapacity = (
         <FormNumberInput
             control={control}
             name="ev.batteryCapacity"
-            label="Batery capacity"
+            label={t('form.ev.batteryCapacity.label')}
             required={true}
             iconRight="kWh"
             placeholder="0"
@@ -97,7 +99,7 @@ export default function ElectricVehicleForm({ control, setTabIsValid }: Props) {
         <FormNumberInput
             control={control}
             name="ev.electricityPrice"
-            label="Electricity price"
+            label={t('form.ev.electricityPrice.label')}
             required={true}
             iconLeft="$"
             iconRight="kWh"

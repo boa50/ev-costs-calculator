@@ -12,6 +12,32 @@
             "gas": "Gas",
             "commons": "Commons"
         },
+        "ev": {
+            "buyingCost": {
+                "label": "Vehicle buying cost"
+            },
+            "insurancePerYear": {
+                "label": "Insurance per year"
+            },
+            "taxesPerYear": {
+                "label": "Taxes per year",
+                "hint": "How much taxes you pay every year"
+            },
+            "maintenancePerYear": {
+                "label": "Maintenance per year",
+                "hint": "Vehicle maintenance costs"
+            },
+            "batteryAutonomy": {
+                "label": "Batery autonomy",
+                "hint": "Distance you can drive the vehicle without recharging it"
+            },
+            "batteryCapacity": {
+                "label": "Batery capacity"
+            },
+            "electricityPrice": {
+                "label": "Electricity price"
+            }
+        },
         "buttons": {
             "calculate": "Calculate",
             "saveMessage": "Form values saved with success"
