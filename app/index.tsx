@@ -116,7 +116,13 @@ export default function Index() {
         }
     }, [isLocalStorageChecked, formValuesLocalStorage, setValue])
 
-    const handleResetFields = () => reset(getFormDefaultValues())
+    const handleResetFields = () => {
+        reset(getFormDefaultValues())
+        setElectricCosts(undefined)
+        setGasCosts(undefined)
+        setEconomy(undefined)
+        setInitialCost(undefined)
+    }
 
     const handleSaveValues = () => {
         setFormValuesLocalStorage(JSON.stringify(getValues()))
