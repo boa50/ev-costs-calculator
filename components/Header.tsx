@@ -57,7 +57,7 @@ function Menu() {
             {isVisible && (
                 <View className="absolute top-8 -right-3 z-50">
                     <View
-                        className="bg-white p-2 shadow-shadow shadow-xl rounded-sm self-end mr-2"
+                        className="bg-background-card p-2 shadow-shadow shadow-xl rounded-sm self-end mr-2"
                         style={{ width: 102 }}
                     >
                         <MenuItem
