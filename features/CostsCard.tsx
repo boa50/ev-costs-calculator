@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 import type { Costs, Economy } from '@/types'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6'
-import colors from 'tailwindcss/colors'
+import colors from '@/colors'
 
 type Icon = 'electricity' | 'gas' | 'money'
 
@@ -18,20 +18,22 @@ export function CostsCard({ title, data, icon }: CostsCardProps) {
     const { t } = useTranslation()
 
     return (
-        <View className="bg-white p-2 shadow-gray-300 shadow-sm rounded-md">
+        <View className="bg-background-card p-2 shadow-gray-300 shadow-sm rounded-md">
             <View className="flex-row gap-1 items-center mb-1">
                 {icon !== undefined && <CostsIcon icon={icon} />}
-                <Text className="font-medium text-sky-800">{title}</Text>
+                <Text className="font-medium text-accent-standard">
+                    {title}
+                </Text>
             </View>
-            <Text className="text-gray-800">
+            <Text className="text-text-dark">
                 {t('form.costsCards.shared.annual')}:{' '}
                 {formatMonetaryNumber(data.annual)}
             </Text>
-            <Text className="text-gray-800">
+            <Text className="text-text-dark">
                 {t('form.costsCards.shared.monthly')}:{' '}
                 {formatMonetaryNumber(data.monthly)}
             </Text>
-            <Text className="text-gray-800">
+            <Text className="text-text-dark">
                 {t('form.costsCards.shared.totalPerYear')}:{' '}
                 {formatMonetaryNumber(data.perYear)}
             </Text>
@@ -41,7 +43,7 @@ export function CostsCard({ title, data, icon }: CostsCardProps) {
 
 function CostsIcon({ icon }: { icon: Icon }) {
     const iconSize = 14
-    const iconColour = colors.sky[800]
+    const iconColour = colors.icon.dark
 
     switch (icon) {
         case 'electricity':

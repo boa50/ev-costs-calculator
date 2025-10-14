@@ -4,7 +4,7 @@ import { useLocales } from 'expo-localization'
 import { InputLabel } from './InputLabel'
 import { useTranslation } from 'react-i18next'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
-import colors from 'tailwindcss/colors'
+import colors from '@/colors'
 
 interface Props {
     label?: string
@@ -38,7 +38,7 @@ export function Input({
     useEffect(() => {
         if (errorType) {
             setIsInputValid(false)
-            setBorderColour('border-red-600')
+            setBorderColour('border-error-standard')
             handleErrorMessage(errorType, setErrorMessage, {
                 required: t('components.input.requiredMessage'),
                 invalid: t('components.input.invalidMessage'),
@@ -46,7 +46,7 @@ export function Input({
         } else {
             setIsInputValid(true)
             setErrorMessage('')
-            if (isOnFocus) setBorderColour('border-sky-700')
+            if (isOnFocus) setBorderColour('border-accent-standard')
             else setBorderColour('border-gray-400')
         }
     }, [errorType, isOnFocus, t])
@@ -79,7 +79,7 @@ export function Input({
                 isInputValid={isInputValid}
             />
             <View
-                className={`flex flex-row bg-white rounded-2xl border w-full ${borderColour}`}
+                className={`flex flex-row bg-background-input rounded-2xl border w-full ${borderColour}`}
             >
                 <InputIcon
                     icon={iconLeft}
@@ -110,9 +110,9 @@ export function Input({
                 <MaterialCommunityIcons
                     name="alert-circle"
                     size={12}
-                    color={colors.red[600]}
+                    color={colors.error.standard}
                 />
-                <Text className={`text-sm font-normal text-red-600`}>
+                <Text className={`text-sm font-normal text-error-standard`}>
                     {errorMessage}
                 </Text>
             </View>
@@ -131,7 +131,7 @@ function InputIcon({
 }) {
     const iconDynamicClasses =
         position === 'left' ? 'rounded-l-2xl' : 'rounded-r-2xl'
-    const textColour = isInputValid ? 'text-gray-800' : 'text-red-600'
+    const textColour = isInputValid ? 'text-text-dark' : 'text-error-standard'
     const userLocale = useLocales()
     const iconFormatted = icon === '$' ? userLocale[0].currencySymbol : icon
 

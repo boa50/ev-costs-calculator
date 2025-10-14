@@ -60,8 +60,8 @@ function Button({ label, isActive, isValid, setActive }: ButtonProps) {
                 : 'bg-gray-600'
             : isValid === 'invalid'
               ? isActive
-                  ? 'bg-red-400'
-                  : 'bg-red-400'
+                  ? 'bg-error-light'
+                  : 'bg-error-light'
               : 'hidden'
 
     return (
@@ -69,7 +69,7 @@ function Button({ label, isActive, isValid, setActive }: ButtonProps) {
             <Pressable
                 className={`px-2 rounded-lg flex items-center w-full border flex-row gap-1
                     border-gray-500 bg-gray-700/5 
-                    disabled:bg-sky-700 disabled:border-sky-700`}
+                    disabled:bg-accent-standard disabled:border-accent-standard`}
                 disabled={isActive}
                 onPress={setActive}
             >
@@ -78,7 +78,7 @@ function Button({ label, isActive, isValid, setActive }: ButtonProps) {
                 ></View>
                 <Text
                     disabled={isActive}
-                    className={`font-normal text-sm text-gray-500 disabled:text-white`}
+                    className={`font-normal text-sm text-text-dark-faded disabled:text-text-light`}
                 >
                     {label}
                 </Text>

@@ -2,7 +2,7 @@ import { useState, useLayoutEffect, useRef } from 'react'
 import { useHeaderHeight } from '@/hooks'
 import { Pressable, View, Text, useWindowDimensions } from 'react-native'
 import Ionicons from '@expo/vector-icons/Ionicons'
-import colors from 'tailwindcss/colors'
+import colors from '@/colors'
 
 interface Props {
     text: string
@@ -96,10 +96,10 @@ function Tooltip({
         <View
             ref={ref}
             style={{ ...position, width: 200 }}
-            className={`absolute bg-neutral-600 p-2 rounded-sm
+            className={`absolute bg-background-info p-2 rounded-sm
                 ${isOpen ? 'visible z-50' : 'invisible -z-50'}`}
         >
-            <Text className="text-sm text-white">{text}</Text>
+            <Text className="text-sm text-text-light">{text}</Text>
         </View>
     )
 }

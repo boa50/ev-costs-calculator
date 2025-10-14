@@ -2,7 +2,7 @@ import { View } from 'react-native'
 import RNPickerSelect from 'react-native-picker-select'
 import { InputLabel } from './InputLabel'
 import { useTranslation } from 'react-i18next'
-import colors from 'tailwindcss/colors'
+import colors from '@/colors'
 
 interface Props {
     label?: string
@@ -45,7 +45,7 @@ export function Picker({ label, value, setValue, type, hint }: Props) {
                 useNativeAndroidPickerStyle={false}
                 style={{
                     inputAndroidContainer: {
-                        backgroundColor: colors.white,
+                        backgroundColor: colors.background.input,
                         borderWidth: 1,
                         borderRadius: 14,
                         borderColor: colors.gray[400],

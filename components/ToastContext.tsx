@@ -2,6 +2,7 @@ import { createContext, useState, useContext, type ReactNode } from 'react'
 import { Text } from 'react-native'
 import Animated, { withTiming, useAnimatedStyle } from 'react-native-reanimated'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import colors from '@/colors'
 
 type ToastType = 'success' | 'error' | 'info'
 
@@ -45,15 +46,15 @@ export const ToastProvider = ({ children }: { children: ReactNode }) => {
         isVisible && (
             <Animated.View
                 className={`absolute -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 z-50 
-                    px-4 py-2 bg-gray-500 rounded-sm flex-row items-center gap-2`}
+                    px-4 py-2 bg-background-info rounded-sm flex-row items-center gap-2`}
                 style={viewStyle}
             >
                 <MaterialCommunityIcons
                     name={type === 'success' ? 'check-circle' : 'alert-circle'}
                     size={14}
-                    color="white"
+                    color={colors.icon.light}
                 />
-                <Text className="text-white text-sm">{message}</Text>
+                <Text className="text-text-light text-sm">{message}</Text>
             </Animated.View>
         )
 

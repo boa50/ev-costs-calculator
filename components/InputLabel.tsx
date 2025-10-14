@@ -9,7 +9,7 @@ interface Props {
 }
 
 export function InputLabel({ title, hint, required, isInputValid }: Props) {
-    const textColour = isInputValid ? 'text-gray-800' : 'text-red-600'
+    const textColour = isInputValid ? 'text-text-dark' : 'text-error-standard'
 
     const labelText = (
         <Text className={`text-sm pb-1 ${textColour}`}>

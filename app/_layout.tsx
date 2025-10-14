@@ -3,7 +3,7 @@ import '@/i18n'
 import { Stack } from 'expo-router'
 import { Header, ToastProvider } from '@/components'
 import { useTranslation } from 'react-i18next'
-import colors from 'tailwindcss/colors'
+import colors from '@/colors'
 
 export default function RootLayout() {
     const { t } = useTranslation()
@@ -17,7 +17,7 @@ export default function RootLayout() {
                             routeName={props.route.name}
                         />
                     ),
-                    contentStyle: { backgroundColor: colors.gray[100] },
+                    contentStyle: { backgroundColor: colors.background.app },
                 }}
             >
                 <Stack.Screen

@@ -3,7 +3,7 @@ import { useRouter } from 'expo-router'
 import { View, Text, Pressable } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
-import colors from 'tailwindcss/colors'
+import colors from '@/colors'
 
 interface Props {
     title?: string
@@ -15,17 +15,17 @@ export function Header({ title, routeName }: Props) {
     const isIndex = routeName === 'index'
 
     return (
-        <View className="flex-row h-20 pt-9 pb-3 px-4 bg-sky-700 items-center">
+        <View className="flex-row h-20 pt-9 pb-3 px-4 bg-accent-standard items-center">
             {router.canGoBack() && (
                 <Pressable onPress={router.back} className="mr-2 -ml-1">
                     <MaterialCommunityIcons
                         name="arrow-left"
                         size={24}
-                        color={colors.gray[100]}
+                        color={colors.icon.light}
                     />
                 </Pressable>
             )}
-            <Text className="flex-1 text-gray-100 text-xl font-medium">
+            <Text className="flex-1 text-text-light text-xl font-medium">
                 {title}
             </Text>
             {isIndex && <Menu />}
@@ -51,13 +51,13 @@ function Menu() {
                 <MaterialCommunityIcons
                     name="dots-vertical"
                     size={24}
-                    color={colors.gray[100]}
+                    color={colors.icon.light}
                 />
             </Pressable>
             {isVisible && (
                 <View className="absolute top-8 -right-3 z-50">
                     <View
-                        className="bg-white p-2 shadow-gray-800 shadow-xl rounded-sm self-end mr-2"
+                        className="bg-white p-2 shadow-shadow shadow-xl rounded-sm self-end mr-2"
                         style={{ width: 102 }}
                     >
                         <MenuItem
@@ -90,7 +90,7 @@ function MenuItem({
                 handleHideMenu()
             }}
         >
-            <Text className="text-gray-800">{label}</Text>
+            <Text className="text-text-dark">{label}</Text>
         </Pressable>
     )
 }

@@ -6,7 +6,7 @@ import Animated, {
     withTiming,
     useAnimatedStyle,
 } from 'react-native-reanimated'
-import colors from 'tailwindcss/colors'
+import colors from '@/colors'
 
 interface Props {
     label: string
@@ -37,7 +37,7 @@ export function SwitchMultiple({
 
     return (
         <View className="flex-row gap-4 items-center justify-between">
-            <Text className="text-gray-800">{label}</Text>
+            <Text className="text-text-dark">{label}</Text>
             <View
                 style={{
                     padding: 2,
@@ -60,7 +60,7 @@ export function SwitchMultiple({
                         margin: 2,
                         transform: [{ translateX }],
                     }}
-                    className="absolute h-full rounded-md shadow-lg shadow-gray-600 bg-gray-100"
+                    className="absolute h-full rounded-md shadow-lg shadow-shadow bg-gray-100"
                 ></Animated.View>
                 {options.map((option) => (
                     <SwitchItem
@@ -97,7 +97,7 @@ function SwitchItem({
     const durationOut = 50
     const style = useAnimatedStyle(() => ({
         color: isSelected
-            ? withTiming(colors.sky[800], { duration: durationIn })
+            ? withTiming(colors.accent.standard, { duration: durationIn })
             : withTiming(colors.gray[400], { duration: durationOut }),
         fontWeight: isSelected
             ? withTiming(500, { duration: durationIn })
