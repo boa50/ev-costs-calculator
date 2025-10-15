@@ -37,7 +37,14 @@
                     "backgroundColor": "#009689"
                 }
             ],
-            "expo-localization"
+            "expo-localization",
+            [
+                "react-native-google-mobile-ads",
+                {
+                    "androidAppId": "ca-app-pub-8304199258405499~5711776730",
+                    "iosAppId": "ca-app-pub-8304199258405499~5711776730"
+                }
+            ]
         ],
         "experiments": {
             "typedRoutes": true,

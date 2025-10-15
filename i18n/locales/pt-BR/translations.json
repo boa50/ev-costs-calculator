@@ -1,4 +1,7 @@
 {
+    "adds": {
+        "description": "Patrocinado"
+    },
     "headers": {
         "calculateCosts": "Calcular Custos",
         "manageUnits": "Gerenciar Unidades"

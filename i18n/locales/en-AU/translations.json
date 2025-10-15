@@ -1,4 +1,7 @@
 {
+    "adds": {
+        "description": "Sponsored"
+    },
     "headers": {
         "calculateCosts": "Calculate Costs",
         "manageUnits": "Manage Units"

@@ -7,6 +7,7 @@ import { CostsCard, RecoverInvestmentCard } from '@/features/CostsCard'
 import { useLocalStorage } from '@/hooks'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
+import { BannerAd } from '@/components/ads'
 import {
     Button,
     FilterButtons,
@@ -217,118 +218,121 @@ export default function Index() {
     }
 
     return (
-        <Container>
-            <View className="pb-4">
-                <FilterButtons
-                    state={filterButtonsState}
-                    setState={setFilterButtonsState}
-                />
-            </View>
+        <View className="flex-1">
+            <Container>
+                <View className="pb-4">
+                    <FilterButtons
+                        state={filterButtonsState}
+                        setState={setFilterButtonsState}
+                    />
+                </View>
 
-            <FormView isActive={filterButtonsState.ev.isActive}>
-                <ElectricVehicleForm
-                    control={control}
-                    setTabIsValid={(isValid) =>
-                        handleChangeTabValidState('ev', isValid)
-                    }
-                />
-            </FormView>
+                <FormView isActive={filterButtonsState.ev.isActive}>
+                    <ElectricVehicleForm
+                        control={control}
+                        setTabIsValid={(isValid) =>
+                            handleChangeTabValidState('ev', isValid)
+                        }
+                    />
+                </FormView>
 
-            <FormView isActive={filterButtonsState.gas.isActive}>
-                <GasVehicleForm
-                    control={control}
-                    setTabIsValid={(isValid) =>
-                        handleChangeTabValidState('gas', isValid)
-                    }
-                    triggerRevalidation={(fields: FormFields[]) => {
-                        trigger(fields)
-                    }}
-                />
-            </FormView>
+                <FormView isActive={filterButtonsState.gas.isActive}>
+                    <GasVehicleForm
+                        control={control}
+                        setTabIsValid={(isValid) =>
+                            handleChangeTabValidState('gas', isValid)
+                        }
+                        triggerRevalidation={(fields: FormFields[]) => {
+                            trigger(fields)
+                        }}
+                    />
+                </FormView>
 
-            <FormView isActive={filterButtonsState.commons.isActive}>
-                <CommonsForm
-                    control={control}
-                    setTabIsValid={(isValid) =>
-                        handleChangeTabValidState('commons', isValid)
-                    }
-                />
-            </FormView>
+                <FormView isActive={filterButtonsState.commons.isActive}>
+                    <CommonsForm
+                        control={control}
+                        setTabIsValid={(isValid) =>
+                            handleChangeTabValidState('commons', isValid)
+                        }
+                    />
+                </FormView>
 
-            {electricCosts ? (
-                <Grid additionalClasses="pt-4 flex-1 gap-4">
+                {electricCosts ? (
+                    <Grid additionalClasses="pt-4 flex-1 gap-4">
+                        <Row>
+                            <Col>
+                                <CostsCard
+                                    title={t('form.costsCards.headers.ev')}
+                                    data={electricCosts}
+                                    icon="electricity"
+                                />
+                            </Col>
+                            <Col>
+                                {gasCosts && (
+                                    <CostsCard
+                                        title={t('form.costsCards.headers.gas')}
+                                        data={gasCosts}
+                                        icon="gas"
+                                    />
+                                )}
+                            </Col>
+                        </Row>
+                        {economy && (
+                            <>
+                                <Row>
+                                    <Col>
+                                        <CostsCard
+                                            title={t(
+                                                'form.costsCards.headers.economy'
+                                            )}
+                                            data={economy}
+                                            icon="money"
+                                        />
+                                    </Col>
+                                    <Col></Col>
+                                </Row>
+                                {initialCost !== undefined && (
+                                    <Row>
+                                        <RecoverInvestmentCard
+                                            data={economy}
+                                            initialCost={initialCost}
+                                        />
+                                    </Row>
+                                )}
+                            </>
+                        )}
+                    </Grid>
+                ) : (
+                    <View className="flex-1"></View>
+                )}
+
+                <Grid additionalClasses="mb-4">
                     <Row>
+                        <View>
+                            <IconButton
+                                icon="save-alt"
+                                theme="secondary"
+                                onPress={handleSaveValues}
+                            />
+                        </View>
                         <Col>
-                            <CostsCard
-                                title={t('form.costsCards.headers.ev')}
-                                data={electricCosts}
-                                icon="electricity"
+                            <Button
+                                label={t('form.buttons.calculate')}
+                                onPress={handleSubmit(onSubmit)}
                             />
                         </Col>
-                        <Col>
-                            {gasCosts && (
-                                <CostsCard
-                                    title={t('form.costsCards.headers.gas')}
-                                    data={gasCosts}
-                                    icon="gas"
-                                />
-                            )}
-                        </Col>
+                        <View>
+                            <IconButton
+                                icon="settings-backup-restore"
+                                theme="secondary"
+                                onPress={handleResetFields}
+                            />
+                        </View>
                     </Row>
-                    {economy && (
-                        <>
-                            <Row>
-                                <Col>
-                                    <CostsCard
-                                        title={t(
-                                            'form.costsCards.headers.economy'
-                                        )}
-                                        data={economy}
-                                        icon="money"
-                                    />
-                                </Col>
-                                <Col></Col>
-                            </Row>
-                            {initialCost !== undefined && (
-                                <Row>
-                                    <RecoverInvestmentCard
-                                        data={economy}
-                                        initialCost={initialCost}
-                                    />
-                                </Row>
-                            )}
-                        </>
-                    )}
                 </Grid>
-            ) : (
-                <View className="flex-1"></View>
-            )}
-
-            <Grid additionalClasses="mb-4">
-                <Row>
-                    <View>
-                        <IconButton
-                            icon="save-alt"
-                            theme="secondary"
-                            onPress={handleSaveValues}
-                        />
-                    </View>
-                    <Col>
-                        <Button
-                            label={t('form.buttons.calculate')}
-                            onPress={handleSubmit(onSubmit)}
-                        />
-                    </Col>
-                    <View>
-                        <IconButton
-                            icon="settings-backup-restore"
-                            theme="secondary"
-                            onPress={handleResetFields}
-                        />
-                    </View>
-                </Row>
-            </Grid>
-        </Container>
+            </Container>
+            <BannerAd />
+        </View>
     )
 }
 

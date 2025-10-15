@@ -3,6 +3,7 @@ import { View } from 'react-native'
 import { Container, SwitchMultiple } from '@/components'
 import { getUnits } from '@/utils'
 import { useTranslation } from 'react-i18next'
+import { NativeAd } from '@/components/ads'
 
 const units = getUnits()
 const btnWidth = 84
@@ -46,30 +47,33 @@ export default function ManageUnits() {
     ]
 
     return (
-        <Container>
-            <View className="gap-4">
-                <SwitchMultiple
-                    label={t('manageUnits.distance.title')}
-                    options={distanceOptions}
-                    value={distance ?? units.distance[0]}
-                    setValue={setDistance}
-                    btnWidth={btnWidth}
-                />
-                <SwitchMultiple
-                    label={t('manageUnits.gasMeasurement.title')}
-                    options={gasMeasurementOptions}
-                    value={gasMeasurement ?? units.gasMeasurement[0]}
-                    setValue={setGasMeasurement}
-                    btnWidth={btnWidth}
-                />
-                <SwitchMultiple
-                    label={t('manageUnits.fuelEfficiency.title')}
-                    options={fuelEfficiencyOptions}
-                    value={fuelEfficiency ?? units.fuelEfficiency[0]}
-                    setValue={setFuelEfficiency}
-                    btnWidth={btnWidth}
-                />
-            </View>
-        </Container>
+        <View className="flex-1">
+            <Container>
+                <View className="gap-4">
+                    <SwitchMultiple
+                        label={t('manageUnits.distance.title')}
+                        options={distanceOptions}
+                        value={distance ?? units.distance[0]}
+                        setValue={setDistance}
+                        btnWidth={btnWidth}
+                    />
+                    <SwitchMultiple
+                        label={t('manageUnits.gasMeasurement.title')}
+                        options={gasMeasurementOptions}
+                        value={gasMeasurement ?? units.gasMeasurement[0]}
+                        setValue={setGasMeasurement}
+                        btnWidth={btnWidth}
+                    />
+                    <SwitchMultiple
+                        label={t('manageUnits.fuelEfficiency.title')}
+                        options={fuelEfficiencyOptions}
+                        value={fuelEfficiency ?? units.fuelEfficiency[0]}
+                        setValue={setFuelEfficiency}
+                        btnWidth={btnWidth}
+                    />
+                </View>
+            </Container>
+            <NativeAd />
+        </View>
     )
 }
