@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { Container, SwitchMultiple } from '@/components'
 import { getUnits } from '@/utils'
 import { useTranslation } from 'react-i18next'
-import { NativeAd } from '@/components/ads'
+import { NativeAd } from '@/components/ads/NativeAd'
 
 const units = getUnits()
 const btnWidth = 84

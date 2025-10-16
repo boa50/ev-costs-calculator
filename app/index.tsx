@@ -7,7 +7,7 @@ import { CostsCard, RecoverInvestmentCard } from '@/features/CostsCard'
 import { useLocalStorage } from '@/hooks'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import { BannerAd } from '@/components/ads'
+import { BannerAd } from '@/components/ads/BannerAd'
 import {
     Button,
     FilterButtons,

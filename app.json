@@ -1,60 +1,71 @@
 {
-    "expo": {
-        "name": "ev-costs-calculator",
-        "slug": "ev-costs-calculator",
-        "version": "1.0.0",
-        "orientation": "portrait",
-        "icon": "./assets/images/icon.png",
-        "scheme": "evcostscalculator",
-        "userInterfaceStyle": "automatic",
-        "newArchEnabled": true,
-        "ios": {
-            "supportsTablet": true,
-            "bundleIdentifier": "com.anonymous.evcostscalculator"
-        },
-        "android": {
-            "adaptiveIcon": {
-                "backgroundColor": "#009689",
-                "foregroundImage": "./assets/images/android-icon-foreground.png"
-            },
-            "edgeToEdgeEnabled": true,
-            "predictiveBackGestureEnabled": false,
-            "package": "com.anonymous.evcostscalculator"
-        },
-        "web": {
-            "output": "static",
-            "bundler": "metro",
-            "favicon": "./assets/images/favicon.png"
-        },
-        "plugins": [
-            "expo-router",
-            [
-                "expo-splash-screen",
-                {
-                    "image": "./assets/images/splash-icon.png",
-                    "imageWidth": 200,
-                    "resizeMode": "contain",
-                    "backgroundColor": "#009689"
-                }
-            ],
-            "expo-localization",
-            [
-                "react-native-google-mobile-ads",
-                {
-                    "androidAppId": "ca-app-pub-8304199258405499~5711776730",
-                    "iosAppId": "ca-app-pub-8304199258405499~5711776730"
-                }
-            ]
-        ],
-        "experiments": {
-            "typedRoutes": true,
-            "reactCompiler": true
-        },
-        "extra": {
-            "router": {},
-            "eas": {
-                "projectId": "6be23836-304a-4d08-a276-0645d3b773ea"
-            }
+  "expo": {
+    "name": "ev-costs-calculator",
+    "slug": "ev-costs-calculator",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "scheme": "evcostscalculator",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.evcostscalculator"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#009689",
+        "foregroundImage": "./assets/images/android-icon-foreground.png"
+      },
+      "edgeToEdgeEnabled": true,
+      "predictiveBackGestureEnabled": false,
+      "package": "com.anonymous.evcostscalculator"
+    },
+    "web": {
+      "output": "static",
+      "bundler": "metro",
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/splash-icon.png",
+          "imageWidth": 200,
+          "resizeMode": "contain",
+          "backgroundColor": "#009689"
         }
+      ],
+      "expo-localization",
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": "ca-app-pub-8304199258405499~5711776730",
+          "iosAppId": "ca-app-pub-8304199258405499~5711776730",
+          "delayAppMeasurementInit": true,
+          "userTrackingUsageDescription": "This identifier will be used to deliver personalized ads to you."
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "extraProguardRules": "-keep class com.google.android.gms.internal.consent_sdk.** { *; }"
+          }
+        }
+      ],
+      "expo-tracking-transparency"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "6be23836-304a-4d08-a276-0645d3b773ea"
+      }
     }
+  }
 }

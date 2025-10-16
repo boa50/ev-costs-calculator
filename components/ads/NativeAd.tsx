@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { AdsContext } from './AdsContext'
 import { Image, Text, View } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import {
@@ -13,6 +14,7 @@ import {
 
 export const NativeAd = () => {
     const { t } = useTranslation()
+    const { isSdkInitialized, canRequestAds } = useContext(AdsContext)
     const [nativeAd, setNativeAd] = useState<LibNativeAd>()
     const iconSize = 20
 
@@ -25,9 +27,8 @@ export const NativeAd = () => {
             .catch(console.error)
     }, [])
 
-    if (!nativeAd) {
-        return null
-    }
+    if (!nativeAd) return null
+    if (!(isSdkInitialized && canRequestAds)) return null
 
     return (
         // Wrap all the ad assets in the NativeAdView component, and register the view with the nativeAd prop

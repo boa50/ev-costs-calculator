@@ -1,4 +1,5 @@
-import { useRef } from 'react'
+import { useRef, useContext } from 'react'
+import { AdsContext } from './AdsContext'
 import { Platform } from 'react-native'
 import {
     TestIds,
@@ -8,6 +9,7 @@ import {
 } from 'react-native-google-mobile-ads'
 
 export function BannerAd() {
+    const { isSdkInitialized, canRequestAds } = useContext(AdsContext)
     const bannerRef = useRef<LibBannerAd>(null)
 
     // (iOS) WKWebView can terminate if app is in a "suspended state", resulting in an empty banner when app returns to foreground.
@@ -15,6 +17,8 @@ export function BannerAd() {
     useForeground(() => {
         Platform.OS === 'ios' && bannerRef.current?.load()
     })
+
+    if (!(isSdkInitialized && canRequestAds)) return null
 
     return (
         <LibBannerAd

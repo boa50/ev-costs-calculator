@@ -1,6 +1,7 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { AdsContext } from './ads/AdsContext'
 import { useRouter } from 'expo-router'
-import { View, Text, Pressable } from 'react-native'
+import { View, Text, Pressable, TouchableOpacity } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import colors from '@/colors'
@@ -34,6 +35,7 @@ export function Header({ title, routeName }: Props) {
 }
 
 function Menu() {
+    const { showPrivacyOptions, formAvailable } = useContext(AdsContext)
     const { t } = useTranslation()
 
     const [isVisible, setIsVisible] = useState<boolean>(false)
@@ -57,7 +59,7 @@ function Menu() {
             {isVisible && (
                 <View className="absolute top-8 -right-3 z-50">
                     <View
-                        className="bg-background-card p-2 shadow-shadow shadow-xl rounded-sm self-end mr-2"
+                        className="bg-background-card p-2 shadow-shadow shadow-xl rounded-sm self-end mr-2 gap-1"
                         style={{ width: 102 }}
                     >
                         <MenuItem
@@ -65,6 +67,18 @@ function Menu() {
                             pathname="/manageUnits"
                             handleHideMenu={handleHideMenu}
                         />
+
+                        {/* Manage Ads Consentment */}
+                        {formAvailable && (
+                            <TouchableOpacity
+                                onPress={() => {
+                                    showPrivacyOptions()
+                                    setIsVisible(false)
+                                }}
+                            >
+                                <Text>Configure Privacy</Text>
+                            </TouchableOpacity>
+                        )}
                     </View>
                 </View>
             )}
@@ -84,13 +98,13 @@ function MenuItem({
     const router = useRouter()
 
     return (
-        <Pressable
+        <TouchableOpacity
             onPress={() => {
                 router.navigate(pathname)
                 handleHideMenu()
             }}
         >
             <Text className="text-text-dark">{label}</Text>
-        </Pressable>
+        </TouchableOpacity>
     )
 }
