@@ -3,10 +3,12 @@ import '@/i18n'
 import { Stack } from 'expo-router'
 import { Header, ToastProvider } from '@/components'
 import { useTranslation } from 'react-i18next'
-import colors from '@/colors'
 import AdsContextProvider from '@/components/ads/AdsContextProvider'
+import { validateLocalStorageUnits } from '@/utils'
+import colors from '@/colors'
 
 export default function RootLayout() {
+    validateLocalStorageUnits()
     const { t } = useTranslation()
 
     return (

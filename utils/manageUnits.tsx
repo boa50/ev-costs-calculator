@@ -1,3 +1,5 @@
+import { MMKV } from 'react-native-mmkv'
+
 export function getUnits(): {
     distance: string[]
     gasMeasurement: string[]
@@ -10,26 +12,24 @@ export function getUnits(): {
     }
 }
 
-export function validateLocalStorageUnits(
-    distance: string | undefined,
-    setDistance: (distance: string) => void,
-    gasMeasurement: string | undefined,
-    setGasMeasurement: (gasMeasurement: string) => void,
-    fuelEfficiency: string | undefined,
-    setFuelEfficiency: (fuelEfficiency: string) => void
-): void {
+export function validateLocalStorageUnits(): void {
+    const storage = new MMKV()
     const units = getUnits()
 
+    const distance = storage.getString('distance')
+    const gasMeasurement = storage.getString('gasMeasurement')
+    const fuelEfficiency = storage.getString('fuelEfficiency')
+
     if (distance === undefined || !units.distance.includes(distance))
-        setDistance(units.distance[0])
+        storage.set('distance', units.distance[0])
     if (
         gasMeasurement === undefined ||
         !units.gasMeasurement.includes(gasMeasurement)
     )
-        setGasMeasurement(units.gasMeasurement[0])
+        storage.set('gasMeasurement', units.gasMeasurement[0])
     if (
         fuelEfficiency === undefined ||
         !units.fuelEfficiency.includes(fuelEfficiency)
     )
-        setFuelEfficiency(units.fuelEfficiency[0])
+        storage.set('fuelEfficiency', units.fuelEfficiency[0])
 }

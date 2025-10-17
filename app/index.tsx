@@ -24,7 +24,6 @@ import {
     convertTextToNumber,
     getElectricVehicleFromForm,
     getGasVehicleFromForm,
-    validateLocalStorageUnits,
     getCurrentMonthNumber,
     calculateEconomy,
 } from '@/utils'
@@ -38,22 +37,11 @@ import type {
 } from '@/types'
 
 export default function Index() {
-    const [distance, setDistance] = useLocalStorage('distance')
-    const [gasMeasurement, setGasMeasurement] =
-        useLocalStorage('gasMeasurement')
-    const [fuelEfficiency, setFuelEfficiency] =
-        useLocalStorage('fuelEfficiency')
+    const distance = useLocalStorage('distance')[0]
+    const gasMeasurement = useLocalStorage('gasMeasurement')[0]
+    const fuelEfficiency = useLocalStorage('fuelEfficiency')[0]
     const [formValuesLocalStorage, setFormValuesLocalStorage] =
         useLocalStorage('formValues')
-
-    validateLocalStorageUnits(
-        distance,
-        setDistance,
-        gasMeasurement,
-        setGasMeasurement,
-        fuelEfficiency,
-        setFuelEfficiency
-    )
 
     const { t } = useTranslation()
 
