@@ -19,10 +19,13 @@ export const NativeAd = () => {
     const iconSize = 20
 
     useEffect(() => {
-        LibNativeAd.createForAdRequest(TestIds.NATIVE, {
-            aspectRatio: NativeMediaAspectRatio.ANY,
-            startVideoMuted: true,
-        })
+        LibNativeAd.createForAdRequest(
+            process.env.EXPO_PUBLIC_AD_NATIVE_UNIT_ID ?? TestIds.NATIVE,
+            {
+                aspectRatio: NativeMediaAspectRatio.ANY,
+                startVideoMuted: true,
+            }
+        )
             .then(setNativeAd)
             .catch(console.error)
     }, [])

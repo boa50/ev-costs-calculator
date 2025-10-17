@@ -23,7 +23,10 @@ export function BannerAd() {
     return (
         <LibBannerAd
             ref={bannerRef}
-            unitId={TestIds.ADAPTIVE_BANNER}
+            unitId={
+                process.env.EXPO_PUBLIC_AD_BANNER_UNIT_ID ??
+                TestIds.ADAPTIVE_BANNER
+            }
             size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
         />
     )

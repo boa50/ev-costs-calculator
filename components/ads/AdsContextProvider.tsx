@@ -1,3 +1,5 @@
+//Based on https://www.reddit.com/r/expo/comments/1l1mjsv/my_solution_to_consent_management_with/
+
 import { PropsWithChildren, useEffect, useState } from 'react'
 import { Platform } from 'react-native'
 import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency'
@@ -7,6 +9,7 @@ import mobileAds, {
     AdsConsent,
     AdsConsentStatus,
     AdsConsentPrivacyOptionsRequirementStatus,
+    AdsConsentDebugGeography,
 } from 'react-native-google-mobile-ads'
 
 export default function AdsContextProvider({ children }: PropsWithChildren) {
@@ -17,6 +20,7 @@ export default function AdsContextProvider({ children }: PropsWithChildren) {
     // check consent status on app launch
     useEffect(() => {
         prepareConsentInfo()
+        /* eslint-disable-next-line -- This should be run only on app startup */
     }, [])
 
     /**
@@ -30,7 +34,7 @@ export default function AdsContextProvider({ children }: PropsWithChildren) {
      *      if user is in EEA, request GDRP form. Otherwise, present the US regulation form if required/available
      */
     async function prepareConsentInfo() {
-        const consentInfo = await AdsConsent.requestInfoUpdate()
+        const consentInfo = await getConsentInfo()
         const gdprApplies = await AdsConsent.getGdprApplies()
 
         // check status of consent form, used in Settings to determine whether to display privacy options form
@@ -74,7 +78,7 @@ export default function AdsContextProvider({ children }: PropsWithChildren) {
      *  Otherwise, do not start SDK and leave canRequestAds false
      */
     async function checkConsentGDPR() {
-        const consentInfo = await AdsConsent.requestInfoUpdate()
+        const consentInfo = await getConsentInfo()
         const userChoices = await AdsConsent.getUserChoices()
 
         // manually check for at least basic consent before requesting ads
@@ -164,4 +168,28 @@ export default function AdsContextProvider({ children }: PropsWithChildren) {
             {children}
         </AdsContext.Provider>
     )
+}
+
+async function getConsentInfo() {
+    let testOptions = {}
+    const consentInfoTest = process.env.EXPO_PUBLIC_CONSENT_INFO_TEST
+
+    if (consentInfoTest !== undefined) {
+        let debugGeography = AdsConsentDebugGeography.OTHER
+
+        if (consentInfoTest === 'EEA')
+            debugGeography = AdsConsentDebugGeography.EEA
+        if (consentInfoTest === 'US')
+            debugGeography = AdsConsentDebugGeography.REGULATED_US_STATE
+
+        testOptions = {
+            debugGeography: debugGeography,
+            testDeviceIdentifiers: [
+                'EMULATOR',
+                process.env.EXPO_PUBLIC_CONSENT_INFO_TEST_DEVICE_ID ?? '',
+            ],
+        }
+    }
+
+    return await AdsConsent.requestInfoUpdate(testOptions)
 }
