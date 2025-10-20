@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Grid, Row, Col } from '@/components'
+import { View } from 'react-native'
 import { useFormState } from 'react-hook-form'
 import { useLocalStorage } from '@/hooks'
 import { getUnitAbbreviation, checkTabValidity } from '@/utils'
@@ -108,23 +108,14 @@ export default function ElectricVehicleForm({ control, setTabIsValid }: Props) {
     )
 
     return (
-        <Grid>
-            <Row>
-                <Col>{batteryAutonomy}</Col>
-                <Col>{batteryCapacity}</Col>
-            </Row>
-            <Row>
-                <Col>{electricityPrice}</Col>
-                <Col>{insurancePerYear}</Col>
-            </Row>
-            <Row>
-                <Col>{taxesPerYear}</Col>
-                <Col>{maintenancePerYear}</Col>
-            </Row>
-            <Row>
-                <Col>{vehicleBuyingCost}</Col>
-                <Col></Col>
-            </Row>
-        </Grid>
+        <View className="flex-col">
+            {batteryAutonomy}
+            {batteryCapacity}
+            {electricityPrice}
+            {insurancePerYear}
+            {taxesPerYear}
+            {maintenancePerYear}
+            {vehicleBuyingCost}
+        </View>
     )
 }

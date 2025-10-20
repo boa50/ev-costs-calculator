@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Grid, Row, Col } from '@/components'
+import { View } from 'react-native'
 import { useFormState } from 'react-hook-form'
 import { useLocalStorage } from '@/hooks'
 import { getUnitAbbreviation, checkTabValidity } from '@/utils'
@@ -119,19 +119,13 @@ export default function GasVehicleForm({
     )
 
     return (
-        <Grid>
-            <Row>
-                <Col>{fuelEfficiencyInput}</Col>
-                <Col>{gasPrice}</Col>
-            </Row>
-            <Row>
-                <Col>{insurancePerYear}</Col>
-                <Col>{taxesPerYear}</Col>
-            </Row>
-            <Row>
-                <Col>{maintenancePerYear}</Col>
-                <Col>{vehicleBuyingCost}</Col>
-            </Row>
-        </Grid>
+        <View>
+            {fuelEfficiencyInput}
+            {gasPrice}
+            {insurancePerYear}
+            {taxesPerYear}
+            {maintenancePerYear}
+            {vehicleBuyingCost}
+        </View>
     )
 }

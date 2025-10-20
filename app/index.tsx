@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import { View } from 'react-native'
+import { View, KeyboardAvoidingView, Platform, ScrollView } from 'react-native'
 import ElectricVehicleForm from '@/features/ElectricVehicleForm'
 import GasVehicleForm from '@/features/GasVehicleForm'
 import CommonsForm from '@/features/CommonsForm'
-import { CostsCard, RecoverInvestmentCard } from '@/features/CostsCard'
+import { useCostsContext } from '@/contexts/CostsContext'
+import { useRouter } from 'expo-router'
 import { useLocalStorage } from '@/hooks'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
@@ -27,14 +28,7 @@ import {
     getCurrentMonthNumber,
     calculateEconomy,
 } from '@/utils'
-import type {
-    FormValues,
-    FormFields,
-    TabNames,
-    TabValidStates,
-    Costs,
-    Economy,
-} from '@/types'
+import type { FormValues, FormFields, TabNames, TabValidStates } from '@/types'
 
 export default function Index() {
     const distance = useLocalStorage('distance')[0]
@@ -44,6 +38,8 @@ export default function Index() {
         useLocalStorage('formValues')
 
     const { t } = useTranslation()
+    const router = useRouter()
+    const { costsDispatch } = useCostsContext()
 
     const [filterButtonsState, setFilterButtonsState] =
         useState<FilterButtonsObject>({
@@ -63,10 +59,6 @@ export default function Index() {
                 isValid: 'incomplete',
             },
         })
-    const [electricCosts, setElectricCosts] = useState<Costs>()
-    const [gasCosts, setGasCosts] = useState<Costs>()
-    const [economy, setEconomy] = useState<Economy>()
-    const [initialCost, setInitialCost] = useState<number>()
     const [isLocalStorageChecked, setIsLocalStorageChecked] =
         useState<boolean>(false)
 
@@ -107,10 +99,7 @@ export default function Index() {
 
     const handleResetFields = () => {
         reset(getFormDefaultValues())
-        setElectricCosts(undefined)
-        setGasCosts(undefined)
-        setEconomy(undefined)
-        setInitialCost(undefined)
+        costsDispatch({ type: 'CLEAR_COSTS' })
     }
 
     const handleSaveValues = () => {
@@ -129,11 +118,11 @@ export default function Index() {
         const { annualCosts: evAnnualCosts, monthlyCosts: evMonthlyCosts } =
             calculateCosts({ car: electricVehicle, distanceDrivenPerWeek })
 
-        setElectricCosts({
+        const evCosts = {
             annual: evAnnualCosts,
             monthly: evMonthlyCosts,
             perYear: evAnnualCosts + evMonthlyCosts * 12,
-        })
+        }
 
         const hasGasVehicle =
             data.gas.fuelEfficiency !== '' && data.gas.gasPrice !== ''
@@ -152,20 +141,12 @@ export default function Index() {
                 gasMeasurementUnit: fuelEfficiency,
             })
 
-            setGasCosts({
-                annual: gasAnnualCosts,
-                monthly: gasMonthlyCosts,
-                perYear: gasAnnualCosts + gasMonthlyCosts * 12,
-            })
-
             const isCalculateTimeToRecoverInvestment =
                 electricVehicle.buyingCost > 0 && gasVehicle.buyingCost > 0
-            let initialCost
 
+            let initialCost
             if (isCalculateTimeToRecoverInvestment) {
                 initialCost = electricVehicle.buyingCost - gasVehicle.buyingCost
-
-                setInitialCost(initialCost)
             }
 
             const {
@@ -184,15 +165,34 @@ export default function Index() {
                 commonsData: data.commons,
             })
 
-            setEconomy({
-                annual: annualEconomy,
-                monthly: monthlyEconomy,
-                perYear: perYearEconomy,
-                numYears: numYears,
-                numMonths: numMonths,
-                isMaxYears: isMaxYears,
+            costsDispatch({
+                type: 'SET_COSTS',
+                payload: {
+                    electric: evCosts,
+                    gas: {
+                        annual: gasAnnualCosts,
+                        monthly: gasMonthlyCosts,
+                        perYear: gasAnnualCosts + gasMonthlyCosts * 12,
+                    },
+                    economy: {
+                        annual: annualEconomy,
+                        monthly: monthlyEconomy,
+                        perYear: perYearEconomy,
+                        numYears: numYears,
+                        numMonths: numMonths,
+                        isMaxYears: isMaxYears,
+                    },
+                    initialCost: initialCost,
+                },
+            })
+        } else {
+            costsDispatch({
+                type: 'SET_COSTS',
+                payload: { electric: evCosts },
             })
         }
+
+        router.navigate('/results')
     }
 
     const handleChangeTabValidState = (
@@ -215,86 +215,50 @@ export default function Index() {
                     />
                 </View>
 
-                <FormView isActive={filterButtonsState.ev.isActive}>
-                    <ElectricVehicleForm
-                        control={control}
-                        setTabIsValid={(isValid) =>
-                            handleChangeTabValidState('ev', isValid)
-                        }
-                    />
-                </FormView>
+                <KeyboardAvoidingView
+                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                    style={{ flex: 1 }}
+                    keyboardVerticalOffset={64}
+                >
+                    <ScrollView style={{ flex: 1 }}>
+                        <FormView isActive={filterButtonsState.ev.isActive}>
+                            <ElectricVehicleForm
+                                control={control}
+                                setTabIsValid={(isValid) =>
+                                    handleChangeTabValidState('ev', isValid)
+                                }
+                            />
+                        </FormView>
 
-                <FormView isActive={filterButtonsState.gas.isActive}>
-                    <GasVehicleForm
-                        control={control}
-                        setTabIsValid={(isValid) =>
-                            handleChangeTabValidState('gas', isValid)
-                        }
-                        triggerRevalidation={(fields: FormFields[]) => {
-                            trigger(fields)
-                        }}
-                    />
-                </FormView>
+                        <FormView isActive={filterButtonsState.gas.isActive}>
+                            <GasVehicleForm
+                                control={control}
+                                setTabIsValid={(isValid) =>
+                                    handleChangeTabValidState('gas', isValid)
+                                }
+                                triggerRevalidation={(fields: FormFields[]) => {
+                                    trigger(fields)
+                                }}
+                            />
+                        </FormView>
 
-                <FormView isActive={filterButtonsState.commons.isActive}>
-                    <CommonsForm
-                        control={control}
-                        setTabIsValid={(isValid) =>
-                            handleChangeTabValidState('commons', isValid)
-                        }
-                    />
-                </FormView>
+                        <FormView
+                            isActive={filterButtonsState.commons.isActive}
+                        >
+                            <CommonsForm
+                                control={control}
+                                setTabIsValid={(isValid) =>
+                                    handleChangeTabValidState(
+                                        'commons',
+                                        isValid
+                                    )
+                                }
+                            />
+                        </FormView>
+                    </ScrollView>
+                </KeyboardAvoidingView>
 
-                {electricCosts ? (
-                    <Grid additionalClasses="pt-4 flex-1 gap-4">
-                        <Row>
-                            <Col>
-                                <CostsCard
-                                    title={t('form.costsCards.headers.ev')}
-                                    data={electricCosts}
-                                    icon="electricity"
-                                />
-                            </Col>
-                            <Col>
-                                {gasCosts && (
-                                    <CostsCard
-                                        title={t('form.costsCards.headers.gas')}
-                                        data={gasCosts}
-                                        icon="gas"
-                                    />
-                                )}
-                            </Col>
-                        </Row>
-                        {economy && (
-                            <>
-                                <Row>
-                                    <Col>
-                                        <CostsCard
-                                            title={t(
-                                                'form.costsCards.headers.economy'
-                                            )}
-                                            data={economy}
-                                            icon="money"
-                                        />
-                                    </Col>
-                                    <Col></Col>
-                                </Row>
-                                {initialCost !== undefined && (
-                                    <Row>
-                                        <RecoverInvestmentCard
-                                            data={economy}
-                                            initialCost={initialCost}
-                                        />
-                                    </Row>
-                                )}
-                            </>
-                        )}
-                    </Grid>
-                ) : (
-                    <View className="flex-1"></View>
-                )}
-
-                <Grid additionalClasses="mb-4">
+                <Grid>
                     <Row>
                         <View>
                             <IconButton

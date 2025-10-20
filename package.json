@@ -4,6 +4,7 @@
     "version": "1.0.0",
     "scripts": {
         "start": "expo start",
+        "physical": "expo start --tunnel",
         "reset-project": "node ./scripts/reset-project.js",
         "build:android:dev": "eas build --platform android --profile development --local",
         "build:android:preview": "eas build --platform android --profile preview --local",

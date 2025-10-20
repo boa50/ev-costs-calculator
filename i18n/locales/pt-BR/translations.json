@@ -4,7 +4,8 @@
     },
     "headers": {
         "calculateCosts": "Calcular Custos",
-        "manageUnits": "Gerenciar Unidades"
+        "manageUnits": "Gerenciar Unidades",
+        "results": "Custos"
     },
     "menu": {
         "manageUnits": "Gerenciar Unidades"
@@ -73,18 +74,6 @@
                 "label": "Distânca dirigida por semana"
             }
         },
-        "costsCards": {
-            "headers": {
-                "ev": "Custos do Elétrico",
-                "gas": "Custos do Combustão",
-                "economy": "Economia"
-            },
-            "shared": {
-                "annual": "Anual",
-                "monthly": "Mensal",
-                "totalPerYear": "Total por Ano"
-            }
-        },
         "recoverInvestmentCard": {
             "exceeding": "Você vai precisar de mais de {{numYears}} anos para recuperar os custos iniciais de {{initialCost}}",
             "default": "Você vai precisar de {{numTextYears}} e {{numTextMonths}} para recuperar os custos iniciais de {{initialCost}}"
@@ -92,6 +81,20 @@
         "buttons": {
             "calculate": "Calcular",
             "saveMessage": "Valores do formulário salvos com sucesso"
+        }
+    },
+    "results": {
+        "costsCards": {
+            "headers": {
+                "ev": "Elétrico",
+                "gas": "Combustão",
+                "economy": "Economia"
+            },
+            "shared": {
+                "annual": "Anual",
+                "monthly": "Mensal",
+                "totalPerYear": "Total por Ano"
+            }
         }
     },
     "manageUnits": {

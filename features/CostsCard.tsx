@@ -21,28 +21,30 @@ export function CostsCard({ title, data, icon }: CostsCardProps) {
         <View className="bg-background-card p-2 shadow-gray-300 shadow-sm rounded-md">
             <View className="flex-row gap-1 items-center mb-1">
                 {icon !== undefined && <CostsIcon icon={icon} />}
-                <Text className="font-medium text-accent-standard">
+                <Text className="font-medium text-xl text-accent-standard">
                     {title}
                 </Text>
             </View>
-            <Text className="text-text-dark">
-                {t('form.costsCards.shared.annual')}:{' '}
-                {formatMonetaryNumber(data.annual)}
-            </Text>
-            <Text className="text-text-dark">
-                {t('form.costsCards.shared.monthly')}:{' '}
-                {formatMonetaryNumber(data.monthly)}
-            </Text>
-            <Text className="text-text-dark">
-                {t('form.costsCards.shared.totalPerYear')}:{' '}
-                {formatMonetaryNumber(data.perYear)}
-            </Text>
+            <View className="gap-1">
+                <Text className="text-text-dark">
+                    {t('results.costsCards.shared.annual')}:{' '}
+                    {formatMonetaryNumber(data.annual)}
+                </Text>
+                <Text className="text-text-dark">
+                    {t('results.costsCards.shared.monthly')}:{' '}
+                    {formatMonetaryNumber(data.monthly)}
+                </Text>
+                <Text className="text-text-dark">
+                    {t('results.costsCards.shared.totalPerYear')}:{' '}
+                    {formatMonetaryNumber(data.perYear)}
+                </Text>
+            </View>
         </View>
     )
 }
 
 function CostsIcon({ icon }: { icon: Icon }) {
-    const iconSize = 14
+    const iconSize = 18
     const iconColour = colors.icon.dark
 
     switch (icon) {

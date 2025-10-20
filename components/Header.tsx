@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router'
 import { View, Text, Pressable, TouchableOpacity } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
+import { SafeAreaView } from 'react-native-safe-area-context'
 import colors from '@/colors'
 
 interface Props {
@@ -16,21 +17,23 @@ export function Header({ title, routeName }: Props) {
     const isIndex = routeName === 'index'
 
     return (
-        <View className="flex-row h-20 pt-9 pb-3 px-4 bg-accent-standard items-center">
-            {router.canGoBack() && (
-                <Pressable onPress={router.back} className="mr-2 -ml-1">
-                    <MaterialCommunityIcons
-                        name="arrow-left"
-                        size={24}
-                        color={colors.icon.light}
-                    />
-                </Pressable>
-            )}
-            <Text className="flex-1 text-text-light text-xl font-medium">
-                {title}
-            </Text>
-            {isIndex && <Menu />}
-        </View>
+        <SafeAreaView className="bg-accent-standard" edges={{ top: 'maximum' }}>
+            <View className="flex-row items-end py-3 px-4">
+                {router.canGoBack() && (
+                    <Pressable onPress={router.back} className="mr-2 -ml-1">
+                        <MaterialCommunityIcons
+                            name="arrow-left"
+                            size={24}
+                            color={colors.icon.light}
+                        />
+                    </Pressable>
+                )}
+                <Text className="flex-1 text-text-light text-xl font-medium">
+                    {title}
+                </Text>
+                {isIndex && <Menu />}
+            </View>
+        </SafeAreaView>
     )
 }
 

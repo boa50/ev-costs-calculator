@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Grid, Row, Col } from '@/components'
+import { View } from 'react-native'
 import { useFormState } from 'react-hook-form'
 import { useLocalStorage } from '@/hooks'
 import { FormNumberInput } from './FormNumberInput'
@@ -81,20 +81,14 @@ export default function CommonsForm({ control, setTabIsValid }: Props) {
     )
 
     return (
-        <Grid>
-            <Row>
-                <Col>{distanceDrivenPerWeek}</Col>
-                <Col>{currentMonth}</Col>
-            </Row>
-
-            <Row>
-                <Col>{annualPaymentsMonth}</Col>
-                <Col>{interestRatePerYear}</Col>
-            </Row>
-            <Row>
-                <Col>{inflationPerYear}</Col>
-                <Col></Col>
-            </Row>
-        </Grid>
+        <View>
+            {distanceDrivenPerWeek}
+            {currentMonth}
+            <View className="mt-5"></View>
+            {annualPaymentsMonth}
+            <View className="mt-5"></View>
+            {interestRatePerYear}
+            {inflationPerYear}
+        </View>
     )
 }

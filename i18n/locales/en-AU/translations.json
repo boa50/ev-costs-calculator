@@ -4,7 +4,8 @@
     },
     "headers": {
         "calculateCosts": "Calculate Costs",
-        "manageUnits": "Manage Units"
+        "manageUnits": "Manage Units",
+        "results": "Costs"
     },
     "menu": {
         "manageUnits": "Manage Units"
@@ -73,18 +74,6 @@
                 "label": "Distance driven per week"
             }
         },
-        "costsCards": {
-            "headers": {
-                "ev": "Electric Costs",
-                "gas": "Gas Costs",
-                "economy": "Economy"
-            },
-            "shared": {
-                "annual": "Annual",
-                "monthly": "Monthly",
-                "totalPerYear": "Total per Year"
-            }
-        },
         "recoverInvestmentCard": {
             "exceeding": "You will take more than {{numYears}} years to recover the {{initialCost}} initial cost",
             "default": "You will take {{numTextYears}} and {{numTextMonths}} to recover the {{initialCost}} initial cost"
@@ -92,6 +81,20 @@
         "buttons": {
             "calculate": "Calculate",
             "saveMessage": "Form values saved with success"
+        }
+    },
+    "results": {
+        "costsCards": {
+            "headers": {
+                "ev": "Electric",
+                "gas": "Gas",
+                "economy": "Economy"
+            },
+            "shared": {
+                "annual": "Annual",
+                "monthly": "Monthly",
+                "totalPerYear": "Total per Year"
+            }
         }
     },
     "manageUnits": {

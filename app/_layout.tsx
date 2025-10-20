@@ -5,6 +5,8 @@ import { Header, ToastProvider } from '@/components'
 import { useTranslation } from 'react-i18next'
 import AdsContextProvider from '@/components/ads/AdsContextProvider'
 import { validateLocalStorageUnits } from '@/utils'
+import { SafeAreaProvider } from 'react-native-safe-area-context'
+import { CostsProvider } from '@/contexts/CostsContext'
 import colors from '@/colors'
 
 export default function RootLayout() {
@@ -12,31 +14,39 @@ export default function RootLayout() {
     const { t } = useTranslation()
 
     return (
-        <AdsContextProvider>
-            <ToastProvider>
-                <Stack
-                    screenOptions={{
-                        header: (props) => (
-                            <Header
-                                title={props.options.title}
-                                routeName={props.route.name}
+        <CostsProvider>
+            <AdsContextProvider>
+                <SafeAreaProvider>
+                    <ToastProvider>
+                        <Stack
+                            screenOptions={{
+                                header: (props) => (
+                                    <Header
+                                        title={props.options.title}
+                                        routeName={props.route.name}
+                                    />
+                                ),
+                                contentStyle: {
+                                    backgroundColor: colors.background.app,
+                                },
+                            }}
+                        >
+                            <Stack.Screen
+                                name="index"
+                                options={{ title: t('headers.calculateCosts') }}
                             />
-                        ),
-                        contentStyle: {
-                            backgroundColor: colors.background.app,
-                        },
-                    }}
-                >
-                    <Stack.Screen
-                        name="index"
-                        options={{ title: t('headers.calculateCosts') }}
-                    />
-                    <Stack.Screen
-                        name="manageUnits"
-                        options={{ title: t('headers.manageUnits') }}
-                    />
-                </Stack>
-            </ToastProvider>
-        </AdsContextProvider>
+                            <Stack.Screen
+                                name="manageUnits"
+                                options={{ title: t('headers.manageUnits') }}
+                            />
+                            <Stack.Screen
+                                name="results"
+                                options={{ title: t('headers.results') }}
+                            />
+                        </Stack>
+                    </ToastProvider>
+                </SafeAreaProvider>
+            </AdsContextProvider>
+        </CostsProvider>
     )
 }
