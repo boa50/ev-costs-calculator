@@ -1,15 +1,14 @@
-import { useEffect, useState, useLayoutEffect, useRef } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { View, ScrollView } from 'react-native'
 import ElectricVehicleForm from '@/features/ElectricVehicleForm'
 import GasVehicleForm from '@/features/GasVehicleForm'
 import CommonsForm from '@/features/CommonsForm'
 import { useCostsContext } from '@/contexts/CostsContext'
 import { useRouter } from 'expo-router'
-import { useLocalStorage, useKeyboardHeight } from '@/hooks'
+import { useLocalStorage, useKeyboardOffset } from '@/hooks'
 import { useForm } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
 import { BannerAd } from '@/components/ads/BannerAd'
-import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import {
     Button,
     FilterButtons,
@@ -43,16 +42,8 @@ export default function Index() {
     const router = useRouter()
     const { costsDispatch } = useCostsContext()
 
-    const keyboardHeight = useKeyboardHeight()
-    const { height: screenHeight } = useSafeAreaFrame()
-    const [keyboardOffset, setKeyboardOffset] = useState<number>()
     const buttonsRef = useRef<View>(null)
-    useLayoutEffect(() => {
-        buttonsRef.current?.measure((x, y, width, height, pageX, pageY) => {
-            const offset = keyboardHeight - (screenHeight - (pageY + height))
-            setKeyboardOffset(offset > 0 ? offset : 0)
-        })
-    }, [keyboardHeight, screenHeight])
+    const keyboardOffset = useKeyboardOffset(buttonsRef)
 
     const [filterButtonsState, setFilterButtonsState] =
         useState<FilterButtonsObject>({
