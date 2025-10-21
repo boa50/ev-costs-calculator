@@ -209,6 +209,15 @@ export default function Index() {
         }))
     }
 
+    const scrollViewRef = useRef<ScrollView>(null)
+    useEffect(() => {
+        scrollViewRef.current?.scrollTo({ y: 0, animated: false })
+    }, [
+        filterButtonsState.ev.isActive,
+        filterButtonsState.gas.isActive,
+        filterButtonsState.commons.isActive,
+    ])
+
     return (
         <Container>
             <ContentContainer>
@@ -224,7 +233,7 @@ export default function Index() {
                         className="mb-2"
                         style={{ flex: 1, paddingBottom: keyboardOffset }}
                     >
-                        <ScrollView style={{ flexGrow: 1 }}>
+                        <ScrollView ref={scrollViewRef} style={{ flexGrow: 1 }}>
                             <FormView isActive={filterButtonsState.ev.isActive}>
                                 <ElectricVehicleForm
                                     control={control}
