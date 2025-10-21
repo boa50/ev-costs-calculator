@@ -15,8 +15,8 @@ export default function RootLayout() {
 
     return (
         <CostsProvider>
-            <AdsContextProvider>
-                <SafeAreaProvider>
+            <SafeAreaProvider>
+                <AdsContextProvider>
                     <ToastProvider>
                         <Stack
                             screenOptions={{
@@ -45,8 +45,8 @@ export default function RootLayout() {
                             />
                         </Stack>
                     </ToastProvider>
-                </SafeAreaProvider>
-            </AdsContextProvider>
+                </AdsContextProvider>
+            </SafeAreaProvider>
         </CostsProvider>
     )
 }

@@ -1,9 +1,9 @@
 import { useLocalStorage } from '@/hooks'
 import { View } from 'react-native'
-import { Container, SwitchMultiple } from '@/components'
+import { Container, ContentContainer, SwitchMultiple } from '@/components'
 import { getUnits } from '@/utils'
 import { useTranslation } from 'react-i18next'
-import { NativeAd } from '@/components/ads/NativeAd'
+import { BannerAd } from '@/components/ads/BannerAd'
 
 const units = getUnits()
 const btnWidth = 84
@@ -47,8 +47,8 @@ export default function ManageUnits() {
     ]
 
     return (
-        <View className="flex-1">
-            <Container>
+        <Container>
+            <ContentContainer>
                 <View className="gap-4">
                     <SwitchMultiple
                         label={t('manageUnits.distance.title')}
@@ -72,8 +72,8 @@ export default function ManageUnits() {
                         btnWidth={btnWidth}
                     />
                 </View>
-            </Container>
-            <NativeAd />
-        </View>
+            </ContentContainer>
+            <BannerAd />
+        </Container>
     )
 }

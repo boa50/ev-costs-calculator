@@ -2,7 +2,7 @@ import { useCostsContext } from '@/contexts/CostsContext'
 import { useTranslation } from 'react-i18next'
 import { View } from 'react-native'
 import { CostsCard, RecoverInvestmentCard } from '@/features/CostsCard'
-import { Container } from '@/components'
+import { Container, ContentContainer } from '@/components'
 import { BannerAd } from '@/components/ads/BannerAd'
 
 export default function Results() {
@@ -11,8 +11,8 @@ export default function Results() {
     const { t } = useTranslation()
 
     return (
-        <View className="flex-1 mt-2">
-            <Container>
+        <Container>
+            <ContentContainer>
                 <View className="gap-4">
                     {electric && (
                         <CostsCard
@@ -44,8 +44,8 @@ export default function Results() {
                         </>
                     )}
                 </View>
-            </Container>
+            </ContentContainer>
             <BannerAd />
-        </View>
+        </Container>
     )
 }
