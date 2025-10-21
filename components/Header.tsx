@@ -5,6 +5,7 @@ import { View, Text, Pressable, TouchableOpacity } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { ControlOutsideClick } from './ControlOutsideClick'
 import colors from '@/colors'
 
 interface Props {
@@ -85,6 +86,11 @@ function Menu() {
                     </View>
                 </View>
             )}
+            <ControlOutsideClick
+                isVisible={isVisible}
+                onPress={handleHideMenu}
+                zIndex={40}
+            />
         </View>
     )
 }
