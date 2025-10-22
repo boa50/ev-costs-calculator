@@ -44,6 +44,7 @@ app-example
 
 # builds
 *.apk
+*.aab
 
 # test envs
 .env
