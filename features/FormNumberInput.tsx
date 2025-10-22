@@ -1,5 +1,7 @@
 import { Input } from '@/components'
 import { Controller } from 'react-hook-form'
+import type { RefObject } from 'react'
+import type { TextInput } from 'react-native'
 import type { FormFields } from '@/types'
 
 interface Props {
@@ -14,6 +16,8 @@ interface Props {
     requiredIfTabFilled?: boolean
     dirtyTabFields?: any
     customOnChange?: () => void
+    ref?: RefObject<TextInput | null>
+    onSubmitEditing?: () => void
 }
 
 export function FormNumberInput({
@@ -28,6 +32,8 @@ export function FormNumberInput({
     requiredIfTabFilled = false,
     dirtyTabFields,
     customOnChange = () => {},
+    ref,
+    onSubmitEditing,
 }: Props) {
     return (
         <Controller
@@ -47,6 +53,7 @@ export function FormNumberInput({
             }}
             render={({ field: { onChange, value }, fieldState: { error } }) => (
                 <Input
+                    ref={ref}
                     label={label}
                     value={value}
                     setValue={(value) => {
@@ -59,6 +66,7 @@ export function FormNumberInput({
                     placeholder={placeholder}
                     hint={hint}
                     errorType={error?.type}
+                    onSubmitEditing={onSubmitEditing}
                 />
             )}
         />

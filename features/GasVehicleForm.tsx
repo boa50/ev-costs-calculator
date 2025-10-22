@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
-import { View } from 'react-native'
+import { useEffect, useRef } from 'react'
+import { View, type TextInput } from 'react-native'
 import { useFormState } from 'react-hook-form'
 import { useLocalStorage } from '@/hooks'
 import { getUnitAbbreviation, checkTabValidity } from '@/utils'
@@ -48,8 +48,15 @@ export default function GasVehicleForm({
         })
     }, [hasTabErrors, isAllRequiredFieldsFilled, setTabIsValid])
 
+    const refGasPrice = useRef<TextInput>(null)
+    const refInsurancePerYear = useRef<TextInput>(null)
+    const refTaxesPerYear = useRef<TextInput>(null)
+    const refMaintenancePerYear = useRef<TextInput>(null)
+    const refVehicleBuyingCost = useRef<TextInput>(null)
+
     const vehicleBuyingCost = (
         <FormNumberInput
+            ref={refVehicleBuyingCost}
             control={control}
             name="gas.buyingCost"
             label={t('form.shared.buyingCost.label')}
@@ -60,16 +67,19 @@ export default function GasVehicleForm({
     )
     const insurancePerYear = (
         <FormNumberInput
+            ref={refInsurancePerYear}
             control={control}
             name="gas.insurancePerYear"
             label={t('form.shared.insurancePerYear.label')}
             iconLeft="$"
             placeholder="0.00"
             customOnChange={customOnChange}
+            onSubmitEditing={() => refTaxesPerYear.current?.focus()}
         />
     )
     const taxesPerYear = (
         <FormNumberInput
+            ref={refTaxesPerYear}
             control={control}
             name="gas.taxesPerYear"
             label={t('form.shared.taxesPerYear.label')}
@@ -77,10 +87,12 @@ export default function GasVehicleForm({
             placeholder="0.00"
             hint={t('form.shared.taxesPerYear.hint')}
             customOnChange={customOnChange}
+            onSubmitEditing={() => refMaintenancePerYear.current?.focus()}
         />
     )
     const maintenancePerYear = (
         <FormNumberInput
+            ref={refMaintenancePerYear}
             control={control}
             name="gas.maintenancePerYear"
             label={t('form.shared.maintenancePerYear.label')}
@@ -88,6 +100,7 @@ export default function GasVehicleForm({
             placeholder="0.00"
             hint={t('form.shared.maintenancePerYear.hint')}
             customOnChange={customOnChange}
+            onSubmitEditing={() => refVehicleBuyingCost.current?.focus()}
         />
     )
     const fuelEfficiencyInput = (
@@ -101,10 +114,12 @@ export default function GasVehicleForm({
             placeholder="0"
             hint={t('form.gas.fuelEfficiency.hint')}
             customOnChange={customOnChange}
+            onSubmitEditing={() => refGasPrice.current?.focus()}
         />
     )
     const gasPrice = (
         <FormNumberInput
+            ref={refGasPrice}
             control={control}
             name="gas.gasPrice"
             label={t('form.gas.gasPrice.label')}
@@ -115,6 +130,7 @@ export default function GasVehicleForm({
             placeholder="0.00"
             hint={t('form.gas.gasPrice.hint')}
             customOnChange={customOnChange}
+            onSubmitEditing={() => refInsurancePerYear.current?.focus()}
         />
     )
 

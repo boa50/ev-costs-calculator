@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
-import { View } from 'react-native'
+import { useEffect, useRef } from 'react'
+import { View, type TextInput } from 'react-native'
 import { useFormState } from 'react-hook-form'
 import { useLocalStorage } from '@/hooks'
 import { FormNumberInput } from './FormNumberInput'
@@ -34,18 +34,24 @@ export default function CommonsForm({ control, setTabIsValid }: Props) {
         })
     }, [hasTabErrors, isAllRequiredFieldsFilled, setTabIsValid])
 
+    const refInterestRatePerYear = useRef<TextInput>(null)
+    const refInflationPerYear = useRef<TextInput>(null)
+
     const interestRatePerYear = (
         <FormNumberInput
+            ref={refInterestRatePerYear}
             control={control}
             name="commons.interestRatePerYear"
             label={t('form.commons.interestRatePerYear.label')}
             iconRight="%"
             placeholder="0.00"
             hint={t('form.commons.interestRatePerYear.hint')}
+            onSubmitEditing={() => refInflationPerYear.current?.focus()}
         />
     )
     const inflationPerYear = (
         <FormNumberInput
+            ref={refInflationPerYear}
             control={control}
             name="commons.inflationPerYear"
             label={t('form.commons.inflationPerYear.label')}
@@ -77,6 +83,7 @@ export default function CommonsForm({ control, setTabIsValid }: Props) {
             required={true}
             iconRight={distance}
             placeholder="0"
+            onSubmitEditing={() => refInterestRatePerYear.current?.focus()}
         />
     )
 

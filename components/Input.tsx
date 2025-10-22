@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, type RefObject } from 'react'
 import { View, TextInput, Text } from 'react-native'
 import { useLocales } from 'expo-localization'
 import { InputLabel } from './InputLabel'
@@ -16,6 +16,8 @@ interface Props {
     hint?: string
     required?: boolean
     errorType?: string
+    ref?: RefObject<TextInput | null>
+    onSubmitEditing?: () => void
 }
 
 export function Input({
@@ -28,6 +30,8 @@ export function Input({
     hint,
     required,
     errorType,
+    ref,
+    onSubmitEditing,
 }: Props) {
     const { t } = useTranslation()
     const [borderColour, setBorderColour] = useState<string>('border-gray-400')
@@ -87,6 +91,7 @@ export function Input({
                     isInputValid={isInputValid}
                 />
                 <TextInput
+                    ref={ref}
                     onFocus={onFocus}
                     onBlur={onBlur}
                     className={`flex-1 py-3 border-0 ${inputDynamicClasses}`}
@@ -96,6 +101,12 @@ export function Input({
                     placeholder={placeholder}
                     placeholderTextColor={colors.gray[400]}
                     maxLength={15}
+                    onSubmitEditing={onSubmitEditing}
+                    submitBehavior={
+                        onSubmitEditing !== undefined
+                            ? 'submit'
+                            : 'blurAndSubmit'
+                    }
                 />
                 <InputIcon
                     icon={iconRight}
