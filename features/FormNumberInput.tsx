@@ -4,8 +4,8 @@ import type { RefObject } from 'react'
 import type { TextInput } from 'react-native'
 import type { FormFields } from '@/types'
 
-interface Props {
-    control: any
+export type FormNumberInputType = {
+    control?: any
     name: FormFields
     label: string
     iconLeft?: string
@@ -16,7 +16,9 @@ interface Props {
     requiredIfTabFilled?: boolean
     dirtyTabFields?: any
     customOnChange?: () => void
-    ref?: RefObject<TextInput | null>
+    ref?:
+        | RefObject<TextInput | null>
+        | ((el: TextInput | null) => TextInput | null)
     onSubmitEditing?: () => void
 }
 
@@ -34,7 +36,7 @@ export function FormNumberInput({
     customOnChange = () => {},
     ref,
     onSubmitEditing,
-}: Props) {
+}: FormNumberInputType) {
     return (
         <Controller
             control={control}

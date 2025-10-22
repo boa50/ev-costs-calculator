@@ -16,7 +16,9 @@ interface Props {
     hint?: string
     required?: boolean
     errorType?: string
-    ref?: RefObject<TextInput | null>
+    ref?:
+        | RefObject<TextInput | null>
+        | ((el: TextInput | null) => TextInput | null)
     onSubmitEditing?: () => void
 }
 
@@ -91,7 +93,13 @@ export function Input({
                     isInputValid={isInputValid}
                 />
                 <TextInput
-                    ref={ref}
+                    ref={
+                        typeof ref === 'function'
+                            ? (el) => {
+                                  ref(el)
+                              }
+                            : ref
+                    }
                     onFocus={onFocus}
                     onBlur={onBlur}
                     className={`flex-1 py-3 border-0 ${inputDynamicClasses}`}
