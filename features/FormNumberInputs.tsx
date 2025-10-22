@@ -5,9 +5,10 @@ import { FormNumberInput, type FormNumberInputType } from './FormNumberInput'
 interface Props {
     fields: FormNumberInputType[]
     control: any
+    customOnChange?: () => void
 }
 
-export function FormNumberInputs({ fields, control }: Props) {
+export function FormNumberInputs({ fields, control, customOnChange }: Props) {
     const refs = useRef<(TextInput | null)[]>([])
 
     return fields.map((field, i) => {
@@ -37,6 +38,7 @@ export function FormNumberInputs({ fields, control }: Props) {
             <FormNumberInput
                 key={field.name}
                 control={control}
+                customOnChange={customOnChange}
                 {...inputFields}
             />
         )
