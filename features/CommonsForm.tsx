@@ -1,12 +1,13 @@
-import { useEffect, useRef } from 'react'
-import { View, type TextInput } from 'react-native'
+import { useEffect } from 'react'
+import { View } from 'react-native'
 import { useFormState } from 'react-hook-form'
 import { useLocalStorage } from '@/hooks'
-import { FormNumberInput } from './FormNumberInput'
+import { FormNumberInputs } from './FormNumberInputs'
 import { FormMonthPicker } from './FormMonthPicker'
 import { getUnitAbbreviation, checkTabValidity } from '@/utils'
 import { useTranslation } from 'react-i18next'
 import type { TabValidStates } from '@/types'
+import type { FormNumberInputType } from './FormNumberInput'
 
 interface Props {
     control: any
@@ -34,32 +35,30 @@ export default function CommonsForm({ control, setTabIsValid }: Props) {
         })
     }, [hasTabErrors, isAllRequiredFieldsFilled, setTabIsValid])
 
-    const refInterestRatePerYear = useRef<TextInput>(null)
-    const refInflationPerYear = useRef<TextInput>(null)
+    const fields: FormNumberInputType[] = [
+        {
+            name: 'commons.distanceDrivenPerWeek',
+            label: t('form.commons.distanceDrivenPerWeek.label'),
+            required: true,
+            iconRight: distance,
+            placeholder: '0',
+        },
+        {
+            name: 'commons.interestRatePerYear',
+            label: t('form.commons.interestRatePerYear.label'),
+            iconRight: '%',
+            placeholder: '0.00',
+            hint: t('form.commons.interestRatePerYear.hint'),
+        },
+        {
+            name: 'commons.inflationPerYear',
+            label: t('form.commons.inflationPerYear.label'),
+            iconRight: '%',
+            placeholder: '0.00',
+            hint: t('form.commons.interestRatePerYear.hint'),
+        },
+    ]
 
-    const interestRatePerYear = (
-        <FormNumberInput
-            ref={refInterestRatePerYear}
-            control={control}
-            name="commons.interestRatePerYear"
-            label={t('form.commons.interestRatePerYear.label')}
-            iconRight="%"
-            placeholder="0.00"
-            hint={t('form.commons.interestRatePerYear.hint')}
-            onSubmitEditing={() => refInflationPerYear.current?.focus()}
-        />
-    )
-    const inflationPerYear = (
-        <FormNumberInput
-            ref={refInflationPerYear}
-            control={control}
-            name="commons.inflationPerYear"
-            label={t('form.commons.inflationPerYear.label')}
-            iconRight="%"
-            placeholder="0.00"
-            hint={t('form.commons.interestRatePerYear.hint')}
-        />
-    )
     const currentMonth = (
         <FormMonthPicker
             control={control}
@@ -75,27 +74,14 @@ export default function CommonsForm({ control, setTabIsValid }: Props) {
             hint={t('form.commons.annualPaymentsMonth.hint')}
         />
     )
-    const distanceDrivenPerWeek = (
-        <FormNumberInput
-            control={control}
-            name="commons.distanceDrivenPerWeek"
-            label={t('form.commons.distanceDrivenPerWeek.label')}
-            required={true}
-            iconRight={distance}
-            placeholder="0"
-            onSubmitEditing={() => refInterestRatePerYear.current?.focus()}
-        />
-    )
 
     return (
         <View>
-            {distanceDrivenPerWeek}
+            <FormNumberInputs control={control} fields={fields} />
             {currentMonth}
             <View className="mt-5"></View>
             {annualPaymentsMonth}
             <View className="mt-5"></View>
-            {interestRatePerYear}
-            {inflationPerYear}
         </View>
     )
 }

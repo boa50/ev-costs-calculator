@@ -83,11 +83,11 @@ export default function GasVehicleForm({
             hint: t('form.shared.taxesPerYear.hint'),
         },
         {
-            name: 'gas.taxesPerYear',
-            label: t('form.shared.taxesPerYear.label'),
+            name: 'gas.maintenancePerYear',
+            label: t('form.shared.maintenancePerYear.label'),
             iconLeft: '$',
             placeholder: '0.00',
-            hint: t('form.shared.taxesPerYear.hint'),
+            hint: t('form.shared.maintenancePerYear.hint'),
         },
         {
             name: 'gas.buyingCost',
