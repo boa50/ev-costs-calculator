@@ -60,9 +60,11 @@ export function Input({
     const inputDynamicClasses =
         !iconLeft && !iconRight
             ? 'rounded-2xl pl-3'
-            : iconLeft
-              ? 'rounded-r-2xl'
-              : 'rounded-l-2xl pl-3'
+            : iconLeft && iconRight
+              ? ''
+              : iconLeft
+                ? 'rounded-r-2xl'
+                : 'rounded-l-2xl pl-3'
 
     const onFocus = () => {
         setIsOnFocus(true)
@@ -102,7 +104,7 @@ export function Input({
                     }
                     onFocus={onFocus}
                     onBlur={onBlur}
-                    className={`flex-1 py-3 border-0 ${inputDynamicClasses}`}
+                    className={`flex-1 py-3 ${inputDynamicClasses}`}
                     onChangeText={handleChangeText}
                     value={value}
                     keyboardType={'number-pad'}
