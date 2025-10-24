@@ -80,7 +80,7 @@ function Menu() {
                                     setIsVisible(false)
                                 }}
                             >
-                                <Text>Configure Privacy</Text>
+                                <Text>{t('menu.configurePrivacy')}</Text>
                             </TouchableOpacity>
                         )}
                     </View>

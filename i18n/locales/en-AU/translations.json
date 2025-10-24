@@ -8,7 +8,8 @@
         "results": "Costs"
     },
     "menu": {
-        "manageUnits": "Manage Units"
+        "manageUnits": "Manage Units",
+        "configurePrivacy": "Configure Privacy"
     },
     "form": {
         "tabs": {
