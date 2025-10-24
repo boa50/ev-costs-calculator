@@ -24,7 +24,7 @@ export function ControlOutsideClick({
         isVisible && (
             <View
                 ref={targetRef}
-                className="absolute top-0 z-40"
+                className="absolute top-0"
                 style={{ zIndex: zIndex }}
             >
                 <TouchableWithoutFeedback onPress={onPress} accessible={false}>
