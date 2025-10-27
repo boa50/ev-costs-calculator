@@ -3,7 +3,7 @@ import { View, ScrollView } from 'react-native'
 import ElectricVehicleForm from '@/features/ElectricVehicleForm'
 import GasVehicleForm from '@/features/GasVehicleForm'
 import CommonsForm from '@/features/CommonsForm'
-import { useCostsContext } from '@/contexts/CostsContext'
+import { useCostsContext, useLayoutContext } from '@/contexts'
 import { useRouter } from 'expo-router'
 import { useLocalStorage, useKeyboardOffset } from '@/hooks'
 import { useForm } from 'react-hook-form'
@@ -41,6 +41,7 @@ export default function Index() {
     const { t } = useTranslation()
     const router = useRouter()
     const { costsDispatch } = useCostsContext()
+    const { layoutState, layoutDispatch } = useLayoutContext()
 
     const buttonsRef = useRef<View>(null)
     const keyboardOffset = useKeyboardOffset(buttonsRef)
@@ -218,6 +219,25 @@ export default function Index() {
         filterButtonsState.commons.isActive,
     ])
 
+    const formContainerRef = useRef<View>(null)
+    const scrollViewPositionX = layoutState.formContainerPositionX
+    useEffect(() => {
+        if (
+            formContainerRef.current !== undefined &&
+            formContainerRef.current !== null &&
+            scrollViewPositionX === undefined
+        ) {
+            formContainerRef.current?.measure(
+                (x, y, width, height, pageX, pageY) => {
+                    layoutDispatch({
+                        type: 'SET_FORM_CONTAINER_POSITION',
+                        payload: { x: pageX, y: pageY },
+                    })
+                }
+            )
+        }
+    }, [layoutDispatch, scrollViewPositionX])
+
     return (
         <Container>
             <ContentContainer>
@@ -230,6 +250,7 @@ export default function Index() {
 
                 <View className="flex-1">
                     <View
+                        ref={formContainerRef}
                         className="mb-2"
                         style={{ flex: 1, paddingBottom: keyboardOffset }}
                     >

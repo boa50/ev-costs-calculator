@@ -8,6 +8,8 @@ interface Props {
     text: string
     size?: number
     color?: string
+    layoutPaddingX?: number
+    layoutPaddingY?: number
 }
 
 interface TooltipDimensions {
@@ -22,7 +24,13 @@ interface TooltipPosition {
     right?: number
 }
 
-export function Info({ text, size = 14, color = colors.gray[800] }: Props) {
+export function Info({
+    text,
+    size = 14,
+    color = colors.gray[800],
+    layoutPaddingX,
+    layoutPaddingY,
+}: Props) {
     const targetRef = useRef<View>(null)
     const [showTootlip, setShowTooltip] = useState<boolean>(false)
     const [tooltipDimensions, setTooltipDimensions] =
@@ -39,8 +47,8 @@ export function Info({ text, size = 14, color = colors.gray[800] }: Props) {
             targetRef.current?.measure((x, y, width, height, pageX, pageY) => {
                 const tooltipNewPosition = calculateTooltipPosition(
                     tooltipDimensions,
-                    pageY,
-                    pageX,
+                    pageY - (layoutPaddingY ?? 0),
+                    pageX - (layoutPaddingX ?? 0),
                     width,
                     headerHeight,
                     screenDimensions.width
@@ -48,7 +56,13 @@ export function Info({ text, size = 14, color = colors.gray[800] }: Props) {
 
                 setTooltipPosition(tooltipNewPosition)
             })
-    }, [tooltipDimensions, headerHeight, screenDimensions])
+    }, [
+        tooltipDimensions,
+        headerHeight,
+        screenDimensions,
+        layoutPaddingX,
+        layoutPaddingY,
+    ])
 
     return (
         <View>
