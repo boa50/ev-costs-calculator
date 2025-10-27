@@ -12,7 +12,7 @@ export function InputLabel({ title, hint, required, isInputValid }: Props) {
     const textColour = isInputValid ? 'text-text-dark' : 'text-error-standard'
 
     const labelText = (
-        <Text className={`text-sm pb-1 ${textColour}`}>
+        <Text className={`text-sm mb-1 ml-px ${textColour}`}>
             {title}
             {required && ' *'}
         </Text>

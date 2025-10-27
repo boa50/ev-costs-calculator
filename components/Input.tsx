@@ -36,7 +36,7 @@ export function Input({
     onSubmitEditing,
 }: Props) {
     const { t } = useTranslation()
-    const [borderColour, setBorderColour] = useState<string>('border-gray-400')
+    const [borderColour, setBorderColour] = useState<string>('border-gray-200')
     const [isInputValid, setIsInputValid] = useState<boolean>(true)
     const [isOnFocus, setIsOnFocus] = useState<boolean>(false)
     const [errorMessage, setErrorMessage] = useState<string>('')
@@ -53,18 +53,18 @@ export function Input({
             setIsInputValid(true)
             setErrorMessage('')
             if (isOnFocus) setBorderColour('border-accent-standard')
-            else setBorderColour('border-gray-400')
+            else setBorderColour('border-gray-200')
         }
     }, [errorType, isOnFocus, t])
 
     const inputDynamicClasses =
         !iconLeft && !iconRight
-            ? 'rounded-2xl pl-3'
+            ? 'rounded-lg pl-3'
             : iconLeft && iconRight
               ? ''
               : iconLeft
-                ? 'rounded-r-2xl'
-                : 'rounded-l-2xl pl-3'
+                ? 'rounded-r-lg'
+                : 'rounded-l-lg pl-3'
 
     const onFocus = () => {
         setIsOnFocus(true)
@@ -87,7 +87,7 @@ export function Input({
                 isInputValid={isInputValid}
             />
             <View
-                className={`flex flex-row bg-background-input rounded-2xl border w-full ${borderColour}`}
+                className={`flex flex-row bg-background-input rounded-lg border w-full ${borderColour}`}
             >
                 <InputIcon
                     icon={iconLeft}
@@ -151,7 +151,7 @@ function InputIcon({
     isInputValid: boolean
 }) {
     const iconDynamicClasses =
-        position === 'left' ? 'rounded-l-2xl' : 'rounded-r-2xl'
+        position === 'left' ? 'rounded-l-lg' : 'rounded-r-lg'
     const textColour = isInputValid ? 'text-text-dark' : 'text-error-standard'
     const userLocale = useLocales()
     const iconFormatted = icon === '$' ? userLocale[0].currencySymbol : icon
