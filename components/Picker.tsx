@@ -47,8 +47,8 @@ export function Picker({ label, value, setValue, type, hint }: Props) {
                     inputAndroidContainer: {
                         backgroundColor: colors.background.input,
                         borderWidth: 1,
-                        borderRadius: 14,
-                        borderColor: colors.gray[400],
+                        borderRadius: 8,
+                        borderColor: colors.gray[200],
                         paddingLeft: 8,
                         paddingVertical: 1.4,
                     },
