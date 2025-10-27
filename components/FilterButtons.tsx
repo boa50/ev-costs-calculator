@@ -68,7 +68,7 @@ function Button({ label, isActive, isValid, setActive }: ButtonProps) {
         <View>
             <Pressable
                 className={`px-2 py-1 rounded-lg flex items-center w-full border flex-row gap-1
-                    border-gray-500 bg-gray-700/5 
+                    border-gray-300 bg-gray-700/5 
                     disabled:bg-accent-standard disabled:border-accent-standard`}
                 disabled={isActive}
                 onPress={setActive}
