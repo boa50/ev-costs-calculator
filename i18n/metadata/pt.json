@@ -1,0 +1,8 @@
+{
+    "ios": {
+        "CFBundleDisplayName": "Carro Elétrico (Custos)"
+    },
+    "android": {
+        "app_name": "Carro Elétrico (Custos)"
+    }
+}

@@ -1,0 +1,8 @@
+{
+    "ios": {
+        "CFBundleDisplayName": "Ev Costs"
+    },
+    "android": {
+        "app_name": "Ev Costs"
+    }
+}
