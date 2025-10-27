@@ -30,7 +30,7 @@ export function Header({ title, routeName }: Props) {
         <SafeAreaView className="bg-accent-standard" edges={{ top: 'maximum' }}>
             <View className="flex-row items-end py-3 px-4">
                 {router.canGoBack() && (
-                    <Pressable onPress={router.back} className="mr-2 -ml-1">
+                    <Pressable onPress={router.back} className="mr-4">
                         <MaterialCommunityIcons
                             name="arrow-left"
                             size={24}
