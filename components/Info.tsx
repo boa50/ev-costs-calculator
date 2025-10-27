@@ -6,8 +6,9 @@ import colors from '@/colors'
 
 interface Props {
     text: string
-    size?: number
+    iconSize?: number
     color?: string
+    tooltipMaxWidth?: number
     layoutPaddingX?: number
     layoutPaddingY?: number
 }
@@ -26,8 +27,9 @@ interface TooltipPosition {
 
 export function Info({
     text,
-    size = 14,
+    iconSize = 14,
     color = colors.gray[800],
+    tooltipMaxWidth = 200,
     layoutPaddingX,
     layoutPaddingY,
 }: Props) {
@@ -65,17 +67,22 @@ export function Info({
     ])
 
     return (
-        <View>
+        <View style={{ width: '100%' }}>
             <Tooltip
                 text={text}
                 isOpen={showTootlip}
                 position={tooltipPosition}
+                maxWidth={tooltipMaxWidth}
                 setTooltipDimensions={setTooltipDimensions}
             />
-            <Pressable onPress={handleToggleTooltip} ref={targetRef}>
+            <Pressable
+                onPress={handleToggleTooltip}
+                ref={targetRef}
+                style={{ width: iconSize }}
+            >
                 <Ionicons
                     name={`${showTootlip ? 'information-circle-sharp' : 'information-circle-outline'}`}
-                    size={size}
+                    size={iconSize}
                     color={color}
                 />
             </Pressable>
@@ -87,6 +94,7 @@ interface TooltipProps {
     text: string
     isOpen: boolean
     position?: TooltipPosition
+    maxWidth: number
     setTooltipDimensions: React.Dispatch<
         React.SetStateAction<TooltipDimensions | undefined>
     >
@@ -96,6 +104,7 @@ function Tooltip({
     text,
     isOpen,
     position,
+    maxWidth,
     setTooltipDimensions,
 }: TooltipProps) {
     const ref = useRef<View>(null)
@@ -109,7 +118,7 @@ function Tooltip({
     return (
         <View
             ref={ref}
-            style={{ ...position, width: 200 }}
+            style={{ ...position, maxWidth: maxWidth }}
             className={`absolute bg-background-info p-2 rounded-sm
                 ${isOpen ? 'visible z-50' : 'invisible -z-50'}`}
         >
