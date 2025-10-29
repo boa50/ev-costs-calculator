@@ -5,9 +5,11 @@ import {
     useLayoutEffect,
     useContext,
     type ReactNode,
+    type RefObject,
 } from 'react'
 import { View, Text, useWindowDimensions } from 'react-native'
 import Animated, { withTiming, useAnimatedStyle } from 'react-native-reanimated'
+import { getViewMeasures } from '@/utils'
 import type { ComponentMeasures } from '@/types'
 
 type Dimensions = {
@@ -31,7 +33,7 @@ const TooltipContext = createContext<{
     showTooltip: (msg: string) => void
     showTooltipWithTiming: (
         msg: string,
-        anchorMeasures: ComponentMeasures,
+        anchorRef: RefObject<View | null>,
         headerHeight: number,
         duration?: number
     ) => void
@@ -76,11 +78,13 @@ export const TooltipProvider = ({ children }: { children: ReactNode }) => {
 
     const showTooltipWithTiming = (
         msg: string,
-        anchorMeasures: ComponentMeasures,
+        anchorRef: RefObject<View | null>,
         headerHeight: number,
         duration = 1500
     ) => {
         hideTooltip()
+
+        const anchorMeasures = getViewMeasures(anchorRef)
 
         setMessage(msg)
         setAnchorMeasures(anchorMeasures)

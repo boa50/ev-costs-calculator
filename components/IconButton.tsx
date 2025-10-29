@@ -2,7 +2,6 @@ import { useRef } from 'react'
 import { Pressable, View } from 'react-native'
 import { useHeaderHeight } from '@react-navigation/elements'
 import { useTooltip } from './TooltipContext'
-import { getViewMeasures } from '@/utils'
 import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import colors from '@/colors'
 
@@ -40,11 +39,7 @@ export function IconButton({
                 onPress={onPress}
                 onLongPress={() =>
                     accessibilityText &&
-                    showTooltipWithTiming(
-                        accessibilityText,
-                        getViewMeasures(ref),
-                        headerHeight
-                    )
+                    showTooltipWithTiming(accessibilityText, ref, headerHeight)
                 }
             >
                 <MaterialIcons name={icon} size={23} color={iconColour} />
