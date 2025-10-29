@@ -8,7 +8,6 @@ interface Props {
     text: string
     iconSize?: number
     color?: string
-    tooltipMaxWidth?: number
     layoutPaddingX?: number
     layoutPaddingY?: number
 }
@@ -17,7 +16,6 @@ export function Info({
     text,
     iconSize = 14,
     color = colors.gray[800],
-    tooltipMaxWidth = 200,
     layoutPaddingX,
     layoutPaddingY,
 }: Props) {
@@ -29,7 +27,6 @@ export function Info({
         <Tooltip
             text={text}
             isOpen={showTootlip}
-            maxWidth={tooltipMaxWidth}
             layoutPaddingX={layoutPaddingX}
             layoutPaddingY={layoutPaddingY}
         >

@@ -17,7 +17,7 @@ type Position = {
 interface Props {
     text: string
     isOpen: boolean
-    maxWidth: number
+    maxWidth?: number
     layoutPaddingX?: number
     layoutPaddingY?: number
     children: ReactNode
@@ -26,7 +26,7 @@ interface Props {
 export function Tooltip({
     text,
     isOpen,
-    maxWidth,
+    maxWidth = 200,
     layoutPaddingX,
     layoutPaddingY,
     children,
@@ -49,6 +49,7 @@ export function Tooltip({
                             pageY - (layoutPaddingY ?? 0),
                             pageX - (layoutPaddingX ?? 0),
                             width,
+                            height,
                             headerHeight,
                             screenDimensions.width
                         )
@@ -61,6 +62,7 @@ export function Tooltip({
                     dimensions,
                     0 - (layoutPaddingY ?? 0),
                     0 - (layoutPaddingX ?? 0),
+                    0,
                     0,
                     headerHeight,
                     screenDimensions.width
@@ -84,7 +86,7 @@ export function Tooltip({
     }, [isOpen, setDimensions])
 
     return (
-        <View style={{ width: '100%' }}>
+        <View style={{ width: screenDimensions.width }}>
             <View
                 ref={ref}
                 style={{ ...position, maxWidth: maxWidth }}
@@ -104,11 +106,12 @@ function calculatePosition(
     dimensions: Dimensions,
     pageY: number,
     pageX: number,
-    width: number,
+    childrenWidth: number,
+    childrenHeight: number,
     headerHeight: number,
     screenWidth: number
 ): Position {
-    const padding = 18
+    const padding = 4
 
     const position: Position = {
         top: undefined,
@@ -117,15 +120,18 @@ function calculatePosition(
         right: undefined,
     }
 
-    if (dimensions?.height + padding < pageY - headerHeight)
-        position.bottom = padding
-    else position.top = padding
+    if (dimensions?.height + padding + childrenHeight < pageY - headerHeight) {
+        position.bottom = padding + childrenHeight
+    } else {
+        position.top = padding + childrenHeight
+    }
 
-    position.left = -((padding + dimensions?.width - width) / 2)
+    position.left = -(padding + (dimensions?.width - childrenWidth) / 2)
 
-    if (-position.left > pageX) position.left = -pageX + padding / 2
-    else if (pageX + (dimensions.width + padding) / 2 > screenWidth) {
-        position.right = -(screenWidth - (pageX + width) - padding / 2)
+    if (-position.left > pageX) {
+        position.left = -pageX + padding
+    } else if (pageX + dimensions.width / 2 + padding > screenWidth) {
+        position.right = -(screenWidth - (pageX + childrenWidth) - padding)
         position.left = undefined
     }
 

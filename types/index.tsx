@@ -86,3 +86,10 @@ export type Economy = Costs & {
     numMonths: number | undefined
     isMaxYears: boolean | undefined
 }
+
+export type ComponentMeasures = {
+    width: number
+    height: number
+    pageX: number
+    pageY: number
+}

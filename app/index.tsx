@@ -307,6 +307,7 @@ export default function Index() {
                                         icon="save-alt"
                                         theme="secondary"
                                         onPress={handleSaveValues}
+                                        accessibilityText="Save Values"
                                     />
                                 </View>
                                 <Col>
@@ -320,6 +321,7 @@ export default function Index() {
                                         icon="settings-backup-restore"
                                         theme="secondary"
                                         onPress={handleResetFields}
+                                        accessibilityText="Reset Values"
                                     />
                                 </View>
                             </Row>
