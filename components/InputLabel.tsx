@@ -6,18 +6,9 @@ interface Props {
     hint?: string
     required?: boolean
     isInputValid?: boolean
-    layoutPaddingX?: number
-    layoutPaddingY?: number
 }
 
-export function InputLabel({
-    title,
-    hint,
-    required,
-    isInputValid,
-    layoutPaddingX,
-    layoutPaddingY,
-}: Props) {
+export function InputLabel({ title, hint, required, isInputValid }: Props) {
     const textColour = isInputValid ? 'text-text-dark' : 'text-error-standard'
 
     const labelText = (
@@ -30,11 +21,7 @@ export function InputLabel({
     return title && hint ? (
         <View className="flex-row gap-1 items-center">
             {labelText}
-            <Info
-                text={hint}
-                layoutPaddingX={layoutPaddingX}
-                layoutPaddingY={layoutPaddingY}
-            />
+            <Info text={hint} />
         </View>
     ) : (
         title && labelText

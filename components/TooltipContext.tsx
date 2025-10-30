@@ -25,12 +25,18 @@ type Position = {
 }
 
 type AnimationsTimeouts = {
-    showing: number
-    visible: number
+    showing?: number
+    visible?: number
 }
 
 const TooltipContext = createContext<{
-    showTooltip: (msg: string) => void
+    anchorElementId: string | undefined
+    showTooltip: (
+        msg: string,
+        anchorRef: RefObject<View | null>,
+        headerHeight: number,
+        anchorElementId?: string
+    ) => void
     showTooltipWithTiming: (
         msg: string,
         anchorRef: RefObject<View | null>,
@@ -39,6 +45,7 @@ const TooltipContext = createContext<{
     ) => void
     hideTooltip: () => void
 }>({
+    anchorElementId: undefined,
     showTooltip: () => {},
     showTooltipWithTiming: () => {},
     hideTooltip: () => {},
@@ -48,6 +55,7 @@ export const TooltipProvider = ({ children }: { children: ReactNode }) => {
     const [message, setMessage] = useState<string>('')
     const [isVisible, setIsVisible] = useState<boolean>(false)
     const [isShowing, setIsShowing] = useState<boolean>(false)
+    const [anchorElementId, setAnchorElementId] = useState<string>()
     const [animationsTimeouts, setAnimationsTimeouts] =
         useState<AnimationsTimeouts>()
     const animationDuration = 200
@@ -65,15 +73,29 @@ export const TooltipProvider = ({ children }: { children: ReactNode }) => {
     const hideTooltip = () => {
         clearTimeout(animationsTimeouts?.showing)
         clearTimeout(animationsTimeouts?.visible)
+
         setMessage('')
         setIsVisible(false)
         setIsShowing(false)
+        setAnchorElementId(undefined)
     }
 
-    const showTooltip = (msg: string) => {
+    const showTooltip = (
+        msg: string,
+        anchorRef: RefObject<View | null>,
+        headerHeight: number,
+        anchorElementId?: string
+    ) => {
+        hideTooltip()
+
         setMessage(msg)
+        const anchorMeasures = getViewMeasures(anchorRef)
+        setAnchorMeasures(anchorMeasures)
+        setHeaderHeight(headerHeight)
+
         setIsVisible(true)
         setIsShowing(true)
+        setAnchorElementId(anchorElementId)
     }
 
     const showTooltipWithTiming = (
@@ -82,15 +104,7 @@ export const TooltipProvider = ({ children }: { children: ReactNode }) => {
         headerHeight: number,
         duration = 1500
     ) => {
-        hideTooltip()
-
-        const anchorMeasures = getViewMeasures(anchorRef)
-
-        setMessage(msg)
-        setAnchorMeasures(anchorMeasures)
-        setHeaderHeight(headerHeight)
-        setIsVisible(true)
-        setIsShowing(true)
+        showTooltip(msg, anchorRef, headerHeight)
 
         const showingTimeoutId = setTimeout(() => {
             setIsShowing(false)
@@ -100,10 +114,11 @@ export const TooltipProvider = ({ children }: { children: ReactNode }) => {
             setIsVisible(false)
         }, duration + animationDuration)
 
-        setAnimationsTimeouts({
+        setAnimationsTimeouts((prevState) => ({
+            ...prevState,
             showing: showingTimeoutId,
             visible: visibleTimeoutId,
-        })
+        }))
     }
 
     const screenDimensions = useWindowDimensions()
@@ -144,7 +159,12 @@ export const TooltipProvider = ({ children }: { children: ReactNode }) => {
 
     return (
         <TooltipContext
-            value={{ showTooltip, showTooltipWithTiming, hideTooltip }}
+            value={{
+                anchorElementId,
+                showTooltip,
+                showTooltipWithTiming,
+                hideTooltip,
+            }}
         >
             {children}
             <Tooltip />

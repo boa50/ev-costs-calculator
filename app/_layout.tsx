@@ -5,7 +5,7 @@ import { Header, ToastProvider, TooltipProvider } from '@/components'
 import { useTranslation } from 'react-i18next'
 import AdsContextProvider from '@/components/ads/AdsContextProvider'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
-import { CostsProvider, LayoutProvider } from '@/contexts'
+import { CostsProvider } from '@/contexts'
 import { validateLocalStorageUnits } from '@/utils'
 import colors from '@/colors'
 import type { ReactNode } from 'react'
@@ -53,15 +53,13 @@ export default function RootLayout() {
 function Providers({ children }: { children: ReactNode }) {
     return (
         <CostsProvider>
-            <LayoutProvider>
-                <SafeAreaProvider>
-                    <AdsContextProvider>
-                        <ToastProvider>
-                            <TooltipProvider>{children}</TooltipProvider>
-                        </ToastProvider>
-                    </AdsContextProvider>
-                </SafeAreaProvider>
-            </LayoutProvider>
+            <SafeAreaProvider>
+                <AdsContextProvider>
+                    <ToastProvider>
+                        <TooltipProvider>{children}</TooltipProvider>
+                    </ToastProvider>
+                </AdsContextProvider>
+            </SafeAreaProvider>
         </CostsProvider>
     )
 }

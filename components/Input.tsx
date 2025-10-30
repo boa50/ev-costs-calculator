@@ -20,8 +20,6 @@ interface Props {
         | RefObject<TextInput | null>
         | ((el: TextInput | null) => TextInput | null)
     onSubmitEditing?: () => void
-    layoutPaddingX?: number
-    layoutPaddingY?: number
 }
 
 export function Input({
@@ -36,8 +34,6 @@ export function Input({
     errorType,
     ref,
     onSubmitEditing,
-    layoutPaddingX,
-    layoutPaddingY,
 }: Props) {
     const { t } = useTranslation()
     const [borderColour, setBorderColour] = useState<string>('border-gray-200')
@@ -89,8 +85,6 @@ export function Input({
                 hint={hint}
                 required={required}
                 isInputValid={isInputValid}
-                layoutPaddingX={layoutPaddingX}
-                layoutPaddingY={layoutPaddingY}
             />
             <View
                 className={`flex flex-row bg-background-input rounded-lg border w-full ${borderColour}`}

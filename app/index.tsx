@@ -1,9 +1,9 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import { View, ScrollView } from 'react-native'
 import ElectricVehicleForm from '@/features/ElectricVehicleForm'
 import GasVehicleForm from '@/features/GasVehicleForm'
 import CommonsForm from '@/features/CommonsForm'
-import { useCostsContext, useLayoutContext } from '@/contexts'
+import { useCostsContext } from '@/contexts'
 import { useRouter } from 'expo-router'
 import { useLocalStorage, useKeyboardOffset } from '@/hooks'
 import { useForm } from 'react-hook-form'
@@ -20,6 +20,7 @@ import {
     ContentContainer,
     IconButton,
     useToast,
+    useTooltip,
 } from '@/components'
 import {
     calculateCosts,
@@ -41,7 +42,6 @@ export default function Index() {
     const { t } = useTranslation()
     const router = useRouter()
     const { costsDispatch } = useCostsContext()
-    const { layoutState, layoutDispatch } = useLayoutContext()
 
     const buttonsRef = useRef<View>(null)
     const keyboardOffset = useKeyboardOffset(buttonsRef)
@@ -68,6 +68,8 @@ export default function Index() {
         useState<boolean>(false)
 
     const { showToast } = useToast()
+    const { anchorElementId: tooltipAnchorElementId, hideTooltip } =
+        useTooltip()
 
     const { handleSubmit, control, reset, trigger, getValues, setValue } =
         useForm<FormValues>({
@@ -200,15 +202,15 @@ export default function Index() {
         router.navigate('/results')
     }
 
-    const handleChangeTabValidState = (
-        tab: TabNames,
-        isValid: TabValidStates
-    ) => {
-        setFilterButtonsState((prevState) => ({
-            ...prevState,
-            [tab]: { ...prevState[tab], isValid: isValid },
-        }))
-    }
+    const handleChangeTabValidState = useCallback(
+        (tab: TabNames, isValid: TabValidStates) => {
+            setFilterButtonsState((prevState) => ({
+                ...prevState,
+                [tab]: { ...prevState[tab], isValid: isValid },
+            }))
+        },
+        []
+    )
 
     const scrollViewRef = useRef<ScrollView>(null)
     useEffect(() => {
@@ -219,24 +221,16 @@ export default function Index() {
         filterButtonsState.commons.isActive,
     ])
 
-    const formContainerRef = useRef<View>(null)
-    const scrollViewPositionX = layoutState.formContainerPositionX
     useEffect(() => {
-        if (
-            formContainerRef.current !== undefined &&
-            formContainerRef.current !== null &&
-            scrollViewPositionX === undefined
-        ) {
-            formContainerRef.current?.measure(
-                (x, y, width, height, pageX, pageY) => {
-                    layoutDispatch({
-                        type: 'SET_FORM_CONTAINER_POSITION',
-                        payload: { x: pageX, y: pageY },
-                    })
-                }
-            )
-        }
-    }, [layoutDispatch, scrollViewPositionX])
+        if (tooltipAnchorElementId !== undefined) hideTooltip()
+
+        // Didn't find a better way to handle the recreation of the hideTooltip function
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [
+        filterButtonsState.ev.isActive,
+        filterButtonsState.gas.isActive,
+        filterButtonsState.commons.isActive,
+    ])
 
     return (
         <Container>
@@ -250,17 +244,27 @@ export default function Index() {
 
                 <View className="flex-1">
                     <View
-                        ref={formContainerRef}
                         className="mb-2"
                         style={{ flex: 1, paddingBottom: keyboardOffset }}
                     >
-                        <ScrollView ref={scrollViewRef} style={{ flexGrow: 1 }}>
+                        <ScrollView
+                            ref={scrollViewRef}
+                            style={{ flexGrow: 1 }}
+                            onScroll={() =>
+                                tooltipAnchorElementId && hideTooltip()
+                            }
+                        >
                             <FormView isActive={filterButtonsState.ev.isActive}>
                                 <ElectricVehicleForm
                                     control={control}
-                                    setTabIsValid={(isValid) =>
-                                        handleChangeTabValidState('ev', isValid)
-                                    }
+                                    setTabIsValid={useCallback(
+                                        (isValid) =>
+                                            handleChangeTabValidState(
+                                                'ev',
+                                                isValid
+                                            ),
+                                        [handleChangeTabValidState]
+                                    )}
                                 />
                             </FormView>
 
@@ -269,12 +273,14 @@ export default function Index() {
                             >
                                 <GasVehicleForm
                                     control={control}
-                                    setTabIsValid={(isValid) =>
-                                        handleChangeTabValidState(
-                                            'gas',
-                                            isValid
-                                        )
-                                    }
+                                    setTabIsValid={useCallback(
+                                        (isValid) =>
+                                            handleChangeTabValidState(
+                                                'gas',
+                                                isValid
+                                            ),
+                                        [handleChangeTabValidState]
+                                    )}
                                     triggerRevalidation={(
                                         fields: FormFields[]
                                     ) => {
@@ -288,12 +294,14 @@ export default function Index() {
                             >
                                 <CommonsForm
                                     control={control}
-                                    setTabIsValid={(isValid) =>
-                                        handleChangeTabValidState(
-                                            'commons',
-                                            isValid
-                                        )
-                                    }
+                                    setTabIsValid={useCallback(
+                                        (isValid) =>
+                                            handleChangeTabValidState(
+                                                'commons',
+                                                isValid
+                                            ),
+                                        [handleChangeTabValidState]
+                                    )}
                                 />
                             </FormView>
                         </ScrollView>

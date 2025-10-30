@@ -1,6 +1,5 @@
 import { Input } from '@/components'
 import { Controller } from 'react-hook-form'
-import { useLayoutContext } from '@/contexts'
 import type { RefObject } from 'react'
 import type { TextInput } from 'react-native'
 import type { FormFields } from '@/types'
@@ -38,8 +37,6 @@ export function FormNumberInput({
     ref,
     onSubmitEditing,
 }: FormNumberInputType) {
-    const { layoutState } = useLayoutContext()
-
     return (
         <Controller
             control={control}
@@ -72,8 +69,6 @@ export function FormNumberInput({
                     hint={hint}
                     errorType={error?.type}
                     onSubmitEditing={onSubmitEditing}
-                    layoutPaddingX={layoutState.formContainerPositionX}
-                    layoutPaddingY={layoutState.formContainerPositionY}
                 />
             )}
         />
