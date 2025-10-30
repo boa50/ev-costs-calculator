@@ -1,12 +1,11 @@
 import { useLocalStorage } from '@/hooks'
 import { View } from 'react-native'
-import { Container, ContentContainer, SwitchMultiple } from '@/components'
+import { Container, ContentContainer, MinimalPicker } from '@/components'
 import { getUnits } from '@/utils'
 import { useTranslation } from 'react-i18next'
 import { BannerAd } from '@/components/ads/BannerAd'
 
 const units = getUnits()
-const btnWidth = 84
 
 export default function ManageUnits() {
     const { t } = useTranslation()
@@ -49,27 +48,24 @@ export default function ManageUnits() {
     return (
         <Container>
             <ContentContainer>
-                <View className="gap-4">
-                    <SwitchMultiple
+                <View className="gap-2">
+                    <MinimalPicker
                         label={t('manageUnits.distance.title')}
                         options={distanceOptions}
                         value={distance ?? units.distance[0]}
                         setValue={setDistance}
-                        btnWidth={btnWidth}
                     />
-                    <SwitchMultiple
+                    <MinimalPicker
                         label={t('manageUnits.gasMeasurement.title')}
                         options={gasMeasurementOptions}
                         value={gasMeasurement ?? units.gasMeasurement[0]}
                         setValue={setGasMeasurement}
-                        btnWidth={btnWidth}
                     />
-                    <SwitchMultiple
+                    <MinimalPicker
                         label={t('manageUnits.fuelEfficiency.title')}
                         options={fuelEfficiencyOptions}
                         value={fuelEfficiency ?? units.fuelEfficiency[0]}
                         setValue={setFuelEfficiency}
-                        btnWidth={btnWidth}
                     />
                 </View>
             </ContentContainer>
